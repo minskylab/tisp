@@ -5,7 +5,7 @@ import p "github.com/minskylab/tisp/dbclient"
 type NewProjectInformation struct {
 	Name     string
 	Selector *string
-	ClientID ID
+	ClientID string
 }
 
 type NewResourceInformation struct {
@@ -22,7 +22,7 @@ type NewTaskInformation struct {
 	Title       string
 	Description string
 	Selector    *string
-	Resources   *[]ID
-	Leader      *ID
+	Resources   *[]string
+	Leader      *string
 	Children    *[]NewTaskInformation
 }
