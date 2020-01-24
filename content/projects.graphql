@@ -1,0 +1,12 @@
+type Project {
+  id: ID! @id
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+
+  selector: String @unique
+
+  name: String!
+  client: Company!
+  leader: Resource @relation(name: "ProjectLeaders")
+  tasks: [Task!]! @relation(link: INLINE)
+}

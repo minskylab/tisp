@@ -1,0 +1,22 @@
+enum TaskState {
+  RUNNING
+}
+
+type Task {
+  id: ID! @id
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+
+  selector: String @unique
+
+  title: String!
+  description: String!
+
+  parent: Task @relation(link: INLINE, name: "SubTasks")
+  leader: Resource @relation(name: "TasksLeaders")
+  resources: [Resource!]! @relation(name: "TasksWorkers")
+  state: TaskState
+  children: [Task!]! @relation(name: "SubTasks")
+
+  project: Project
+}

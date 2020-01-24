@@ -1,3 +1,5 @@
 package tisp
 
-type ID string
+type Machine struct {
+	db DB
+}

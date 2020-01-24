@@ -1,0 +1,21 @@
+enum ContactType {
+  EMAIL
+  PHONE
+}
+
+type Contact {
+  id: ID! @id
+  type: ContactType
+  value: String
+}
+
+type Company {
+  id: ID! @id
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+
+  selector: String @unique
+  companyName: String
+  contacts: [Contact!]! @relation(link: INLINE)
+  projects: [Project!]! @relation(link: INLINE)
+}

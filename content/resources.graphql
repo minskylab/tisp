@@ -1,0 +1,30 @@
+enum ResourceType {
+  DEVELOPER
+  SCRUM
+  MANAGER
+  CEO
+  CTO
+  CMO
+}
+
+type Resource {
+  id: ID! @id
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+
+  selector: String @unique
+
+  name: String!
+  mainType: ResourceType!
+  types: [ResourceType!]!
+
+  alias: String
+
+  experience: Float!
+  cost: Cost! @relation(link: INLINE)
+
+  leaderOf: [Project!]! @relation(link: INLINE, name: "ProjectLeaders")
+  workingOn: [Task!]! @relation(link: INLINE, name: "TasksWorkers")
+  taskLeaderOf: [Task!]! @relation(link: INLINE, name: "TasksLeaders")
+  # TODO(bregydoc): make "workingOn"
+}

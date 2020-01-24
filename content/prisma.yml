@@ -1,0 +1,14 @@
+endpoint: http://localhost:4466
+datamodel:
+  - clients.graphql
+  - costs.graphql
+  - datamodel.graphql
+  - projects.graphql
+  - resources.graphql
+  - tasks.graphql
+
+secret: mysecret42
+
+generate:
+  - generator: go-client
+    output: ../dbclient/
