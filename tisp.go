@@ -1,5 +1,6 @@
 package tisp
 
 type Machine struct {
-	db StateManager
+	stateManager StateManager
+
 }

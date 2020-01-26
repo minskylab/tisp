@@ -6,6 +6,6 @@ import (
 
 type ID string
 
-func GenerateNewID() ID {
+func generateNewID() ID {
 	return ID(xid.New().String())
 }
