@@ -11,9 +11,9 @@ func (db *StateManager) RegisterNewProject(info tisp.NewProjectInformation) (*p.
 	return db.client.CreateProject(p.ProjectCreateInput{
 		Selector: info.Selector,
 		Name:     info.Name,
-		Client: p.CompanyCreateOneWithoutProjectsInput{
-			Connect: &p.CompanyWhereUniqueInput{
-				ID: p.Str(info.ClientID),
+		Partner: p.PartnerCreateOneWithoutProjectsInput{
+			Connect: &p.PartnerWhereUniqueInput{
+				ID: p.Str(info.PartnerID),
 			},
 		},
 	}).Exec(context.Background())

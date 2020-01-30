@@ -9,7 +9,7 @@ package tisp
 //
 // 	Name string
 //
-// 	ClientID ID
+// 	PartnerID ID
 // 	LeaderID ID
 // 	Tasks    []Task `gorm:"foreignkey:ProjectParent"`
 // }

@@ -44,6 +44,17 @@ func (db *StateManager) GetTaskBySelector(selector string) (*p.Task, error) {
 	}).Exec(context.Background())
 }
 
+func (db *StateManager) GetPartner(partnerID string) (*p.Partner, error) {
+	return db.client.Partner(p.PartnerWhereUniqueInput{
+		ID: p.Str(partnerID),
+	}).Exec(context.Background())
+}
+
+func (db *StateManager) GetPartnerBySelector(selector string) (*p.Partner, error) {
+	return db.client.Partner(p.PartnerWhereUniqueInput{
+		Selector: p.Str(selector),
+	}).Exec(context.Background())
+}
 
 func (db *StateManager) GetProjects(pag ...tisp.Pagination) ([]p.Project, error) {
 	var pagination = tisp.DefaultPagination
@@ -139,3 +150,34 @@ func (db *StateManager) GetTasks(pag ...tisp.Pagination) ([]p.Task, error) {
 		First:   p.Int32(pagination.First),
 	}).Exec(context.Background())
 }
+
+
+func (db *StateManager) GetPartners(pag ...tisp.Pagination) ([]p.Partner, error) {
+	var pagination = tisp.DefaultPagination
+
+	if len(pag) != 0 {
+		pagination = pag[0] // TODO
+	}
+
+	var where *p.PartnerWhereInput
+
+	if pagination.ByIDs != nil {
+		where = &p.PartnerWhereInput{
+			IDIn: *pagination.ByIDs,
+		}
+	}
+
+	if pagination.BySelectors != nil {
+		if where == nil {
+			where = &p.PartnerWhereInput{}
+		}
+		where.SelectorIn = *pagination.BySelectors
+	}
+
+	return db.client.Partners(&p.PartnersParams{
+		Where:   where,
+		Skip:    p.Int32(pagination.Skip),
+		First:   p.Int32(pagination.First),
+	}).Exec(context.Background())
+}
+

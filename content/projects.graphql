@@ -6,7 +6,7 @@ type Project {
   selector: String @unique
 
   name: String!
-  client: Company!
+  partner: Partner!
   leader: Resource @relation(name: "ProjectLeaders")
   tasks: [Task!]! @relation(link: INLINE)
 }

@@ -5,6 +5,8 @@ import p "github.com/minskylab/tisp/dbclient"
 type StateManager interface {
 	RegisterNewProject(info NewProjectInformation) (*p.Project, error)
 	RegisterNewResource(newRes NewResourceInformation) (*p.Resource, error)
+	RegisterNewPartner(newClient NewPartnerInformation) (*p.Partner, error)
+
 	AddTaskToProject(projectID string, task NewTaskInformation) (*p.Project, error)
 	AddSubTaskToTask(taskID string, task NewTaskInformation) (*p.Task, error)
 	AddResourceToTask(taskID string, res NewResourceInformation) (*p.Task, error)
@@ -20,4 +22,11 @@ type StateManager interface {
 	GetTasks(p ...Pagination) ([]p.Task, error)
 	GetTask(taskID string) (*p.Task, error)
 	GetTaskBySelector(selector string) (*p.Task, error)
+
+	GetPartners(p ...Pagination) ([]p.Partner, error)
+	GetPartner(partnerID string) (*p.Partner, error)
+	GetPartnerBySelector(selector string) (*p.Partner, error)
+
+
 }
+

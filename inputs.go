@@ -3,9 +3,9 @@ package tisp
 import p "github.com/minskylab/tisp/dbclient"
 
 type NewProjectInformation struct {
-	Name     string
-	Selector *string
-	ClientID string
+	Name      string
+	Selector  *string
+	PartnerID string
 }
 
 type NewResourceInformation struct {
@@ -25,4 +25,13 @@ type NewTaskInformation struct {
 	Resources   *[]string
 	Leader      *string
 	Children    *[]NewTaskInformation
+}
+
+
+type NewPartnerInformation struct {
+	CompanyName string
+	Selector *string
+
+	Email *string
+	Phone *string
 }

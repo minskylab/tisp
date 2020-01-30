@@ -62,65 +62,6 @@ func (client *Client) GraphQL(ctx context.Context, query string, variables map[s
 var DefaultEndpoint = "http://localhost:4466"
 var Secret = "mysecret42"
 
-func (client *Client) Company(params CompanyWhereUniqueInput) *CompanyExec {
-	ret := client.Client.GetOne(
-		nil,
-		params,
-		[2]string{"CompanyWhereUniqueInput!", "Company"},
-		"company",
-		[]string{"id", "createdAt", "updatedAt", "selector", "companyName"})
-
-	return &CompanyExec{ret}
-}
-
-type CompaniesParams struct {
-	Where   *CompanyWhereInput   `json:"where,omitempty"`
-	OrderBy *CompanyOrderByInput `json:"orderBy,omitempty"`
-	Skip    *int32               `json:"skip,omitempty"`
-	After   *string              `json:"after,omitempty"`
-	Before  *string              `json:"before,omitempty"`
-	First   *int32               `json:"first,omitempty"`
-	Last    *int32               `json:"last,omitempty"`
-}
-
-func (client *Client) Companies(params *CompaniesParams) *CompanyExecArray {
-	var wparams *prisma.WhereParams
-	if params != nil {
-		wparams = &prisma.WhereParams{
-			Where:   params.Where,
-			OrderBy: (*string)(params.OrderBy),
-			Skip:    params.Skip,
-			After:   params.After,
-			Before:  params.Before,
-			First:   params.First,
-			Last:    params.Last,
-		}
-	}
-
-	ret := client.Client.GetMany(
-		nil,
-		wparams,
-		[3]string{"CompanyWhereInput", "CompanyOrderByInput", "Company"},
-		"companies",
-		[]string{"id", "createdAt", "updatedAt", "selector", "companyName"})
-
-	return &CompanyExecArray{ret}
-}
-
-type CompaniesConnectionParams struct {
-	Where   *CompanyWhereInput   `json:"where,omitempty"`
-	OrderBy *CompanyOrderByInput `json:"orderBy,omitempty"`
-	Skip    *int32               `json:"skip,omitempty"`
-	After   *string              `json:"after,omitempty"`
-	Before  *string              `json:"before,omitempty"`
-	First   *int32               `json:"first,omitempty"`
-	Last    *int32               `json:"last,omitempty"`
-}
-
-func (client *Client) CompaniesConnection(params *CompaniesConnectionParams) CompanyConnectionExec {
-	panic("not implemented")
-}
-
 func (client *Client) Contact(params ContactWhereUniqueInput) *ContactExec {
 	ret := client.Client.GetOne(
 		nil,
@@ -236,6 +177,65 @@ type CostsConnectionParams struct {
 }
 
 func (client *Client) CostsConnection(params *CostsConnectionParams) CostConnectionExec {
+	panic("not implemented")
+}
+
+func (client *Client) Partner(params PartnerWhereUniqueInput) *PartnerExec {
+	ret := client.Client.GetOne(
+		nil,
+		params,
+		[2]string{"PartnerWhereUniqueInput!", "Partner"},
+		"partner",
+		[]string{"id", "createdAt", "updatedAt", "selector", "companyName"})
+
+	return &PartnerExec{ret}
+}
+
+type PartnersParams struct {
+	Where   *PartnerWhereInput   `json:"where,omitempty"`
+	OrderBy *PartnerOrderByInput `json:"orderBy,omitempty"`
+	Skip    *int32               `json:"skip,omitempty"`
+	After   *string              `json:"after,omitempty"`
+	Before  *string              `json:"before,omitempty"`
+	First   *int32               `json:"first,omitempty"`
+	Last    *int32               `json:"last,omitempty"`
+}
+
+func (client *Client) Partners(params *PartnersParams) *PartnerExecArray {
+	var wparams *prisma.WhereParams
+	if params != nil {
+		wparams = &prisma.WhereParams{
+			Where:   params.Where,
+			OrderBy: (*string)(params.OrderBy),
+			Skip:    params.Skip,
+			After:   params.After,
+			Before:  params.Before,
+			First:   params.First,
+			Last:    params.Last,
+		}
+	}
+
+	ret := client.Client.GetMany(
+		nil,
+		wparams,
+		[3]string{"PartnerWhereInput", "PartnerOrderByInput", "Partner"},
+		"partners",
+		[]string{"id", "createdAt", "updatedAt", "selector", "companyName"})
+
+	return &PartnerExecArray{ret}
+}
+
+type PartnersConnectionParams struct {
+	Where   *PartnerWhereInput   `json:"where,omitempty"`
+	OrderBy *PartnerOrderByInput `json:"orderBy,omitempty"`
+	Skip    *int32               `json:"skip,omitempty"`
+	After   *string              `json:"after,omitempty"`
+	Before  *string              `json:"before,omitempty"`
+	First   *int32               `json:"first,omitempty"`
+	Last    *int32               `json:"last,omitempty"`
+}
+
+func (client *Client) PartnersConnection(params *PartnersConnectionParams) PartnerConnectionExec {
 	panic("not implemented")
 }
 
@@ -416,86 +416,6 @@ func (client *Client) TasksConnection(params *TasksConnectionParams) TaskConnect
 	panic("not implemented")
 }
 
-func (client *Client) CreateCompany(params CompanyCreateInput) *CompanyExec {
-	ret := client.Client.Create(
-		params,
-		[2]string{"CompanyCreateInput!", "Company"},
-		"createCompany",
-		[]string{"id", "createdAt", "updatedAt", "selector", "companyName"})
-
-	return &CompanyExec{ret}
-}
-
-type CompanyUpdateParams struct {
-	Data  CompanyUpdateInput      `json:"data"`
-	Where CompanyWhereUniqueInput `json:"where"`
-}
-
-func (client *Client) UpdateCompany(params CompanyUpdateParams) *CompanyExec {
-	ret := client.Client.Update(
-		prisma.UpdateParams{
-			Data:  params.Data,
-			Where: params.Where,
-		},
-		[3]string{"CompanyUpdateInput!", "CompanyWhereUniqueInput!", "Company"},
-		"updateCompany",
-		[]string{"id", "createdAt", "updatedAt", "selector", "companyName"})
-
-	return &CompanyExec{ret}
-}
-
-type CompanyUpdateManyParams struct {
-	Data  CompanyUpdateManyMutationInput `json:"data"`
-	Where *CompanyWhereInput             `json:"where,omitempty"`
-}
-
-func (client *Client) UpdateManyCompanies(params CompanyUpdateManyParams) *BatchPayloadExec {
-	exec := client.Client.UpdateMany(
-		prisma.UpdateParams{
-			Data:  params.Data,
-			Where: params.Where,
-		},
-		[2]string{"CompanyUpdateManyMutationInput!", "CompanyWhereInput"},
-		"updateManyCompanies")
-	return &BatchPayloadExec{exec}
-}
-
-type CompanyUpsertParams struct {
-	Where  CompanyWhereUniqueInput `json:"where"`
-	Create CompanyCreateInput      `json:"create"`
-	Update CompanyUpdateInput      `json:"update"`
-}
-
-func (client *Client) UpsertCompany(params CompanyUpsertParams) *CompanyExec {
-	uparams := &prisma.UpsertParams{
-		Where:  params.Where,
-		Create: params.Create,
-		Update: params.Update,
-	}
-	ret := client.Client.Upsert(
-		uparams,
-		[4]string{"CompanyWhereUniqueInput!", "CompanyCreateInput!", "CompanyUpdateInput!", "Company"},
-		"upsertCompany",
-		[]string{"id", "createdAt", "updatedAt", "selector", "companyName"})
-
-	return &CompanyExec{ret}
-}
-
-func (client *Client) DeleteCompany(params CompanyWhereUniqueInput) *CompanyExec {
-	ret := client.Client.Delete(
-		params,
-		[2]string{"CompanyWhereUniqueInput!", "Company"},
-		"deleteCompany",
-		[]string{"id", "createdAt", "updatedAt", "selector", "companyName"})
-
-	return &CompanyExec{ret}
-}
-
-func (client *Client) DeleteManyCompanies(params *CompanyWhereInput) *BatchPayloadExec {
-	exec := client.Client.DeleteMany(params, "CompanyWhereInput", "deleteManyCompanies")
-	return &BatchPayloadExec{exec}
-}
-
 func (client *Client) CreateContact(params ContactCreateInput) *ContactExec {
 	ret := client.Client.Create(
 		params,
@@ -653,6 +573,86 @@ func (client *Client) DeleteCost(params CostWhereUniqueInput) *CostExec {
 
 func (client *Client) DeleteManyCosts(params *CostWhereInput) *BatchPayloadExec {
 	exec := client.Client.DeleteMany(params, "CostWhereInput", "deleteManyCosts")
+	return &BatchPayloadExec{exec}
+}
+
+func (client *Client) CreatePartner(params PartnerCreateInput) *PartnerExec {
+	ret := client.Client.Create(
+		params,
+		[2]string{"PartnerCreateInput!", "Partner"},
+		"createPartner",
+		[]string{"id", "createdAt", "updatedAt", "selector", "companyName"})
+
+	return &PartnerExec{ret}
+}
+
+type PartnerUpdateParams struct {
+	Data  PartnerUpdateInput      `json:"data"`
+	Where PartnerWhereUniqueInput `json:"where"`
+}
+
+func (client *Client) UpdatePartner(params PartnerUpdateParams) *PartnerExec {
+	ret := client.Client.Update(
+		prisma.UpdateParams{
+			Data:  params.Data,
+			Where: params.Where,
+		},
+		[3]string{"PartnerUpdateInput!", "PartnerWhereUniqueInput!", "Partner"},
+		"updatePartner",
+		[]string{"id", "createdAt", "updatedAt", "selector", "companyName"})
+
+	return &PartnerExec{ret}
+}
+
+type PartnerUpdateManyParams struct {
+	Data  PartnerUpdateManyMutationInput `json:"data"`
+	Where *PartnerWhereInput             `json:"where,omitempty"`
+}
+
+func (client *Client) UpdateManyPartners(params PartnerUpdateManyParams) *BatchPayloadExec {
+	exec := client.Client.UpdateMany(
+		prisma.UpdateParams{
+			Data:  params.Data,
+			Where: params.Where,
+		},
+		[2]string{"PartnerUpdateManyMutationInput!", "PartnerWhereInput"},
+		"updateManyPartners")
+	return &BatchPayloadExec{exec}
+}
+
+type PartnerUpsertParams struct {
+	Where  PartnerWhereUniqueInput `json:"where"`
+	Create PartnerCreateInput      `json:"create"`
+	Update PartnerUpdateInput      `json:"update"`
+}
+
+func (client *Client) UpsertPartner(params PartnerUpsertParams) *PartnerExec {
+	uparams := &prisma.UpsertParams{
+		Where:  params.Where,
+		Create: params.Create,
+		Update: params.Update,
+	}
+	ret := client.Client.Upsert(
+		uparams,
+		[4]string{"PartnerWhereUniqueInput!", "PartnerCreateInput!", "PartnerUpdateInput!", "Partner"},
+		"upsertPartner",
+		[]string{"id", "createdAt", "updatedAt", "selector", "companyName"})
+
+	return &PartnerExec{ret}
+}
+
+func (client *Client) DeletePartner(params PartnerWhereUniqueInput) *PartnerExec {
+	ret := client.Client.Delete(
+		params,
+		[2]string{"PartnerWhereUniqueInput!", "Partner"},
+		"deletePartner",
+		[]string{"id", "createdAt", "updatedAt", "selector", "companyName"})
+
+	return &PartnerExec{ret}
+}
+
+func (client *Client) DeleteManyPartners(params *PartnerWhereInput) *BatchPayloadExec {
+	exec := client.Client.DeleteMany(params, "PartnerWhereInput", "deleteManyPartners")
 	return &BatchPayloadExec{exec}
 }
 
@@ -896,11 +896,26 @@ func (client *Client) DeleteManyTasks(params *TaskWhereInput) *BatchPayloadExec 
 	return &BatchPayloadExec{exec}
 }
 
-type ContactType string
+type ContactOrderByInput string
 
 const (
-	ContactTypeEmail ContactType = "EMAIL"
-	ContactTypePhone ContactType = "PHONE"
+	ContactOrderByInputIDAsc     ContactOrderByInput = "id_ASC"
+	ContactOrderByInputIDDesc    ContactOrderByInput = "id_DESC"
+	ContactOrderByInputTypeAsc   ContactOrderByInput = "type_ASC"
+	ContactOrderByInputTypeDesc  ContactOrderByInput = "type_DESC"
+	ContactOrderByInputValueAsc  ContactOrderByInput = "value_ASC"
+	ContactOrderByInputValueDesc ContactOrderByInput = "value_DESC"
+)
+
+type CostOrderByInput string
+
+const (
+	CostOrderByInputIDAsc     CostOrderByInput = "id_ASC"
+	CostOrderByInputIDDesc    CostOrderByInput = "id_DESC"
+	CostOrderByInputUnitsAsc  CostOrderByInput = "units_ASC"
+	CostOrderByInputUnitsDesc CostOrderByInput = "units_DESC"
+	CostOrderByInputValueAsc  CostOrderByInput = "value_ASC"
+	CostOrderByInputValueDesc CostOrderByInput = "value_DESC"
 )
 
 type ResourceType string
@@ -954,17 +969,6 @@ const (
 	TaskOrderByInputStateDesc       TaskOrderByInput = "state_DESC"
 )
 
-type ContactOrderByInput string
-
-const (
-	ContactOrderByInputIDAsc     ContactOrderByInput = "id_ASC"
-	ContactOrderByInputIDDesc    ContactOrderByInput = "id_DESC"
-	ContactOrderByInputTypeAsc   ContactOrderByInput = "type_ASC"
-	ContactOrderByInputTypeDesc  ContactOrderByInput = "type_DESC"
-	ContactOrderByInputValueAsc  ContactOrderByInput = "value_ASC"
-	ContactOrderByInputValueDesc ContactOrderByInput = "value_DESC"
-)
-
 type MutationType string
 
 const (
@@ -994,47 +998,572 @@ const (
 	ResourceOrderByInputExperienceDesc ResourceOrderByInput = "experience_DESC"
 )
 
-type CompanyOrderByInput string
+type PartnerOrderByInput string
 
 const (
-	CompanyOrderByInputIDAsc           CompanyOrderByInput = "id_ASC"
-	CompanyOrderByInputIDDesc          CompanyOrderByInput = "id_DESC"
-	CompanyOrderByInputCreatedAtAsc    CompanyOrderByInput = "createdAt_ASC"
-	CompanyOrderByInputCreatedAtDesc   CompanyOrderByInput = "createdAt_DESC"
-	CompanyOrderByInputUpdatedAtAsc    CompanyOrderByInput = "updatedAt_ASC"
-	CompanyOrderByInputUpdatedAtDesc   CompanyOrderByInput = "updatedAt_DESC"
-	CompanyOrderByInputSelectorAsc     CompanyOrderByInput = "selector_ASC"
-	CompanyOrderByInputSelectorDesc    CompanyOrderByInput = "selector_DESC"
-	CompanyOrderByInputCompanyNameAsc  CompanyOrderByInput = "companyName_ASC"
-	CompanyOrderByInputCompanyNameDesc CompanyOrderByInput = "companyName_DESC"
+	PartnerOrderByInputIDAsc           PartnerOrderByInput = "id_ASC"
+	PartnerOrderByInputIDDesc          PartnerOrderByInput = "id_DESC"
+	PartnerOrderByInputCreatedAtAsc    PartnerOrderByInput = "createdAt_ASC"
+	PartnerOrderByInputCreatedAtDesc   PartnerOrderByInput = "createdAt_DESC"
+	PartnerOrderByInputUpdatedAtAsc    PartnerOrderByInput = "updatedAt_ASC"
+	PartnerOrderByInputUpdatedAtDesc   PartnerOrderByInput = "updatedAt_DESC"
+	PartnerOrderByInputSelectorAsc     PartnerOrderByInput = "selector_ASC"
+	PartnerOrderByInputSelectorDesc    PartnerOrderByInput = "selector_DESC"
+	PartnerOrderByInputCompanyNameAsc  PartnerOrderByInput = "companyName_ASC"
+	PartnerOrderByInputCompanyNameDesc PartnerOrderByInput = "companyName_DESC"
 )
 
-type CostOrderByInput string
+type ContactType string
 
 const (
-	CostOrderByInputIDAsc     CostOrderByInput = "id_ASC"
-	CostOrderByInputIDDesc    CostOrderByInput = "id_DESC"
-	CostOrderByInputUnitsAsc  CostOrderByInput = "units_ASC"
-	CostOrderByInputUnitsDesc CostOrderByInput = "units_DESC"
-	CostOrderByInputValueAsc  CostOrderByInput = "value_ASC"
-	CostOrderByInputValueDesc CostOrderByInput = "value_DESC"
+	ContactTypeEmail ContactType = "EMAIL"
+	ContactTypePhone ContactType = "PHONE"
 )
 
-type ProjectUpdateManyWithoutClientInput struct {
-	Create     []ProjectCreateWithoutClientInput                `json:"create,omitempty"`
-	Delete     []ProjectWhereUniqueInput                        `json:"delete,omitempty"`
-	Connect    []ProjectWhereUniqueInput                        `json:"connect,omitempty"`
-	Set        []ProjectWhereUniqueInput                        `json:"set,omitempty"`
-	Disconnect []ProjectWhereUniqueInput                        `json:"disconnect,omitempty"`
-	Update     []ProjectUpdateWithWhereUniqueWithoutClientInput `json:"update,omitempty"`
-	Upsert     []ProjectUpsertWithWhereUniqueWithoutClientInput `json:"upsert,omitempty"`
-	DeleteMany []ProjectScalarWhereInput                        `json:"deleteMany,omitempty"`
-	UpdateMany []ProjectUpdateManyWithWhereNestedInput          `json:"updateMany,omitempty"`
+type ContactUpdateWithWhereUniqueNestedInput struct {
+	Where ContactWhereUniqueInput `json:"where"`
+	Data  ContactUpdateDataInput  `json:"data"`
 }
 
-type CompanyWhereUniqueInput struct {
+type ContactWhereUniqueInput struct {
+	ID *string `json:"id,omitempty"`
+}
+
+type ProjectCreateManyWithoutLeaderInput struct {
+	Create  []ProjectCreateWithoutLeaderInput `json:"create,omitempty"`
+	Connect []ProjectWhereUniqueInput         `json:"connect,omitempty"`
+}
+
+type TaskUpdateManyDataInput struct {
+	Selector    *string    `json:"selector,omitempty"`
+	Title       *string    `json:"title,omitempty"`
+	Description *string    `json:"description,omitempty"`
+	State       *TaskState `json:"state,omitempty"`
+}
+
+type ProjectCreateWithoutLeaderInput struct {
+	ID       *string                              `json:"id,omitempty"`
+	Selector *string                              `json:"selector,omitempty"`
+	Name     string                               `json:"name"`
+	Partner  PartnerCreateOneWithoutProjectsInput `json:"partner"`
+	Tasks    *TaskCreateManyWithoutProjectInput   `json:"tasks,omitempty"`
+}
+
+type ProjectUpdateManyWithoutPartnerInput struct {
+	Create     []ProjectCreateWithoutPartnerInput                `json:"create,omitempty"`
+	Delete     []ProjectWhereUniqueInput                         `json:"delete,omitempty"`
+	Connect    []ProjectWhereUniqueInput                         `json:"connect,omitempty"`
+	Set        []ProjectWhereUniqueInput                         `json:"set,omitempty"`
+	Disconnect []ProjectWhereUniqueInput                         `json:"disconnect,omitempty"`
+	Update     []ProjectUpdateWithWhereUniqueWithoutPartnerInput `json:"update,omitempty"`
+	Upsert     []ProjectUpsertWithWhereUniqueWithoutPartnerInput `json:"upsert,omitempty"`
+	DeleteMany []ProjectScalarWhereInput                         `json:"deleteMany,omitempty"`
+	UpdateMany []ProjectUpdateManyWithWhereNestedInput           `json:"updateMany,omitempty"`
+}
+
+type PartnerCreateOneWithoutProjectsInput struct {
+	Create  *PartnerCreateWithoutProjectsInput `json:"create,omitempty"`
+	Connect *PartnerWhereUniqueInput           `json:"connect,omitempty"`
+}
+
+type ResourceSubscriptionWhereInput struct {
+	MutationIn                 []MutationType                   `json:"mutation_in,omitempty"`
+	UpdatedFieldsContains      *string                          `json:"updatedFields_contains,omitempty"`
+	UpdatedFieldsContainsEvery []string                         `json:"updatedFields_contains_every,omitempty"`
+	UpdatedFieldsContainsSome  []string                         `json:"updatedFields_contains_some,omitempty"`
+	Node                       *ResourceWhereInput              `json:"node,omitempty"`
+	And                        []ResourceSubscriptionWhereInput `json:"AND,omitempty"`
+	Or                         []ResourceSubscriptionWhereInput `json:"OR,omitempty"`
+	Not                        []ResourceSubscriptionWhereInput `json:"NOT,omitempty"`
+}
+
+type PartnerCreateWithoutProjectsInput struct {
+	ID          *string                 `json:"id,omitempty"`
+	Selector    *string                 `json:"selector,omitempty"`
+	CompanyName string                  `json:"companyName"`
+	Contacts    *ContactCreateManyInput `json:"contacts,omitempty"`
+}
+
+type ProjectSubscriptionWhereInput struct {
+	MutationIn                 []MutationType                  `json:"mutation_in,omitempty"`
+	UpdatedFieldsContains      *string                         `json:"updatedFields_contains,omitempty"`
+	UpdatedFieldsContainsEvery []string                        `json:"updatedFields_contains_every,omitempty"`
+	UpdatedFieldsContainsSome  []string                        `json:"updatedFields_contains_some,omitempty"`
+	Node                       *ProjectWhereInput              `json:"node,omitempty"`
+	And                        []ProjectSubscriptionWhereInput `json:"AND,omitempty"`
+	Or                         []ProjectSubscriptionWhereInput `json:"OR,omitempty"`
+	Not                        []ProjectSubscriptionWhereInput `json:"NOT,omitempty"`
+}
+
+type TaskCreateManyWithoutProjectInput struct {
+	Create  []TaskCreateWithoutProjectInput `json:"create,omitempty"`
+	Connect []TaskWhereUniqueInput          `json:"connect,omitempty"`
+}
+
+type CostSubscriptionWhereInput struct {
+	MutationIn                 []MutationType               `json:"mutation_in,omitempty"`
+	UpdatedFieldsContains      *string                      `json:"updatedFields_contains,omitempty"`
+	UpdatedFieldsContainsEvery []string                     `json:"updatedFields_contains_every,omitempty"`
+	UpdatedFieldsContainsSome  []string                     `json:"updatedFields_contains_some,omitempty"`
+	Node                       *CostWhereInput              `json:"node,omitempty"`
+	And                        []CostSubscriptionWhereInput `json:"AND,omitempty"`
+	Or                         []CostSubscriptionWhereInput `json:"OR,omitempty"`
+	Not                        []CostSubscriptionWhereInput `json:"NOT,omitempty"`
+}
+
+type TaskCreateWithoutProjectInput struct {
+	ID          *string                                    `json:"id,omitempty"`
+	Selector    *string                                    `json:"selector,omitempty"`
+	Title       string                                     `json:"title"`
+	Description string                                     `json:"description"`
+	Parent      *TaskCreateOneWithoutChildrenInput         `json:"parent,omitempty"`
+	Leader      *ResourceCreateOneWithoutTaskLeaderOfInput `json:"leader,omitempty"`
+	Resources   *ResourceCreateManyWithoutWorkingOnInput   `json:"resources,omitempty"`
+	State       *TaskState                                 `json:"state,omitempty"`
+	Children    *TaskCreateManyWithoutParentInput          `json:"children,omitempty"`
+}
+
+type PartnerWhereUniqueInput struct {
 	ID       *string `json:"id,omitempty"`
 	Selector *string `json:"selector,omitempty"`
+}
+
+type ResourceCreateManyWithoutWorkingOnInput struct {
+	Create  []ResourceCreateWithoutWorkingOnInput `json:"create,omitempty"`
+	Connect []ResourceWhereUniqueInput            `json:"connect,omitempty"`
+}
+
+type TaskUpdateInput struct {
+	Selector    *string                                    `json:"selector,omitempty"`
+	Title       *string                                    `json:"title,omitempty"`
+	Description *string                                    `json:"description,omitempty"`
+	Parent      *TaskUpdateOneWithoutChildrenInput         `json:"parent,omitempty"`
+	Leader      *ResourceUpdateOneWithoutTaskLeaderOfInput `json:"leader,omitempty"`
+	Resources   *ResourceUpdateManyWithoutWorkingOnInput   `json:"resources,omitempty"`
+	State       *TaskState                                 `json:"state,omitempty"`
+	Children    *TaskUpdateManyWithoutParentInput          `json:"children,omitempty"`
+	Project     *ProjectUpdateOneWithoutTasksInput         `json:"project,omitempty"`
+}
+
+type ResourceCreateWithoutWorkingOnInput struct {
+	ID           *string                              `json:"id,omitempty"`
+	Selector     *string                              `json:"selector,omitempty"`
+	Name         string                               `json:"name"`
+	MainType     ResourceType                         `json:"mainType"`
+	Types        *ResourceCreatetypesInput            `json:"types,omitempty"`
+	Alias        *string                              `json:"alias,omitempty"`
+	Experience   float64                              `json:"experience"`
+	Cost         CostCreateOneInput                   `json:"cost"`
+	LeaderOf     *ProjectCreateManyWithoutLeaderInput `json:"leaderOf,omitempty"`
+	TaskLeaderOf *TaskCreateManyWithoutLeaderInput    `json:"taskLeaderOf,omitempty"`
+}
+
+type PartnerWhereInput struct {
+	ID                       *string             `json:"id,omitempty"`
+	IDNot                    *string             `json:"id_not,omitempty"`
+	IDIn                     []string            `json:"id_in,omitempty"`
+	IDNotIn                  []string            `json:"id_not_in,omitempty"`
+	IDLt                     *string             `json:"id_lt,omitempty"`
+	IDLte                    *string             `json:"id_lte,omitempty"`
+	IDGt                     *string             `json:"id_gt,omitempty"`
+	IDGte                    *string             `json:"id_gte,omitempty"`
+	IDContains               *string             `json:"id_contains,omitempty"`
+	IDNotContains            *string             `json:"id_not_contains,omitempty"`
+	IDStartsWith             *string             `json:"id_starts_with,omitempty"`
+	IDNotStartsWith          *string             `json:"id_not_starts_with,omitempty"`
+	IDEndsWith               *string             `json:"id_ends_with,omitempty"`
+	IDNotEndsWith            *string             `json:"id_not_ends_with,omitempty"`
+	CreatedAt                *string             `json:"createdAt,omitempty"`
+	CreatedAtNot             *string             `json:"createdAt_not,omitempty"`
+	CreatedAtIn              []string            `json:"createdAt_in,omitempty"`
+	CreatedAtNotIn           []string            `json:"createdAt_not_in,omitempty"`
+	CreatedAtLt              *string             `json:"createdAt_lt,omitempty"`
+	CreatedAtLte             *string             `json:"createdAt_lte,omitempty"`
+	CreatedAtGt              *string             `json:"createdAt_gt,omitempty"`
+	CreatedAtGte             *string             `json:"createdAt_gte,omitempty"`
+	UpdatedAt                *string             `json:"updatedAt,omitempty"`
+	UpdatedAtNot             *string             `json:"updatedAt_not,omitempty"`
+	UpdatedAtIn              []string            `json:"updatedAt_in,omitempty"`
+	UpdatedAtNotIn           []string            `json:"updatedAt_not_in,omitempty"`
+	UpdatedAtLt              *string             `json:"updatedAt_lt,omitempty"`
+	UpdatedAtLte             *string             `json:"updatedAt_lte,omitempty"`
+	UpdatedAtGt              *string             `json:"updatedAt_gt,omitempty"`
+	UpdatedAtGte             *string             `json:"updatedAt_gte,omitempty"`
+	Selector                 *string             `json:"selector,omitempty"`
+	SelectorNot              *string             `json:"selector_not,omitempty"`
+	SelectorIn               []string            `json:"selector_in,omitempty"`
+	SelectorNotIn            []string            `json:"selector_not_in,omitempty"`
+	SelectorLt               *string             `json:"selector_lt,omitempty"`
+	SelectorLte              *string             `json:"selector_lte,omitempty"`
+	SelectorGt               *string             `json:"selector_gt,omitempty"`
+	SelectorGte              *string             `json:"selector_gte,omitempty"`
+	SelectorContains         *string             `json:"selector_contains,omitempty"`
+	SelectorNotContains      *string             `json:"selector_not_contains,omitempty"`
+	SelectorStartsWith       *string             `json:"selector_starts_with,omitempty"`
+	SelectorNotStartsWith    *string             `json:"selector_not_starts_with,omitempty"`
+	SelectorEndsWith         *string             `json:"selector_ends_with,omitempty"`
+	SelectorNotEndsWith      *string             `json:"selector_not_ends_with,omitempty"`
+	CompanyName              *string             `json:"companyName,omitempty"`
+	CompanyNameNot           *string             `json:"companyName_not,omitempty"`
+	CompanyNameIn            []string            `json:"companyName_in,omitempty"`
+	CompanyNameNotIn         []string            `json:"companyName_not_in,omitempty"`
+	CompanyNameLt            *string             `json:"companyName_lt,omitempty"`
+	CompanyNameLte           *string             `json:"companyName_lte,omitempty"`
+	CompanyNameGt            *string             `json:"companyName_gt,omitempty"`
+	CompanyNameGte           *string             `json:"companyName_gte,omitempty"`
+	CompanyNameContains      *string             `json:"companyName_contains,omitempty"`
+	CompanyNameNotContains   *string             `json:"companyName_not_contains,omitempty"`
+	CompanyNameStartsWith    *string             `json:"companyName_starts_with,omitempty"`
+	CompanyNameNotStartsWith *string             `json:"companyName_not_starts_with,omitempty"`
+	CompanyNameEndsWith      *string             `json:"companyName_ends_with,omitempty"`
+	CompanyNameNotEndsWith   *string             `json:"companyName_not_ends_with,omitempty"`
+	ContactsEvery            *ContactWhereInput  `json:"contacts_every,omitempty"`
+	ContactsSome             *ContactWhereInput  `json:"contacts_some,omitempty"`
+	ContactsNone             *ContactWhereInput  `json:"contacts_none,omitempty"`
+	ProjectsEvery            *ProjectWhereInput  `json:"projects_every,omitempty"`
+	ProjectsSome             *ProjectWhereInput  `json:"projects_some,omitempty"`
+	ProjectsNone             *ProjectWhereInput  `json:"projects_none,omitempty"`
+	And                      []PartnerWhereInput `json:"AND,omitempty"`
+	Or                       []PartnerWhereInput `json:"OR,omitempty"`
+	Not                      []PartnerWhereInput `json:"NOT,omitempty"`
+}
+
+type TaskCreateManyWithoutLeaderInput struct {
+	Create  []TaskCreateWithoutLeaderInput `json:"create,omitempty"`
+	Connect []TaskWhereUniqueInput         `json:"connect,omitempty"`
+}
+
+type TaskCreateInput struct {
+	ID          *string                                    `json:"id,omitempty"`
+	Selector    *string                                    `json:"selector,omitempty"`
+	Title       string                                     `json:"title"`
+	Description string                                     `json:"description"`
+	Parent      *TaskCreateOneWithoutChildrenInput         `json:"parent,omitempty"`
+	Leader      *ResourceCreateOneWithoutTaskLeaderOfInput `json:"leader,omitempty"`
+	Resources   *ResourceCreateManyWithoutWorkingOnInput   `json:"resources,omitempty"`
+	State       *TaskState                                 `json:"state,omitempty"`
+	Children    *TaskCreateManyWithoutParentInput          `json:"children,omitempty"`
+	Project     *ProjectCreateOneWithoutTasksInput         `json:"project,omitempty"`
+}
+
+type TaskCreateWithoutLeaderInput struct {
+	ID          *string                                  `json:"id,omitempty"`
+	Selector    *string                                  `json:"selector,omitempty"`
+	Title       string                                   `json:"title"`
+	Description string                                   `json:"description"`
+	Parent      *TaskCreateOneWithoutChildrenInput       `json:"parent,omitempty"`
+	Resources   *ResourceCreateManyWithoutWorkingOnInput `json:"resources,omitempty"`
+	State       *TaskState                               `json:"state,omitempty"`
+	Children    *TaskCreateManyWithoutParentInput        `json:"children,omitempty"`
+	Project     *ProjectCreateOneWithoutTasksInput       `json:"project,omitempty"`
+}
+
+type ResourceUpdateManyMutationInput struct {
+	Selector   *string                   `json:"selector,omitempty"`
+	Name       *string                   `json:"name,omitempty"`
+	MainType   *ResourceType             `json:"mainType,omitempty"`
+	Types      *ResourceUpdatetypesInput `json:"types,omitempty"`
+	Alias      *string                   `json:"alias,omitempty"`
+	Experience *float64                  `json:"experience,omitempty"`
+}
+
+type TaskCreateManyWithoutParentInput struct {
+	Create  []TaskCreateWithoutParentInput `json:"create,omitempty"`
+	Connect []TaskWhereUniqueInput         `json:"connect,omitempty"`
+}
+
+type ResourceCreateInput struct {
+	ID           *string                              `json:"id,omitempty"`
+	Selector     *string                              `json:"selector,omitempty"`
+	Name         string                               `json:"name"`
+	MainType     ResourceType                         `json:"mainType"`
+	Types        *ResourceCreatetypesInput            `json:"types,omitempty"`
+	Alias        *string                              `json:"alias,omitempty"`
+	Experience   float64                              `json:"experience"`
+	Cost         CostCreateOneInput                   `json:"cost"`
+	LeaderOf     *ProjectCreateManyWithoutLeaderInput `json:"leaderOf,omitempty"`
+	WorkingOn    *TaskCreateManyWithoutResourcesInput `json:"workingOn,omitempty"`
+	TaskLeaderOf *TaskCreateManyWithoutLeaderInput    `json:"taskLeaderOf,omitempty"`
+}
+
+type TaskCreateWithoutParentInput struct {
+	ID          *string                                    `json:"id,omitempty"`
+	Selector    *string                                    `json:"selector,omitempty"`
+	Title       string                                     `json:"title"`
+	Description string                                     `json:"description"`
+	Leader      *ResourceCreateOneWithoutTaskLeaderOfInput `json:"leader,omitempty"`
+	Resources   *ResourceCreateManyWithoutWorkingOnInput   `json:"resources,omitempty"`
+	State       *TaskState                                 `json:"state,omitempty"`
+	Children    *TaskCreateManyWithoutParentInput          `json:"children,omitempty"`
+	Project     *ProjectCreateOneWithoutTasksInput         `json:"project,omitempty"`
+}
+
+type ProjectUpdateInput struct {
+	Selector *string                                       `json:"selector,omitempty"`
+	Name     *string                                       `json:"name,omitempty"`
+	Partner  *PartnerUpdateOneRequiredWithoutProjectsInput `json:"partner,omitempty"`
+	Leader   *ResourceUpdateOneWithoutLeaderOfInput        `json:"leader,omitempty"`
+	Tasks    *TaskUpdateManyWithoutProjectInput            `json:"tasks,omitempty"`
+}
+
+type ProjectCreateOneWithoutTasksInput struct {
+	Create  *ProjectCreateWithoutTasksInput `json:"create,omitempty"`
+	Connect *ProjectWhereUniqueInput        `json:"connect,omitempty"`
+}
+
+type ContactWhereInput struct {
+	ID                 *string             `json:"id,omitempty"`
+	IDNot              *string             `json:"id_not,omitempty"`
+	IDIn               []string            `json:"id_in,omitempty"`
+	IDNotIn            []string            `json:"id_not_in,omitempty"`
+	IDLt               *string             `json:"id_lt,omitempty"`
+	IDLte              *string             `json:"id_lte,omitempty"`
+	IDGt               *string             `json:"id_gt,omitempty"`
+	IDGte              *string             `json:"id_gte,omitempty"`
+	IDContains         *string             `json:"id_contains,omitempty"`
+	IDNotContains      *string             `json:"id_not_contains,omitempty"`
+	IDStartsWith       *string             `json:"id_starts_with,omitempty"`
+	IDNotStartsWith    *string             `json:"id_not_starts_with,omitempty"`
+	IDEndsWith         *string             `json:"id_ends_with,omitempty"`
+	IDNotEndsWith      *string             `json:"id_not_ends_with,omitempty"`
+	Type               *ContactType        `json:"type,omitempty"`
+	TypeNot            *ContactType        `json:"type_not,omitempty"`
+	TypeIn             []ContactType       `json:"type_in,omitempty"`
+	TypeNotIn          []ContactType       `json:"type_not_in,omitempty"`
+	Value              *string             `json:"value,omitempty"`
+	ValueNot           *string             `json:"value_not,omitempty"`
+	ValueIn            []string            `json:"value_in,omitempty"`
+	ValueNotIn         []string            `json:"value_not_in,omitempty"`
+	ValueLt            *string             `json:"value_lt,omitempty"`
+	ValueLte           *string             `json:"value_lte,omitempty"`
+	ValueGt            *string             `json:"value_gt,omitempty"`
+	ValueGte           *string             `json:"value_gte,omitempty"`
+	ValueContains      *string             `json:"value_contains,omitempty"`
+	ValueNotContains   *string             `json:"value_not_contains,omitempty"`
+	ValueStartsWith    *string             `json:"value_starts_with,omitempty"`
+	ValueNotStartsWith *string             `json:"value_not_starts_with,omitempty"`
+	ValueEndsWith      *string             `json:"value_ends_with,omitempty"`
+	ValueNotEndsWith   *string             `json:"value_not_ends_with,omitempty"`
+	And                []ContactWhereInput `json:"AND,omitempty"`
+	Or                 []ContactWhereInput `json:"OR,omitempty"`
+	Not                []ContactWhereInput `json:"NOT,omitempty"`
+}
+
+type ProjectCreateWithoutTasksInput struct {
+	ID       *string                                `json:"id,omitempty"`
+	Selector *string                                `json:"selector,omitempty"`
+	Name     string                                 `json:"name"`
+	Partner  PartnerCreateOneWithoutProjectsInput   `json:"partner"`
+	Leader   *ResourceCreateOneWithoutLeaderOfInput `json:"leader,omitempty"`
+}
+
+type ProjectUpsertWithWhereUniqueWithoutPartnerInput struct {
+	Where  ProjectWhereUniqueInput              `json:"where"`
+	Update ProjectUpdateWithoutPartnerDataInput `json:"update"`
+	Create ProjectCreateWithoutPartnerInput     `json:"create"`
+}
+
+type PartnerUpdateInput struct {
+	Selector    *string                               `json:"selector,omitempty"`
+	CompanyName *string                               `json:"companyName,omitempty"`
+	Contacts    *ContactUpdateManyInput               `json:"contacts,omitempty"`
+	Projects    *ProjectUpdateManyWithoutPartnerInput `json:"projects,omitempty"`
+}
+
+type TaskUpsertWithWhereUniqueWithoutResourcesInput struct {
+	Where  TaskWhereUniqueInput                `json:"where"`
+	Update TaskUpdateWithoutResourcesDataInput `json:"update"`
+	Create TaskCreateWithoutResourcesInput     `json:"create"`
+}
+
+type ContactUpdateManyInput struct {
+	Create     []ContactCreateInput                      `json:"create,omitempty"`
+	Update     []ContactUpdateWithWhereUniqueNestedInput `json:"update,omitempty"`
+	Upsert     []ContactUpsertWithWhereUniqueNestedInput `json:"upsert,omitempty"`
+	Delete     []ContactWhereUniqueInput                 `json:"delete,omitempty"`
+	Connect    []ContactWhereUniqueInput                 `json:"connect,omitempty"`
+	Set        []ContactWhereUniqueInput                 `json:"set,omitempty"`
+	Disconnect []ContactWhereUniqueInput                 `json:"disconnect,omitempty"`
+	DeleteMany []ContactScalarWhereInput                 `json:"deleteMany,omitempty"`
+	UpdateMany []ContactUpdateManyWithWhereNestedInput   `json:"updateMany,omitempty"`
+}
+
+type TaskUpsertWithoutChildrenInput struct {
+	Update TaskUpdateWithoutChildrenDataInput `json:"update"`
+	Create TaskCreateWithoutChildrenInput     `json:"create"`
+}
+
+type TaskUpsertWithWhereUniqueWithoutLeaderInput struct {
+	Where  TaskWhereUniqueInput             `json:"where"`
+	Update TaskUpdateWithoutLeaderDataInput `json:"update"`
+	Create TaskCreateWithoutLeaderInput     `json:"create"`
+}
+
+type ProjectUpdateManyDataInput struct {
+	Selector *string `json:"selector,omitempty"`
+	Name     *string `json:"name,omitempty"`
+}
+
+type ContactUpdateDataInput struct {
+	Type  *ContactType `json:"type,omitempty"`
+	Value *string      `json:"value,omitempty"`
+}
+
+type ProjectUpdateManyWithWhereNestedInput struct {
+	Where ProjectScalarWhereInput    `json:"where"`
+	Data  ProjectUpdateManyDataInput `json:"data"`
+}
+
+type ContactUpsertWithWhereUniqueNestedInput struct {
+	Where  ContactWhereUniqueInput `json:"where"`
+	Update ContactUpdateDataInput  `json:"update"`
+	Create ContactCreateInput      `json:"create"`
+}
+
+type ProjectUpsertWithWhereUniqueWithoutLeaderInput struct {
+	Where  ProjectWhereUniqueInput             `json:"where"`
+	Update ProjectUpdateWithoutLeaderDataInput `json:"update"`
+	Create ProjectCreateWithoutLeaderInput     `json:"create"`
+}
+
+type ContactScalarWhereInput struct {
+	ID                 *string                   `json:"id,omitempty"`
+	IDNot              *string                   `json:"id_not,omitempty"`
+	IDIn               []string                  `json:"id_in,omitempty"`
+	IDNotIn            []string                  `json:"id_not_in,omitempty"`
+	IDLt               *string                   `json:"id_lt,omitempty"`
+	IDLte              *string                   `json:"id_lte,omitempty"`
+	IDGt               *string                   `json:"id_gt,omitempty"`
+	IDGte              *string                   `json:"id_gte,omitempty"`
+	IDContains         *string                   `json:"id_contains,omitempty"`
+	IDNotContains      *string                   `json:"id_not_contains,omitempty"`
+	IDStartsWith       *string                   `json:"id_starts_with,omitempty"`
+	IDNotStartsWith    *string                   `json:"id_not_starts_with,omitempty"`
+	IDEndsWith         *string                   `json:"id_ends_with,omitempty"`
+	IDNotEndsWith      *string                   `json:"id_not_ends_with,omitempty"`
+	Type               *ContactType              `json:"type,omitempty"`
+	TypeNot            *ContactType              `json:"type_not,omitempty"`
+	TypeIn             []ContactType             `json:"type_in,omitempty"`
+	TypeNotIn          []ContactType             `json:"type_not_in,omitempty"`
+	Value              *string                   `json:"value,omitempty"`
+	ValueNot           *string                   `json:"value_not,omitempty"`
+	ValueIn            []string                  `json:"value_in,omitempty"`
+	ValueNotIn         []string                  `json:"value_not_in,omitempty"`
+	ValueLt            *string                   `json:"value_lt,omitempty"`
+	ValueLte           *string                   `json:"value_lte,omitempty"`
+	ValueGt            *string                   `json:"value_gt,omitempty"`
+	ValueGte           *string                   `json:"value_gte,omitempty"`
+	ValueContains      *string                   `json:"value_contains,omitempty"`
+	ValueNotContains   *string                   `json:"value_not_contains,omitempty"`
+	ValueStartsWith    *string                   `json:"value_starts_with,omitempty"`
+	ValueNotStartsWith *string                   `json:"value_not_starts_with,omitempty"`
+	ValueEndsWith      *string                   `json:"value_ends_with,omitempty"`
+	ValueNotEndsWith   *string                   `json:"value_not_ends_with,omitempty"`
+	And                []ContactScalarWhereInput `json:"AND,omitempty"`
+	Or                 []ContactScalarWhereInput `json:"OR,omitempty"`
+	Not                []ContactScalarWhereInput `json:"NOT,omitempty"`
+}
+
+type TaskUpsertWithWhereUniqueWithoutProjectInput struct {
+	Where  TaskWhereUniqueInput              `json:"where"`
+	Update TaskUpdateWithoutProjectDataInput `json:"update"`
+	Create TaskCreateWithoutProjectInput     `json:"create"`
+}
+
+type ContactUpdateManyWithWhereNestedInput struct {
+	Where ContactScalarWhereInput    `json:"where"`
+	Data  ContactUpdateManyDataInput `json:"data"`
+}
+
+type ResourceUpdateManyWithWhereNestedInput struct {
+	Where ResourceScalarWhereInput    `json:"where"`
+	Data  ResourceUpdateManyDataInput `json:"data"`
+}
+
+type ContactUpdateManyDataInput struct {
+	Type  *ContactType `json:"type,omitempty"`
+	Value *string      `json:"value,omitempty"`
+}
+
+type ContactCreateInput struct {
+	ID    *string     `json:"id,omitempty"`
+	Type  ContactType `json:"type"`
+	Value string      `json:"value"`
+}
+
+type CostWhereUniqueInput struct {
+	ID *string `json:"id,omitempty"`
+}
+
+type ContactUpdateManyMutationInput struct {
+	Type  *ContactType `json:"type,omitempty"`
+	Value *string      `json:"value,omitempty"`
+}
+
+type ProjectUpdateWithWhereUniqueWithoutPartnerInput struct {
+	Where ProjectWhereUniqueInput              `json:"where"`
+	Data  ProjectUpdateWithoutPartnerDataInput `json:"data"`
+}
+
+type ResourceUpsertWithWhereUniqueWithoutWorkingOnInput struct {
+	Where  ResourceWhereUniqueInput                `json:"where"`
+	Update ResourceUpdateWithoutWorkingOnDataInput `json:"update"`
+	Create ResourceCreateWithoutWorkingOnInput     `json:"create"`
+}
+
+type ProjectUpdateWithoutPartnerDataInput struct {
+	Selector *string                                `json:"selector,omitempty"`
+	Name     *string                                `json:"name,omitempty"`
+	Leader   *ResourceUpdateOneWithoutLeaderOfInput `json:"leader,omitempty"`
+	Tasks    *TaskUpdateManyWithoutProjectInput     `json:"tasks,omitempty"`
+}
+
+type CostUpdateInput struct {
+	Units *string  `json:"units,omitempty"`
+	Value *float64 `json:"value,omitempty"`
+}
+
+type ResourceUpdateOneWithoutLeaderOfInput struct {
+	Create     *ResourceCreateWithoutLeaderOfInput     `json:"create,omitempty"`
+	Update     *ResourceUpdateWithoutLeaderOfDataInput `json:"update,omitempty"`
+	Upsert     *ResourceUpsertWithoutLeaderOfInput     `json:"upsert,omitempty"`
+	Delete     *bool                                   `json:"delete,omitempty"`
+	Disconnect *bool                                   `json:"disconnect,omitempty"`
+	Connect    *ResourceWhereUniqueInput               `json:"connect,omitempty"`
+}
+
+type PartnerCreateInput struct {
+	ID          *string                               `json:"id,omitempty"`
+	Selector    *string                               `json:"selector,omitempty"`
+	CompanyName string                                `json:"companyName"`
+	Contacts    *ContactCreateManyInput               `json:"contacts,omitempty"`
+	Projects    *ProjectCreateManyWithoutPartnerInput `json:"projects,omitempty"`
+}
+
+type ResourceUpdateWithoutLeaderOfDataInput struct {
+	Selector     *string                              `json:"selector,omitempty"`
+	Name         *string                              `json:"name,omitempty"`
+	MainType     *ResourceType                        `json:"mainType,omitempty"`
+	Types        *ResourceUpdatetypesInput            `json:"types,omitempty"`
+	Alias        *string                              `json:"alias,omitempty"`
+	Experience   *float64                             `json:"experience,omitempty"`
+	Cost         *CostUpdateOneRequiredInput          `json:"cost,omitempty"`
+	WorkingOn    *TaskUpdateManyWithoutResourcesInput `json:"workingOn,omitempty"`
+	TaskLeaderOf *TaskUpdateManyWithoutLeaderInput    `json:"taskLeaderOf,omitempty"`
+}
+
+type ProjectCreateManyWithoutPartnerInput struct {
+	Create  []ProjectCreateWithoutPartnerInput `json:"create,omitempty"`
+	Connect []ProjectWhereUniqueInput          `json:"connect,omitempty"`
+}
+
+type ResourceUpdatetypesInput struct {
+	Set []ResourceType `json:"set,omitempty"`
+}
+
+type ResourceCreateOneWithoutLeaderOfInput struct {
+	Create  *ResourceCreateWithoutLeaderOfInput `json:"create,omitempty"`
+	Connect *ResourceWhereUniqueInput           `json:"connect,omitempty"`
 }
 
 type CostUpdateOneRequiredInput struct {
@@ -1042,6 +1571,112 @@ type CostUpdateOneRequiredInput struct {
 	Update  *CostUpdateDataInput   `json:"update,omitempty"`
 	Upsert  *CostUpsertNestedInput `json:"upsert,omitempty"`
 	Connect *CostWhereUniqueInput  `json:"connect,omitempty"`
+}
+
+type ResourceCreatetypesInput struct {
+	Set []ResourceType `json:"set,omitempty"`
+}
+
+type CostUpdateDataInput struct {
+	Units *string  `json:"units,omitempty"`
+	Value *float64 `json:"value,omitempty"`
+}
+
+type TaskCreateManyWithoutResourcesInput struct {
+	Create  []TaskCreateWithoutResourcesInput `json:"create,omitempty"`
+	Connect []TaskWhereUniqueInput            `json:"connect,omitempty"`
+}
+
+type CostUpsertNestedInput struct {
+	Update CostUpdateDataInput `json:"update"`
+	Create CostCreateInput     `json:"create"`
+}
+
+type TaskCreateOneWithoutChildrenInput struct {
+	Create  *TaskCreateWithoutChildrenInput `json:"create,omitempty"`
+	Connect *TaskWhereUniqueInput           `json:"connect,omitempty"`
+}
+
+type TaskUpdateManyWithoutResourcesInput struct {
+	Create     []TaskCreateWithoutResourcesInput                `json:"create,omitempty"`
+	Delete     []TaskWhereUniqueInput                           `json:"delete,omitempty"`
+	Connect    []TaskWhereUniqueInput                           `json:"connect,omitempty"`
+	Set        []TaskWhereUniqueInput                           `json:"set,omitempty"`
+	Disconnect []TaskWhereUniqueInput                           `json:"disconnect,omitempty"`
+	Update     []TaskUpdateWithWhereUniqueWithoutResourcesInput `json:"update,omitempty"`
+	Upsert     []TaskUpsertWithWhereUniqueWithoutResourcesInput `json:"upsert,omitempty"`
+	DeleteMany []TaskScalarWhereInput                           `json:"deleteMany,omitempty"`
+	UpdateMany []TaskUpdateManyWithWhereNestedInput             `json:"updateMany,omitempty"`
+}
+
+type ResourceCreateOneWithoutTaskLeaderOfInput struct {
+	Create  *ResourceCreateWithoutTaskLeaderOfInput `json:"create,omitempty"`
+	Connect *ResourceWhereUniqueInput               `json:"connect,omitempty"`
+}
+
+type TaskUpdateWithWhereUniqueWithoutResourcesInput struct {
+	Where TaskWhereUniqueInput                `json:"where"`
+	Data  TaskUpdateWithoutResourcesDataInput `json:"data"`
+}
+
+type TaskSubscriptionWhereInput struct {
+	MutationIn                 []MutationType               `json:"mutation_in,omitempty"`
+	UpdatedFieldsContains      *string                      `json:"updatedFields_contains,omitempty"`
+	UpdatedFieldsContainsEvery []string                     `json:"updatedFields_contains_every,omitempty"`
+	UpdatedFieldsContainsSome  []string                     `json:"updatedFields_contains_some,omitempty"`
+	Node                       *TaskWhereInput              `json:"node,omitempty"`
+	And                        []TaskSubscriptionWhereInput `json:"AND,omitempty"`
+	Or                         []TaskSubscriptionWhereInput `json:"OR,omitempty"`
+	Not                        []TaskSubscriptionWhereInput `json:"NOT,omitempty"`
+}
+
+type TaskUpdateWithoutResourcesDataInput struct {
+	Selector    *string                                    `json:"selector,omitempty"`
+	Title       *string                                    `json:"title,omitempty"`
+	Description *string                                    `json:"description,omitempty"`
+	Parent      *TaskUpdateOneWithoutChildrenInput         `json:"parent,omitempty"`
+	Leader      *ResourceUpdateOneWithoutTaskLeaderOfInput `json:"leader,omitempty"`
+	State       *TaskState                                 `json:"state,omitempty"`
+	Children    *TaskUpdateManyWithoutParentInput          `json:"children,omitempty"`
+	Project     *ProjectUpdateOneWithoutTasksInput         `json:"project,omitempty"`
+}
+
+type PartnerSubscriptionWhereInput struct {
+	MutationIn                 []MutationType                  `json:"mutation_in,omitempty"`
+	UpdatedFieldsContains      *string                         `json:"updatedFields_contains,omitempty"`
+	UpdatedFieldsContainsEvery []string                        `json:"updatedFields_contains_every,omitempty"`
+	UpdatedFieldsContainsSome  []string                        `json:"updatedFields_contains_some,omitempty"`
+	Node                       *PartnerWhereInput              `json:"node,omitempty"`
+	And                        []PartnerSubscriptionWhereInput `json:"AND,omitempty"`
+	Or                         []PartnerSubscriptionWhereInput `json:"OR,omitempty"`
+	Not                        []PartnerSubscriptionWhereInput `json:"NOT,omitempty"`
+}
+
+type TaskUpdateOneWithoutChildrenInput struct {
+	Create     *TaskCreateWithoutChildrenInput     `json:"create,omitempty"`
+	Update     *TaskUpdateWithoutChildrenDataInput `json:"update,omitempty"`
+	Upsert     *TaskUpsertWithoutChildrenInput     `json:"upsert,omitempty"`
+	Delete     *bool                               `json:"delete,omitempty"`
+	Disconnect *bool                               `json:"disconnect,omitempty"`
+	Connect    *TaskWhereUniqueInput               `json:"connect,omitempty"`
+}
+
+type TaskUpdateManyMutationInput struct {
+	Selector    *string    `json:"selector,omitempty"`
+	Title       *string    `json:"title,omitempty"`
+	Description *string    `json:"description,omitempty"`
+	State       *TaskState `json:"state,omitempty"`
+}
+
+type TaskUpdateWithoutChildrenDataInput struct {
+	Selector    *string                                    `json:"selector,omitempty"`
+	Title       *string                                    `json:"title,omitempty"`
+	Description *string                                    `json:"description,omitempty"`
+	Parent      *TaskUpdateOneWithoutChildrenInput         `json:"parent,omitempty"`
+	Leader      *ResourceUpdateOneWithoutTaskLeaderOfInput `json:"leader,omitempty"`
+	Resources   *ResourceUpdateManyWithoutWorkingOnInput   `json:"resources,omitempty"`
+	State       *TaskState                                 `json:"state,omitempty"`
+	Project     *ProjectUpdateOneWithoutTasksInput         `json:"project,omitempty"`
 }
 
 type ResourceWhereInput struct {
@@ -1144,216 +1779,13 @@ type ResourceWhereInput struct {
 	Not                   []ResourceWhereInput `json:"NOT,omitempty"`
 }
 
-type ResourceCreateWithoutWorkingOnInput struct {
-	ID           *string                              `json:"id,omitempty"`
-	Selector     *string                              `json:"selector,omitempty"`
-	Name         string                               `json:"name"`
-	MainType     ResourceType                         `json:"mainType"`
-	Types        *ResourceCreatetypesInput            `json:"types,omitempty"`
-	Alias        *string                              `json:"alias,omitempty"`
-	Experience   float64                              `json:"experience"`
-	Cost         CostCreateOneInput                   `json:"cost"`
-	LeaderOf     *ProjectCreateManyWithoutLeaderInput `json:"leaderOf,omitempty"`
-	TaskLeaderOf *TaskCreateManyWithoutLeaderInput    `json:"taskLeaderOf,omitempty"`
-}
-
-type TaskUpsertWithWhereUniqueWithoutProjectInput struct {
-	Where  TaskWhereUniqueInput              `json:"where"`
-	Update TaskUpdateWithoutProjectDataInput `json:"update"`
-	Create TaskCreateWithoutProjectInput     `json:"create"`
-}
-
-type TaskCreateManyWithoutLeaderInput struct {
-	Create  []TaskCreateWithoutLeaderInput `json:"create,omitempty"`
-	Connect []TaskWhereUniqueInput         `json:"connect,omitempty"`
-}
-
-type CostUpdateDataInput struct {
-	Units *string  `json:"units,omitempty"`
-	Value *float64 `json:"value,omitempty"`
-}
-
-type TaskCreateWithoutLeaderInput struct {
-	ID          *string                                  `json:"id,omitempty"`
-	Selector    *string                                  `json:"selector,omitempty"`
-	Title       string                                   `json:"title"`
-	Description string                                   `json:"description"`
-	Parent      *TaskCreateOneWithoutChildrenInput       `json:"parent,omitempty"`
-	Resources   *ResourceCreateManyWithoutWorkingOnInput `json:"resources,omitempty"`
-	State       *TaskState                               `json:"state,omitempty"`
-	Children    *TaskCreateManyWithoutParentInput        `json:"children,omitempty"`
-	Project     *ProjectCreateOneWithoutTasksInput       `json:"project,omitempty"`
-}
-
-type ProjectWhereInput struct {
-	ID                    *string             `json:"id,omitempty"`
-	IDNot                 *string             `json:"id_not,omitempty"`
-	IDIn                  []string            `json:"id_in,omitempty"`
-	IDNotIn               []string            `json:"id_not_in,omitempty"`
-	IDLt                  *string             `json:"id_lt,omitempty"`
-	IDLte                 *string             `json:"id_lte,omitempty"`
-	IDGt                  *string             `json:"id_gt,omitempty"`
-	IDGte                 *string             `json:"id_gte,omitempty"`
-	IDContains            *string             `json:"id_contains,omitempty"`
-	IDNotContains         *string             `json:"id_not_contains,omitempty"`
-	IDStartsWith          *string             `json:"id_starts_with,omitempty"`
-	IDNotStartsWith       *string             `json:"id_not_starts_with,omitempty"`
-	IDEndsWith            *string             `json:"id_ends_with,omitempty"`
-	IDNotEndsWith         *string             `json:"id_not_ends_with,omitempty"`
-	CreatedAt             *string             `json:"createdAt,omitempty"`
-	CreatedAtNot          *string             `json:"createdAt_not,omitempty"`
-	CreatedAtIn           []string            `json:"createdAt_in,omitempty"`
-	CreatedAtNotIn        []string            `json:"createdAt_not_in,omitempty"`
-	CreatedAtLt           *string             `json:"createdAt_lt,omitempty"`
-	CreatedAtLte          *string             `json:"createdAt_lte,omitempty"`
-	CreatedAtGt           *string             `json:"createdAt_gt,omitempty"`
-	CreatedAtGte          *string             `json:"createdAt_gte,omitempty"`
-	UpdatedAt             *string             `json:"updatedAt,omitempty"`
-	UpdatedAtNot          *string             `json:"updatedAt_not,omitempty"`
-	UpdatedAtIn           []string            `json:"updatedAt_in,omitempty"`
-	UpdatedAtNotIn        []string            `json:"updatedAt_not_in,omitempty"`
-	UpdatedAtLt           *string             `json:"updatedAt_lt,omitempty"`
-	UpdatedAtLte          *string             `json:"updatedAt_lte,omitempty"`
-	UpdatedAtGt           *string             `json:"updatedAt_gt,omitempty"`
-	UpdatedAtGte          *string             `json:"updatedAt_gte,omitempty"`
-	Selector              *string             `json:"selector,omitempty"`
-	SelectorNot           *string             `json:"selector_not,omitempty"`
-	SelectorIn            []string            `json:"selector_in,omitempty"`
-	SelectorNotIn         []string            `json:"selector_not_in,omitempty"`
-	SelectorLt            *string             `json:"selector_lt,omitempty"`
-	SelectorLte           *string             `json:"selector_lte,omitempty"`
-	SelectorGt            *string             `json:"selector_gt,omitempty"`
-	SelectorGte           *string             `json:"selector_gte,omitempty"`
-	SelectorContains      *string             `json:"selector_contains,omitempty"`
-	SelectorNotContains   *string             `json:"selector_not_contains,omitempty"`
-	SelectorStartsWith    *string             `json:"selector_starts_with,omitempty"`
-	SelectorNotStartsWith *string             `json:"selector_not_starts_with,omitempty"`
-	SelectorEndsWith      *string             `json:"selector_ends_with,omitempty"`
-	SelectorNotEndsWith   *string             `json:"selector_not_ends_with,omitempty"`
-	Name                  *string             `json:"name,omitempty"`
-	NameNot               *string             `json:"name_not,omitempty"`
-	NameIn                []string            `json:"name_in,omitempty"`
-	NameNotIn             []string            `json:"name_not_in,omitempty"`
-	NameLt                *string             `json:"name_lt,omitempty"`
-	NameLte               *string             `json:"name_lte,omitempty"`
-	NameGt                *string             `json:"name_gt,omitempty"`
-	NameGte               *string             `json:"name_gte,omitempty"`
-	NameContains          *string             `json:"name_contains,omitempty"`
-	NameNotContains       *string             `json:"name_not_contains,omitempty"`
-	NameStartsWith        *string             `json:"name_starts_with,omitempty"`
-	NameNotStartsWith     *string             `json:"name_not_starts_with,omitempty"`
-	NameEndsWith          *string             `json:"name_ends_with,omitempty"`
-	NameNotEndsWith       *string             `json:"name_not_ends_with,omitempty"`
-	Client                *CompanyWhereInput  `json:"client,omitempty"`
-	Leader                *ResourceWhereInput `json:"leader,omitempty"`
-	TasksEvery            *TaskWhereInput     `json:"tasks_every,omitempty"`
-	TasksSome             *TaskWhereInput     `json:"tasks_some,omitempty"`
-	TasksNone             *TaskWhereInput     `json:"tasks_none,omitempty"`
-	And                   []ProjectWhereInput `json:"AND,omitempty"`
-	Or                    []ProjectWhereInput `json:"OR,omitempty"`
-	Not                   []ProjectWhereInput `json:"NOT,omitempty"`
-}
-
-type TaskCreateManyWithoutParentInput struct {
-	Create  []TaskCreateWithoutParentInput `json:"create,omitempty"`
-	Connect []TaskWhereUniqueInput         `json:"connect,omitempty"`
-}
-
-type ResourceSubscriptionWhereInput struct {
-	MutationIn                 []MutationType                   `json:"mutation_in,omitempty"`
-	UpdatedFieldsContains      *string                          `json:"updatedFields_contains,omitempty"`
-	UpdatedFieldsContainsEvery []string                         `json:"updatedFields_contains_every,omitempty"`
-	UpdatedFieldsContainsSome  []string                         `json:"updatedFields_contains_some,omitempty"`
-	Node                       *ResourceWhereInput              `json:"node,omitempty"`
-	And                        []ResourceSubscriptionWhereInput `json:"AND,omitempty"`
-	Or                         []ResourceSubscriptionWhereInput `json:"OR,omitempty"`
-	Not                        []ResourceSubscriptionWhereInput `json:"NOT,omitempty"`
-}
-
-type TaskCreateWithoutParentInput struct {
-	ID          *string                                    `json:"id,omitempty"`
-	Selector    *string                                    `json:"selector,omitempty"`
-	Title       string                                     `json:"title"`
-	Description string                                     `json:"description"`
-	Leader      *ResourceCreateOneWithoutTaskLeaderOfInput `json:"leader,omitempty"`
-	Resources   *ResourceCreateManyWithoutWorkingOnInput   `json:"resources,omitempty"`
-	State       *TaskState                                 `json:"state,omitempty"`
-	Children    *TaskCreateManyWithoutParentInput          `json:"children,omitempty"`
-	Project     *ProjectCreateOneWithoutTasksInput         `json:"project,omitempty"`
-}
-
-type CostSubscriptionWhereInput struct {
-	MutationIn                 []MutationType               `json:"mutation_in,omitempty"`
-	UpdatedFieldsContains      *string                      `json:"updatedFields_contains,omitempty"`
-	UpdatedFieldsContainsEvery []string                     `json:"updatedFields_contains_every,omitempty"`
-	UpdatedFieldsContainsSome  []string                     `json:"updatedFields_contains_some,omitempty"`
-	Node                       *CostWhereInput              `json:"node,omitempty"`
-	And                        []CostSubscriptionWhereInput `json:"AND,omitempty"`
-	Or                         []CostSubscriptionWhereInput `json:"OR,omitempty"`
-	Not                        []CostSubscriptionWhereInput `json:"NOT,omitempty"`
-}
-
-type ProjectCreateOneWithoutTasksInput struct {
-	Create  *ProjectCreateWithoutTasksInput `json:"create,omitempty"`
-	Connect *ProjectWhereUniqueInput        `json:"connect,omitempty"`
-}
-
-type CompanySubscriptionWhereInput struct {
-	MutationIn                 []MutationType                  `json:"mutation_in,omitempty"`
-	UpdatedFieldsContains      *string                         `json:"updatedFields_contains,omitempty"`
-	UpdatedFieldsContainsEvery []string                        `json:"updatedFields_contains_every,omitempty"`
-	UpdatedFieldsContainsSome  []string                        `json:"updatedFields_contains_some,omitempty"`
-	Node                       *CompanyWhereInput              `json:"node,omitempty"`
-	And                        []CompanySubscriptionWhereInput `json:"AND,omitempty"`
-	Or                         []CompanySubscriptionWhereInput `json:"OR,omitempty"`
-	Not                        []CompanySubscriptionWhereInput `json:"NOT,omitempty"`
-}
-
-type ProjectCreateWithoutTasksInput struct {
-	ID       *string                                `json:"id,omitempty"`
-	Selector *string                                `json:"selector,omitempty"`
-	Name     string                                 `json:"name"`
-	Client   CompanyCreateOneWithoutProjectsInput   `json:"client"`
-	Leader   *ResourceCreateOneWithoutLeaderOfInput `json:"leader,omitempty"`
-}
-
-type TaskUpdateManyMutationInput struct {
-	Selector    *string    `json:"selector,omitempty"`
-	Title       *string    `json:"title,omitempty"`
-	Description *string    `json:"description,omitempty"`
-	State       *TaskState `json:"state,omitempty"`
-}
-
-type CompanyUpdateInput struct {
-	Selector    *string                              `json:"selector,omitempty"`
-	CompanyName *string                              `json:"companyName,omitempty"`
-	Contacts    *ContactUpdateManyInput              `json:"contacts,omitempty"`
-	Projects    *ProjectUpdateManyWithoutClientInput `json:"projects,omitempty"`
-}
-
-type TaskCreateInput struct {
-	ID          *string                                    `json:"id,omitempty"`
-	Selector    *string                                    `json:"selector,omitempty"`
-	Title       string                                     `json:"title"`
-	Description string                                     `json:"description"`
-	Parent      *TaskCreateOneWithoutChildrenInput         `json:"parent,omitempty"`
-	Leader      *ResourceCreateOneWithoutTaskLeaderOfInput `json:"leader,omitempty"`
-	Resources   *ResourceCreateManyWithoutWorkingOnInput   `json:"resources,omitempty"`
-	State       *TaskState                                 `json:"state,omitempty"`
-	Children    *TaskCreateManyWithoutParentInput          `json:"children,omitempty"`
-	Project     *ProjectCreateOneWithoutTasksInput         `json:"project,omitempty"`
-}
-
-type ContactUpdateManyInput struct {
-	Create     []ContactCreateInput                      `json:"create,omitempty"`
-	Update     []ContactUpdateWithWhereUniqueNestedInput `json:"update,omitempty"`
-	Upsert     []ContactUpsertWithWhereUniqueNestedInput `json:"upsert,omitempty"`
-	Delete     []ContactWhereUniqueInput                 `json:"delete,omitempty"`
-	Connect    []ContactWhereUniqueInput                 `json:"connect,omitempty"`
-	Set        []ContactWhereUniqueInput                 `json:"set,omitempty"`
-	Disconnect []ContactWhereUniqueInput                 `json:"disconnect,omitempty"`
-	DeleteMany []ContactScalarWhereInput                 `json:"deleteMany,omitempty"`
-	UpdateMany []ContactUpdateManyWithWhereNestedInput   `json:"updateMany,omitempty"`
+type ResourceUpdateOneWithoutTaskLeaderOfInput struct {
+	Create     *ResourceCreateWithoutTaskLeaderOfInput     `json:"create,omitempty"`
+	Update     *ResourceUpdateWithoutTaskLeaderOfDataInput `json:"update,omitempty"`
+	Upsert     *ResourceUpsertWithoutTaskLeaderOfInput     `json:"upsert,omitempty"`
+	Delete     *bool                                       `json:"delete,omitempty"`
+	Disconnect *bool                                       `json:"disconnect,omitempty"`
+	Connect    *ResourceWhereUniqueInput                   `json:"connect,omitempty"`
 }
 
 type ResourceUpdateInput struct {
@@ -1369,105 +1801,37 @@ type ResourceUpdateInput struct {
 	TaskLeaderOf *TaskUpdateManyWithoutLeaderInput    `json:"taskLeaderOf,omitempty"`
 }
 
-type ContactUpdateWithWhereUniqueNestedInput struct {
-	Where ContactWhereUniqueInput `json:"where"`
-	Data  ContactUpdateDataInput  `json:"data"`
+type ResourceUpdateWithoutTaskLeaderOfDataInput struct {
+	Selector   *string                              `json:"selector,omitempty"`
+	Name       *string                              `json:"name,omitempty"`
+	MainType   *ResourceType                        `json:"mainType,omitempty"`
+	Types      *ResourceUpdatetypesInput            `json:"types,omitempty"`
+	Alias      *string                              `json:"alias,omitempty"`
+	Experience *float64                             `json:"experience,omitempty"`
+	Cost       *CostUpdateOneRequiredInput          `json:"cost,omitempty"`
+	LeaderOf   *ProjectUpdateManyWithoutLeaderInput `json:"leaderOf,omitempty"`
+	WorkingOn  *TaskUpdateManyWithoutResourcesInput `json:"workingOn,omitempty"`
 }
 
-type ContactWhereUniqueInput struct {
-	ID *string `json:"id,omitempty"`
+type ProjectCreateInput struct {
+	ID       *string                                `json:"id,omitempty"`
+	Selector *string                                `json:"selector,omitempty"`
+	Name     string                                 `json:"name"`
+	Partner  PartnerCreateOneWithoutProjectsInput   `json:"partner"`
+	Leader   *ResourceCreateOneWithoutLeaderOfInput `json:"leader,omitempty"`
+	Tasks    *TaskCreateManyWithoutProjectInput     `json:"tasks,omitempty"`
 }
 
-type ContactUpdateDataInput struct {
-	Type  *ContactType `json:"type,omitempty"`
-	Value *string      `json:"value,omitempty"`
-}
-
-type ProjectUpdateInput struct {
-	Selector *string                                       `json:"selector,omitempty"`
-	Name     *string                                       `json:"name,omitempty"`
-	Client   *CompanyUpdateOneRequiredWithoutProjectsInput `json:"client,omitempty"`
-	Leader   *ResourceUpdateOneWithoutLeaderOfInput        `json:"leader,omitempty"`
-	Tasks    *TaskUpdateManyWithoutProjectInput            `json:"tasks,omitempty"`
-}
-
-type ContactUpsertWithWhereUniqueNestedInput struct {
-	Where  ContactWhereUniqueInput `json:"where"`
-	Update ContactUpdateDataInput  `json:"update"`
-	Create ContactCreateInput      `json:"create"`
-}
-
-type CostWhereUniqueInput struct {
-	ID *string `json:"id,omitempty"`
-}
-
-type ContactScalarWhereInput struct {
-	ID                 *string                   `json:"id,omitempty"`
-	IDNot              *string                   `json:"id_not,omitempty"`
-	IDIn               []string                  `json:"id_in,omitempty"`
-	IDNotIn            []string                  `json:"id_not_in,omitempty"`
-	IDLt               *string                   `json:"id_lt,omitempty"`
-	IDLte              *string                   `json:"id_lte,omitempty"`
-	IDGt               *string                   `json:"id_gt,omitempty"`
-	IDGte              *string                   `json:"id_gte,omitempty"`
-	IDContains         *string                   `json:"id_contains,omitempty"`
-	IDNotContains      *string                   `json:"id_not_contains,omitempty"`
-	IDStartsWith       *string                   `json:"id_starts_with,omitempty"`
-	IDNotStartsWith    *string                   `json:"id_not_starts_with,omitempty"`
-	IDEndsWith         *string                   `json:"id_ends_with,omitempty"`
-	IDNotEndsWith      *string                   `json:"id_not_ends_with,omitempty"`
-	Type               *ContactType              `json:"type,omitempty"`
-	TypeNot            *ContactType              `json:"type_not,omitempty"`
-	TypeIn             []ContactType             `json:"type_in,omitempty"`
-	TypeNotIn          []ContactType             `json:"type_not_in,omitempty"`
-	Value              *string                   `json:"value,omitempty"`
-	ValueNot           *string                   `json:"value_not,omitempty"`
-	ValueIn            []string                  `json:"value_in,omitempty"`
-	ValueNotIn         []string                  `json:"value_not_in,omitempty"`
-	ValueLt            *string                   `json:"value_lt,omitempty"`
-	ValueLte           *string                   `json:"value_lte,omitempty"`
-	ValueGt            *string                   `json:"value_gt,omitempty"`
-	ValueGte           *string                   `json:"value_gte,omitempty"`
-	ValueContains      *string                   `json:"value_contains,omitempty"`
-	ValueNotContains   *string                   `json:"value_not_contains,omitempty"`
-	ValueStartsWith    *string                   `json:"value_starts_with,omitempty"`
-	ValueNotStartsWith *string                   `json:"value_not_starts_with,omitempty"`
-	ValueEndsWith      *string                   `json:"value_ends_with,omitempty"`
-	ValueNotEndsWith   *string                   `json:"value_not_ends_with,omitempty"`
-	And                []ContactScalarWhereInput `json:"AND,omitempty"`
-	Or                 []ContactScalarWhereInput `json:"OR,omitempty"`
-	Not                []ContactScalarWhereInput `json:"NOT,omitempty"`
-}
-
-type CostUpdateInput struct {
-	Units *string  `json:"units,omitempty"`
-	Value *float64 `json:"value,omitempty"`
-}
-
-type ContactUpdateManyWithWhereNestedInput struct {
-	Where ContactScalarWhereInput    `json:"where"`
-	Data  ContactUpdateManyDataInput `json:"data"`
-}
-
-type ContactUpdateInput struct {
-	Type  *ContactType `json:"type,omitempty"`
-	Value *string      `json:"value,omitempty"`
-}
-
-type ContactUpdateManyDataInput struct {
-	Type  *ContactType `json:"type,omitempty"`
-	Value *string      `json:"value,omitempty"`
-}
-
-type CompanyUpdateManyMutationInput struct {
-	Selector    *string `json:"selector,omitempty"`
-	CompanyName *string `json:"companyName,omitempty"`
-}
-
-type ProjectUpsertWithWhereUniqueWithoutLeaderInput struct {
-	Where  ProjectWhereUniqueInput             `json:"where"`
-	Update ProjectUpdateWithoutLeaderDataInput `json:"update"`
-	Create ProjectCreateWithoutLeaderInput     `json:"create"`
+type ProjectUpdateManyWithoutLeaderInput struct {
+	Create     []ProjectCreateWithoutLeaderInput                `json:"create,omitempty"`
+	Delete     []ProjectWhereUniqueInput                        `json:"delete,omitempty"`
+	Connect    []ProjectWhereUniqueInput                        `json:"connect,omitempty"`
+	Set        []ProjectWhereUniqueInput                        `json:"set,omitempty"`
+	Disconnect []ProjectWhereUniqueInput                        `json:"disconnect,omitempty"`
+	Update     []ProjectUpdateWithWhereUniqueWithoutLeaderInput `json:"update,omitempty"`
+	Upsert     []ProjectUpsertWithWhereUniqueWithoutLeaderInput `json:"upsert,omitempty"`
+	DeleteMany []ProjectScalarWhereInput                        `json:"deleteMany,omitempty"`
+	UpdateMany []ProjectUpdateManyWithWhereNestedInput          `json:"updateMany,omitempty"`
 }
 
 type ResourceUpsertWithoutLeaderOfInput struct {
@@ -1475,22 +1839,9 @@ type ResourceUpsertWithoutLeaderOfInput struct {
 	Create ResourceCreateWithoutLeaderOfInput     `json:"create"`
 }
 
-type ProjectUpdateWithWhereUniqueWithoutClientInput struct {
+type ProjectUpdateWithWhereUniqueWithoutLeaderInput struct {
 	Where ProjectWhereUniqueInput             `json:"where"`
-	Data  ProjectUpdateWithoutClientDataInput `json:"data"`
-}
-
-type TaskUpsertWithWhereUniqueWithoutResourcesInput struct {
-	Where  TaskWhereUniqueInput                `json:"where"`
-	Update TaskUpdateWithoutResourcesDataInput `json:"update"`
-	Create TaskCreateWithoutResourcesInput     `json:"create"`
-}
-
-type ProjectUpdateWithoutClientDataInput struct {
-	Selector *string                                `json:"selector,omitempty"`
-	Name     *string                                `json:"name,omitempty"`
-	Leader   *ResourceUpdateOneWithoutLeaderOfInput `json:"leader,omitempty"`
-	Tasks    *TaskUpdateManyWithoutProjectInput     `json:"tasks,omitempty"`
+	Data  ProjectUpdateWithoutLeaderDataInput `json:"data"`
 }
 
 type ResourceUpsertWithoutTaskLeaderOfInput struct {
@@ -1498,30 +1849,11 @@ type ResourceUpsertWithoutTaskLeaderOfInput struct {
 	Create ResourceCreateWithoutTaskLeaderOfInput     `json:"create"`
 }
 
-type ResourceUpdateOneWithoutLeaderOfInput struct {
-	Create     *ResourceCreateWithoutLeaderOfInput     `json:"create,omitempty"`
-	Update     *ResourceUpdateWithoutLeaderOfDataInput `json:"update,omitempty"`
-	Upsert     *ResourceUpsertWithoutLeaderOfInput     `json:"upsert,omitempty"`
-	Delete     *bool                                   `json:"delete,omitempty"`
-	Disconnect *bool                                   `json:"disconnect,omitempty"`
-	Connect    *ResourceWhereUniqueInput               `json:"connect,omitempty"`
-}
-
-type ProjectUpdateManyDataInput struct {
-	Selector *string `json:"selector,omitempty"`
-	Name     *string `json:"name,omitempty"`
-}
-
-type ResourceUpdateWithoutLeaderOfDataInput struct {
-	Selector     *string                              `json:"selector,omitempty"`
-	Name         *string                              `json:"name,omitempty"`
-	MainType     *ResourceType                        `json:"mainType,omitempty"`
-	Types        *ResourceUpdatetypesInput            `json:"types,omitempty"`
-	Alias        *string                              `json:"alias,omitempty"`
-	Experience   *float64                             `json:"experience,omitempty"`
-	Cost         *CostUpdateOneRequiredInput          `json:"cost,omitempty"`
-	WorkingOn    *TaskUpdateManyWithoutResourcesInput `json:"workingOn,omitempty"`
-	TaskLeaderOf *TaskUpdateManyWithoutLeaderInput    `json:"taskLeaderOf,omitempty"`
+type ProjectUpdateWithoutLeaderDataInput struct {
+	Selector *string                                       `json:"selector,omitempty"`
+	Name     *string                                       `json:"name,omitempty"`
+	Partner  *PartnerUpdateOneRequiredWithoutProjectsInput `json:"partner,omitempty"`
+	Tasks    *TaskUpdateManyWithoutProjectInput            `json:"tasks,omitempty"`
 }
 
 type ProjectScalarWhereInput struct {
@@ -1588,147 +1920,64 @@ type ProjectScalarWhereInput struct {
 	Not                   []ProjectScalarWhereInput `json:"NOT,omitempty"`
 }
 
-type ResourceUpdatetypesInput struct {
-	Set []ResourceType `json:"set,omitempty"`
+type PartnerUpdateOneRequiredWithoutProjectsInput struct {
+	Create  *PartnerCreateWithoutProjectsInput     `json:"create,omitempty"`
+	Update  *PartnerUpdateWithoutProjectsDataInput `json:"update,omitempty"`
+	Upsert  *PartnerUpsertWithoutProjectsInput     `json:"upsert,omitempty"`
+	Connect *PartnerWhereUniqueInput               `json:"connect,omitempty"`
 }
 
-type CompanyCreateInput struct {
-	ID          *string                              `json:"id,omitempty"`
-	Selector    *string                              `json:"selector,omitempty"`
-	CompanyName *string                              `json:"companyName,omitempty"`
-	Contacts    *ContactCreateManyInput              `json:"contacts,omitempty"`
-	Projects    *ProjectCreateManyWithoutClientInput `json:"projects,omitempty"`
+type ResourceUpdateManyDataInput struct {
+	Selector   *string                   `json:"selector,omitempty"`
+	Name       *string                   `json:"name,omitempty"`
+	MainType   *ResourceType             `json:"mainType,omitempty"`
+	Types      *ResourceUpdatetypesInput `json:"types,omitempty"`
+	Alias      *string                   `json:"alias,omitempty"`
+	Experience *float64                  `json:"experience,omitempty"`
 }
 
-type CompanyWhereInput struct {
-	ID                       *string             `json:"id,omitempty"`
-	IDNot                    *string             `json:"id_not,omitempty"`
-	IDIn                     []string            `json:"id_in,omitempty"`
-	IDNotIn                  []string            `json:"id_not_in,omitempty"`
-	IDLt                     *string             `json:"id_lt,omitempty"`
-	IDLte                    *string             `json:"id_lte,omitempty"`
-	IDGt                     *string             `json:"id_gt,omitempty"`
-	IDGte                    *string             `json:"id_gte,omitempty"`
-	IDContains               *string             `json:"id_contains,omitempty"`
-	IDNotContains            *string             `json:"id_not_contains,omitempty"`
-	IDStartsWith             *string             `json:"id_starts_with,omitempty"`
-	IDNotStartsWith          *string             `json:"id_not_starts_with,omitempty"`
-	IDEndsWith               *string             `json:"id_ends_with,omitempty"`
-	IDNotEndsWith            *string             `json:"id_not_ends_with,omitempty"`
-	CreatedAt                *string             `json:"createdAt,omitempty"`
-	CreatedAtNot             *string             `json:"createdAt_not,omitempty"`
-	CreatedAtIn              []string            `json:"createdAt_in,omitempty"`
-	CreatedAtNotIn           []string            `json:"createdAt_not_in,omitempty"`
-	CreatedAtLt              *string             `json:"createdAt_lt,omitempty"`
-	CreatedAtLte             *string             `json:"createdAt_lte,omitempty"`
-	CreatedAtGt              *string             `json:"createdAt_gt,omitempty"`
-	CreatedAtGte             *string             `json:"createdAt_gte,omitempty"`
-	UpdatedAt                *string             `json:"updatedAt,omitempty"`
-	UpdatedAtNot             *string             `json:"updatedAt_not,omitempty"`
-	UpdatedAtIn              []string            `json:"updatedAt_in,omitempty"`
-	UpdatedAtNotIn           []string            `json:"updatedAt_not_in,omitempty"`
-	UpdatedAtLt              *string             `json:"updatedAt_lt,omitempty"`
-	UpdatedAtLte             *string             `json:"updatedAt_lte,omitempty"`
-	UpdatedAtGt              *string             `json:"updatedAt_gt,omitempty"`
-	UpdatedAtGte             *string             `json:"updatedAt_gte,omitempty"`
-	Selector                 *string             `json:"selector,omitempty"`
-	SelectorNot              *string             `json:"selector_not,omitempty"`
-	SelectorIn               []string            `json:"selector_in,omitempty"`
-	SelectorNotIn            []string            `json:"selector_not_in,omitempty"`
-	SelectorLt               *string             `json:"selector_lt,omitempty"`
-	SelectorLte              *string             `json:"selector_lte,omitempty"`
-	SelectorGt               *string             `json:"selector_gt,omitempty"`
-	SelectorGte              *string             `json:"selector_gte,omitempty"`
-	SelectorContains         *string             `json:"selector_contains,omitempty"`
-	SelectorNotContains      *string             `json:"selector_not_contains,omitempty"`
-	SelectorStartsWith       *string             `json:"selector_starts_with,omitempty"`
-	SelectorNotStartsWith    *string             `json:"selector_not_starts_with,omitempty"`
-	SelectorEndsWith         *string             `json:"selector_ends_with,omitempty"`
-	SelectorNotEndsWith      *string             `json:"selector_not_ends_with,omitempty"`
-	CompanyName              *string             `json:"companyName,omitempty"`
-	CompanyNameNot           *string             `json:"companyName_not,omitempty"`
-	CompanyNameIn            []string            `json:"companyName_in,omitempty"`
-	CompanyNameNotIn         []string            `json:"companyName_not_in,omitempty"`
-	CompanyNameLt            *string             `json:"companyName_lt,omitempty"`
-	CompanyNameLte           *string             `json:"companyName_lte,omitempty"`
-	CompanyNameGt            *string             `json:"companyName_gt,omitempty"`
-	CompanyNameGte           *string             `json:"companyName_gte,omitempty"`
-	CompanyNameContains      *string             `json:"companyName_contains,omitempty"`
-	CompanyNameNotContains   *string             `json:"companyName_not_contains,omitempty"`
-	CompanyNameStartsWith    *string             `json:"companyName_starts_with,omitempty"`
-	CompanyNameNotStartsWith *string             `json:"companyName_not_starts_with,omitempty"`
-	CompanyNameEndsWith      *string             `json:"companyName_ends_with,omitempty"`
-	CompanyNameNotEndsWith   *string             `json:"companyName_not_ends_with,omitempty"`
-	ContactsEvery            *ContactWhereInput  `json:"contacts_every,omitempty"`
-	ContactsSome             *ContactWhereInput  `json:"contacts_some,omitempty"`
-	ContactsNone             *ContactWhereInput  `json:"contacts_none,omitempty"`
-	ProjectsEvery            *ProjectWhereInput  `json:"projects_every,omitempty"`
-	ProjectsSome             *ProjectWhereInput  `json:"projects_some,omitempty"`
-	ProjectsNone             *ProjectWhereInput  `json:"projects_none,omitempty"`
-	And                      []CompanyWhereInput `json:"AND,omitempty"`
-	Or                       []CompanyWhereInput `json:"OR,omitempty"`
-	Not                      []CompanyWhereInput `json:"NOT,omitempty"`
+type PartnerUpdateWithoutProjectsDataInput struct {
+	Selector    *string                 `json:"selector,omitempty"`
+	CompanyName *string                 `json:"companyName,omitempty"`
+	Contacts    *ContactUpdateManyInput `json:"contacts,omitempty"`
 }
 
-type ContactCreateInput struct {
-	ID    *string      `json:"id,omitempty"`
+type ContactUpdateInput struct {
 	Type  *ContactType `json:"type,omitempty"`
 	Value *string      `json:"value,omitempty"`
 }
 
-type CostWhereInput struct {
-	ID                 *string          `json:"id,omitempty"`
-	IDNot              *string          `json:"id_not,omitempty"`
-	IDIn               []string         `json:"id_in,omitempty"`
-	IDNotIn            []string         `json:"id_not_in,omitempty"`
-	IDLt               *string          `json:"id_lt,omitempty"`
-	IDLte              *string          `json:"id_lte,omitempty"`
-	IDGt               *string          `json:"id_gt,omitempty"`
-	IDGte              *string          `json:"id_gte,omitempty"`
-	IDContains         *string          `json:"id_contains,omitempty"`
-	IDNotContains      *string          `json:"id_not_contains,omitempty"`
-	IDStartsWith       *string          `json:"id_starts_with,omitempty"`
-	IDNotStartsWith    *string          `json:"id_not_starts_with,omitempty"`
-	IDEndsWith         *string          `json:"id_ends_with,omitempty"`
-	IDNotEndsWith      *string          `json:"id_not_ends_with,omitempty"`
-	Units              *string          `json:"units,omitempty"`
-	UnitsNot           *string          `json:"units_not,omitempty"`
-	UnitsIn            []string         `json:"units_in,omitempty"`
-	UnitsNotIn         []string         `json:"units_not_in,omitempty"`
-	UnitsLt            *string          `json:"units_lt,omitempty"`
-	UnitsLte           *string          `json:"units_lte,omitempty"`
-	UnitsGt            *string          `json:"units_gt,omitempty"`
-	UnitsGte           *string          `json:"units_gte,omitempty"`
-	UnitsContains      *string          `json:"units_contains,omitempty"`
-	UnitsNotContains   *string          `json:"units_not_contains,omitempty"`
-	UnitsStartsWith    *string          `json:"units_starts_with,omitempty"`
-	UnitsNotStartsWith *string          `json:"units_not_starts_with,omitempty"`
-	UnitsEndsWith      *string          `json:"units_ends_with,omitempty"`
-	UnitsNotEndsWith   *string          `json:"units_not_ends_with,omitempty"`
-	Value              *float64         `json:"value,omitempty"`
-	ValueNot           *float64         `json:"value_not,omitempty"`
-	ValueIn            []float64        `json:"value_in,omitempty"`
-	ValueNotIn         []float64        `json:"value_not_in,omitempty"`
-	ValueLt            *float64         `json:"value_lt,omitempty"`
-	ValueLte           *float64         `json:"value_lte,omitempty"`
-	ValueGt            *float64         `json:"value_gt,omitempty"`
-	ValueGte           *float64         `json:"value_gte,omitempty"`
-	And                []CostWhereInput `json:"AND,omitempty"`
-	Or                 []CostWhereInput `json:"OR,omitempty"`
-	Not                []CostWhereInput `json:"NOT,omitempty"`
+type PartnerUpsertWithoutProjectsInput struct {
+	Update PartnerUpdateWithoutProjectsDataInput `json:"update"`
+	Create PartnerCreateWithoutProjectsInput     `json:"create"`
 }
 
-type ProjectCreateWithoutClientInput struct {
-	ID       *string                                `json:"id,omitempty"`
-	Selector *string                                `json:"selector,omitempty"`
-	Name     string                                 `json:"name"`
-	Leader   *ResourceCreateOneWithoutLeaderOfInput `json:"leader,omitempty"`
-	Tasks    *TaskCreateManyWithoutProjectInput     `json:"tasks,omitempty"`
+type CostCreateInput struct {
+	ID    *string `json:"id,omitempty"`
+	Units string  `json:"units"`
+	Value float64 `json:"value"`
 }
 
-type CostUpsertNestedInput struct {
-	Update CostUpdateDataInput `json:"update"`
-	Create CostCreateInput     `json:"create"`
+type TaskUpdateManyWithoutProjectInput struct {
+	Create     []TaskCreateWithoutProjectInput                `json:"create,omitempty"`
+	Delete     []TaskWhereUniqueInput                         `json:"delete,omitempty"`
+	Connect    []TaskWhereUniqueInput                         `json:"connect,omitempty"`
+	Set        []TaskWhereUniqueInput                         `json:"set,omitempty"`
+	Disconnect []TaskWhereUniqueInput                         `json:"disconnect,omitempty"`
+	Update     []TaskUpdateWithWhereUniqueWithoutProjectInput `json:"update,omitempty"`
+	Upsert     []TaskUpsertWithWhereUniqueWithoutProjectInput `json:"upsert,omitempty"`
+	DeleteMany []TaskScalarWhereInput                         `json:"deleteMany,omitempty"`
+	UpdateMany []TaskUpdateManyWithWhereNestedInput           `json:"updateMany,omitempty"`
+}
+
+type ContactCreateManyInput struct {
+	Create  []ContactCreateInput      `json:"create,omitempty"`
+	Connect []ContactWhereUniqueInput `json:"connect,omitempty"`
+}
+
+type TaskUpdateWithWhereUniqueWithoutProjectInput struct {
+	Where TaskWhereUniqueInput              `json:"where"`
+	Data  TaskUpdateWithoutProjectDataInput `json:"data"`
 }
 
 type ResourceCreateWithoutLeaderOfInput struct {
@@ -1744,242 +1993,6 @@ type ResourceCreateWithoutLeaderOfInput struct {
 	TaskLeaderOf *TaskCreateManyWithoutLeaderInput    `json:"taskLeaderOf,omitempty"`
 }
 
-type TaskUpdateManyWithoutResourcesInput struct {
-	Create     []TaskCreateWithoutResourcesInput                `json:"create,omitempty"`
-	Delete     []TaskWhereUniqueInput                           `json:"delete,omitempty"`
-	Connect    []TaskWhereUniqueInput                           `json:"connect,omitempty"`
-	Set        []TaskWhereUniqueInput                           `json:"set,omitempty"`
-	Disconnect []TaskWhereUniqueInput                           `json:"disconnect,omitempty"`
-	Update     []TaskUpdateWithWhereUniqueWithoutResourcesInput `json:"update,omitempty"`
-	Upsert     []TaskUpsertWithWhereUniqueWithoutResourcesInput `json:"upsert,omitempty"`
-	DeleteMany []TaskScalarWhereInput                           `json:"deleteMany,omitempty"`
-	UpdateMany []TaskUpdateManyWithWhereNestedInput             `json:"updateMany,omitempty"`
-}
-
-type CostCreateOneInput struct {
-	Create  *CostCreateInput      `json:"create,omitempty"`
-	Connect *CostWhereUniqueInput `json:"connect,omitempty"`
-}
-
-type TaskUpdateWithWhereUniqueWithoutResourcesInput struct {
-	Where TaskWhereUniqueInput                `json:"where"`
-	Data  TaskUpdateWithoutResourcesDataInput `json:"data"`
-}
-
-type TaskCreateManyWithoutResourcesInput struct {
-	Create  []TaskCreateWithoutResourcesInput `json:"create,omitempty"`
-	Connect []TaskWhereUniqueInput            `json:"connect,omitempty"`
-}
-
-type TaskUpdateWithoutResourcesDataInput struct {
-	Selector    *string                                    `json:"selector,omitempty"`
-	Title       *string                                    `json:"title,omitempty"`
-	Description *string                                    `json:"description,omitempty"`
-	Parent      *TaskUpdateOneWithoutChildrenInput         `json:"parent,omitempty"`
-	Leader      *ResourceUpdateOneWithoutTaskLeaderOfInput `json:"leader,omitempty"`
-	State       *TaskState                                 `json:"state,omitempty"`
-	Children    *TaskUpdateManyWithoutParentInput          `json:"children,omitempty"`
-	Project     *ProjectUpdateOneWithoutTasksInput         `json:"project,omitempty"`
-}
-
-type TaskCreateOneWithoutChildrenInput struct {
-	Create  *TaskCreateWithoutChildrenInput `json:"create,omitempty"`
-	Connect *TaskWhereUniqueInput           `json:"connect,omitempty"`
-}
-
-type TaskUpdateOneWithoutChildrenInput struct {
-	Create     *TaskCreateWithoutChildrenInput     `json:"create,omitempty"`
-	Update     *TaskUpdateWithoutChildrenDataInput `json:"update,omitempty"`
-	Upsert     *TaskUpsertWithoutChildrenInput     `json:"upsert,omitempty"`
-	Delete     *bool                               `json:"delete,omitempty"`
-	Disconnect *bool                               `json:"disconnect,omitempty"`
-	Connect    *TaskWhereUniqueInput               `json:"connect,omitempty"`
-}
-
-type ResourceCreateOneWithoutTaskLeaderOfInput struct {
-	Create  *ResourceCreateWithoutTaskLeaderOfInput `json:"create,omitempty"`
-	Connect *ResourceWhereUniqueInput               `json:"connect,omitempty"`
-}
-
-type TaskUpdateWithoutChildrenDataInput struct {
-	Selector    *string                                    `json:"selector,omitempty"`
-	Title       *string                                    `json:"title,omitempty"`
-	Description *string                                    `json:"description,omitempty"`
-	Parent      *TaskUpdateOneWithoutChildrenInput         `json:"parent,omitempty"`
-	Leader      *ResourceUpdateOneWithoutTaskLeaderOfInput `json:"leader,omitempty"`
-	Resources   *ResourceUpdateManyWithoutWorkingOnInput   `json:"resources,omitempty"`
-	State       *TaskState                                 `json:"state,omitempty"`
-	Project     *ProjectUpdateOneWithoutTasksInput         `json:"project,omitempty"`
-}
-
-type ProjectCreateManyWithoutLeaderInput struct {
-	Create  []ProjectCreateWithoutLeaderInput `json:"create,omitempty"`
-	Connect []ProjectWhereUniqueInput         `json:"connect,omitempty"`
-}
-
-type ResourceUpdateOneWithoutTaskLeaderOfInput struct {
-	Create     *ResourceCreateWithoutTaskLeaderOfInput     `json:"create,omitempty"`
-	Update     *ResourceUpdateWithoutTaskLeaderOfDataInput `json:"update,omitempty"`
-	Upsert     *ResourceUpsertWithoutTaskLeaderOfInput     `json:"upsert,omitempty"`
-	Delete     *bool                                       `json:"delete,omitempty"`
-	Disconnect *bool                                       `json:"disconnect,omitempty"`
-	Connect    *ResourceWhereUniqueInput                   `json:"connect,omitempty"`
-}
-
-type CompanyCreateOneWithoutProjectsInput struct {
-	Create  *CompanyCreateWithoutProjectsInput `json:"create,omitempty"`
-	Connect *CompanyWhereUniqueInput           `json:"connect,omitempty"`
-}
-
-type ResourceUpdateWithoutTaskLeaderOfDataInput struct {
-	Selector   *string                              `json:"selector,omitempty"`
-	Name       *string                              `json:"name,omitempty"`
-	MainType   *ResourceType                        `json:"mainType,omitempty"`
-	Types      *ResourceUpdatetypesInput            `json:"types,omitempty"`
-	Alias      *string                              `json:"alias,omitempty"`
-	Experience *float64                             `json:"experience,omitempty"`
-	Cost       *CostUpdateOneRequiredInput          `json:"cost,omitempty"`
-	LeaderOf   *ProjectUpdateManyWithoutLeaderInput `json:"leaderOf,omitempty"`
-	WorkingOn  *TaskUpdateManyWithoutResourcesInput `json:"workingOn,omitempty"`
-}
-
-type TaskCreateManyWithoutProjectInput struct {
-	Create  []TaskCreateWithoutProjectInput `json:"create,omitempty"`
-	Connect []TaskWhereUniqueInput          `json:"connect,omitempty"`
-}
-
-type ProjectUpdateManyWithoutLeaderInput struct {
-	Create     []ProjectCreateWithoutLeaderInput                `json:"create,omitempty"`
-	Delete     []ProjectWhereUniqueInput                        `json:"delete,omitempty"`
-	Connect    []ProjectWhereUniqueInput                        `json:"connect,omitempty"`
-	Set        []ProjectWhereUniqueInput                        `json:"set,omitempty"`
-	Disconnect []ProjectWhereUniqueInput                        `json:"disconnect,omitempty"`
-	Update     []ProjectUpdateWithWhereUniqueWithoutLeaderInput `json:"update,omitempty"`
-	Upsert     []ProjectUpsertWithWhereUniqueWithoutLeaderInput `json:"upsert,omitempty"`
-	DeleteMany []ProjectScalarWhereInput                        `json:"deleteMany,omitempty"`
-	UpdateMany []ProjectUpdateManyWithWhereNestedInput          `json:"updateMany,omitempty"`
-}
-
-type ResourceCreateManyWithoutWorkingOnInput struct {
-	Create  []ResourceCreateWithoutWorkingOnInput `json:"create,omitempty"`
-	Connect []ResourceWhereUniqueInput            `json:"connect,omitempty"`
-}
-
-type ProjectUpdateWithWhereUniqueWithoutLeaderInput struct {
-	Where ProjectWhereUniqueInput             `json:"where"`
-	Data  ProjectUpdateWithoutLeaderDataInput `json:"data"`
-}
-
-type TaskSubscriptionWhereInput struct {
-	MutationIn                 []MutationType               `json:"mutation_in,omitempty"`
-	UpdatedFieldsContains      *string                      `json:"updatedFields_contains,omitempty"`
-	UpdatedFieldsContainsEvery []string                     `json:"updatedFields_contains_every,omitempty"`
-	UpdatedFieldsContainsSome  []string                     `json:"updatedFields_contains_some,omitempty"`
-	Node                       *TaskWhereInput              `json:"node,omitempty"`
-	And                        []TaskSubscriptionWhereInput `json:"AND,omitempty"`
-	Or                         []TaskSubscriptionWhereInput `json:"OR,omitempty"`
-	Not                        []TaskSubscriptionWhereInput `json:"NOT,omitempty"`
-}
-
-type ProjectUpdateWithoutLeaderDataInput struct {
-	Selector *string                                       `json:"selector,omitempty"`
-	Name     *string                                       `json:"name,omitempty"`
-	Client   *CompanyUpdateOneRequiredWithoutProjectsInput `json:"client,omitempty"`
-	Tasks    *TaskUpdateManyWithoutProjectInput            `json:"tasks,omitempty"`
-}
-
-type ContactSubscriptionWhereInput struct {
-	MutationIn                 []MutationType                  `json:"mutation_in,omitempty"`
-	UpdatedFieldsContains      *string                         `json:"updatedFields_contains,omitempty"`
-	UpdatedFieldsContainsEvery []string                        `json:"updatedFields_contains_every,omitempty"`
-	UpdatedFieldsContainsSome  []string                        `json:"updatedFields_contains_some,omitempty"`
-	Node                       *ContactWhereInput              `json:"node,omitempty"`
-	And                        []ContactSubscriptionWhereInput `json:"AND,omitempty"`
-	Or                         []ContactSubscriptionWhereInput `json:"OR,omitempty"`
-	Not                        []ContactSubscriptionWhereInput `json:"NOT,omitempty"`
-}
-
-type CompanyUpdateOneRequiredWithoutProjectsInput struct {
-	Create  *CompanyCreateWithoutProjectsInput     `json:"create,omitempty"`
-	Update  *CompanyUpdateWithoutProjectsDataInput `json:"update,omitempty"`
-	Upsert  *CompanyUpsertWithoutProjectsInput     `json:"upsert,omitempty"`
-	Connect *CompanyWhereUniqueInput               `json:"connect,omitempty"`
-}
-
-type TaskUpdateInput struct {
-	Selector    *string                                    `json:"selector,omitempty"`
-	Title       *string                                    `json:"title,omitempty"`
-	Description *string                                    `json:"description,omitempty"`
-	Parent      *TaskUpdateOneWithoutChildrenInput         `json:"parent,omitempty"`
-	Leader      *ResourceUpdateOneWithoutTaskLeaderOfInput `json:"leader,omitempty"`
-	Resources   *ResourceUpdateManyWithoutWorkingOnInput   `json:"resources,omitempty"`
-	State       *TaskState                                 `json:"state,omitempty"`
-	Children    *TaskUpdateManyWithoutParentInput          `json:"children,omitempty"`
-	Project     *ProjectUpdateOneWithoutTasksInput         `json:"project,omitempty"`
-}
-
-type CompanyUpdateWithoutProjectsDataInput struct {
-	Selector    *string                 `json:"selector,omitempty"`
-	CompanyName *string                 `json:"companyName,omitempty"`
-	Contacts    *ContactUpdateManyInput `json:"contacts,omitempty"`
-}
-
-type ResourceCreateInput struct {
-	ID           *string                              `json:"id,omitempty"`
-	Selector     *string                              `json:"selector,omitempty"`
-	Name         string                               `json:"name"`
-	MainType     ResourceType                         `json:"mainType"`
-	Types        *ResourceCreatetypesInput            `json:"types,omitempty"`
-	Alias        *string                              `json:"alias,omitempty"`
-	Experience   float64                              `json:"experience"`
-	Cost         CostCreateOneInput                   `json:"cost"`
-	LeaderOf     *ProjectCreateManyWithoutLeaderInput `json:"leaderOf,omitempty"`
-	WorkingOn    *TaskCreateManyWithoutResourcesInput `json:"workingOn,omitempty"`
-	TaskLeaderOf *TaskCreateManyWithoutLeaderInput    `json:"taskLeaderOf,omitempty"`
-}
-
-type CompanyUpsertWithoutProjectsInput struct {
-	Update CompanyUpdateWithoutProjectsDataInput `json:"update"`
-	Create CompanyCreateWithoutProjectsInput     `json:"create"`
-}
-
-type ProjectCreateInput struct {
-	ID       *string                                `json:"id,omitempty"`
-	Selector *string                                `json:"selector,omitempty"`
-	Name     string                                 `json:"name"`
-	Client   CompanyCreateOneWithoutProjectsInput   `json:"client"`
-	Leader   *ResourceCreateOneWithoutLeaderOfInput `json:"leader,omitempty"`
-	Tasks    *TaskCreateManyWithoutProjectInput     `json:"tasks,omitempty"`
-}
-
-type TaskUpdateManyWithoutProjectInput struct {
-	Create     []TaskCreateWithoutProjectInput                `json:"create,omitempty"`
-	Delete     []TaskWhereUniqueInput                         `json:"delete,omitempty"`
-	Connect    []TaskWhereUniqueInput                         `json:"connect,omitempty"`
-	Set        []TaskWhereUniqueInput                         `json:"set,omitempty"`
-	Disconnect []TaskWhereUniqueInput                         `json:"disconnect,omitempty"`
-	Update     []TaskUpdateWithWhereUniqueWithoutProjectInput `json:"update,omitempty"`
-	Upsert     []TaskUpsertWithWhereUniqueWithoutProjectInput `json:"upsert,omitempty"`
-	DeleteMany []TaskScalarWhereInput                         `json:"deleteMany,omitempty"`
-	UpdateMany []TaskUpdateManyWithWhereNestedInput           `json:"updateMany,omitempty"`
-}
-
-type ContactUpdateManyMutationInput struct {
-	Type  *ContactType `json:"type,omitempty"`
-	Value *string      `json:"value,omitempty"`
-}
-
-type TaskUpdateWithWhereUniqueWithoutProjectInput struct {
-	Where TaskWhereUniqueInput              `json:"where"`
-	Data  TaskUpdateWithoutProjectDataInput `json:"data"`
-}
-
-type ProjectUpsertWithWhereUniqueWithoutClientInput struct {
-	Where  ProjectWhereUniqueInput             `json:"where"`
-	Update ProjectUpdateWithoutClientDataInput `json:"update"`
-	Create ProjectCreateWithoutClientInput     `json:"create"`
-}
-
 type TaskUpdateWithoutProjectDataInput struct {
 	Selector    *string                                    `json:"selector,omitempty"`
 	Title       *string                                    `json:"title,omitempty"`
@@ -1991,9 +2004,16 @@ type TaskUpdateWithoutProjectDataInput struct {
 	Children    *TaskUpdateManyWithoutParentInput          `json:"children,omitempty"`
 }
 
-type TaskUpsertWithoutChildrenInput struct {
-	Update TaskUpdateWithoutChildrenDataInput `json:"update"`
-	Create TaskCreateWithoutChildrenInput     `json:"create"`
+type TaskCreateWithoutResourcesInput struct {
+	ID          *string                                    `json:"id,omitempty"`
+	Selector    *string                                    `json:"selector,omitempty"`
+	Title       string                                     `json:"title"`
+	Description string                                     `json:"description"`
+	Parent      *TaskCreateOneWithoutChildrenInput         `json:"parent,omitempty"`
+	Leader      *ResourceCreateOneWithoutTaskLeaderOfInput `json:"leader,omitempty"`
+	State       *TaskState                                 `json:"state,omitempty"`
+	Children    *TaskCreateManyWithoutParentInput          `json:"children,omitempty"`
+	Project     *ProjectCreateOneWithoutTasksInput         `json:"project,omitempty"`
 }
 
 type ResourceUpdateManyWithoutWorkingOnInput struct {
@@ -2006,193 +2026,6 @@ type ResourceUpdateManyWithoutWorkingOnInput struct {
 	Upsert     []ResourceUpsertWithWhereUniqueWithoutWorkingOnInput `json:"upsert,omitempty"`
 	DeleteMany []ResourceScalarWhereInput                           `json:"deleteMany,omitempty"`
 	UpdateMany []ResourceUpdateManyWithWhereNestedInput             `json:"updateMany,omitempty"`
-}
-
-type ProjectUpdateManyWithWhereNestedInput struct {
-	Where ProjectScalarWhereInput    `json:"where"`
-	Data  ProjectUpdateManyDataInput `json:"data"`
-}
-
-type ResourceUpdateWithWhereUniqueWithoutWorkingOnInput struct {
-	Where ResourceWhereUniqueInput                `json:"where"`
-	Data  ResourceUpdateWithoutWorkingOnDataInput `json:"data"`
-}
-
-type ContactCreateManyInput struct {
-	Create  []ContactCreateInput      `json:"create,omitempty"`
-	Connect []ContactWhereUniqueInput `json:"connect,omitempty"`
-}
-
-type ResourceUpdateWithoutWorkingOnDataInput struct {
-	Selector     *string                              `json:"selector,omitempty"`
-	Name         *string                              `json:"name,omitempty"`
-	MainType     *ResourceType                        `json:"mainType,omitempty"`
-	Types        *ResourceUpdatetypesInput            `json:"types,omitempty"`
-	Alias        *string                              `json:"alias,omitempty"`
-	Experience   *float64                             `json:"experience,omitempty"`
-	Cost         *CostUpdateOneRequiredInput          `json:"cost,omitempty"`
-	LeaderOf     *ProjectUpdateManyWithoutLeaderInput `json:"leaderOf,omitempty"`
-	TaskLeaderOf *TaskUpdateManyWithoutLeaderInput    `json:"taskLeaderOf,omitempty"`
-}
-
-type ResourceCreateOneWithoutLeaderOfInput struct {
-	Create  *ResourceCreateWithoutLeaderOfInput `json:"create,omitempty"`
-	Connect *ResourceWhereUniqueInput           `json:"connect,omitempty"`
-}
-
-type TaskUpdateManyWithoutLeaderInput struct {
-	Create     []TaskCreateWithoutLeaderInput                `json:"create,omitempty"`
-	Delete     []TaskWhereUniqueInput                        `json:"delete,omitempty"`
-	Connect    []TaskWhereUniqueInput                        `json:"connect,omitempty"`
-	Set        []TaskWhereUniqueInput                        `json:"set,omitempty"`
-	Disconnect []TaskWhereUniqueInput                        `json:"disconnect,omitempty"`
-	Update     []TaskUpdateWithWhereUniqueWithoutLeaderInput `json:"update,omitempty"`
-	Upsert     []TaskUpsertWithWhereUniqueWithoutLeaderInput `json:"upsert,omitempty"`
-	DeleteMany []TaskScalarWhereInput                        `json:"deleteMany,omitempty"`
-	UpdateMany []TaskUpdateManyWithWhereNestedInput          `json:"updateMany,omitempty"`
-}
-
-type CostCreateInput struct {
-	ID    *string `json:"id,omitempty"`
-	Units string  `json:"units"`
-	Value float64 `json:"value"`
-}
-
-type TaskUpdateWithWhereUniqueWithoutLeaderInput struct {
-	Where TaskWhereUniqueInput             `json:"where"`
-	Data  TaskUpdateWithoutLeaderDataInput `json:"data"`
-}
-
-type TaskCreateWithoutChildrenInput struct {
-	ID          *string                                    `json:"id,omitempty"`
-	Selector    *string                                    `json:"selector,omitempty"`
-	Title       string                                     `json:"title"`
-	Description string                                     `json:"description"`
-	Parent      *TaskCreateOneWithoutChildrenInput         `json:"parent,omitempty"`
-	Leader      *ResourceCreateOneWithoutTaskLeaderOfInput `json:"leader,omitempty"`
-	Resources   *ResourceCreateManyWithoutWorkingOnInput   `json:"resources,omitempty"`
-	State       *TaskState                                 `json:"state,omitempty"`
-	Project     *ProjectCreateOneWithoutTasksInput         `json:"project,omitempty"`
-}
-
-type TaskUpdateWithoutLeaderDataInput struct {
-	Selector    *string                                  `json:"selector,omitempty"`
-	Title       *string                                  `json:"title,omitempty"`
-	Description *string                                  `json:"description,omitempty"`
-	Parent      *TaskUpdateOneWithoutChildrenInput       `json:"parent,omitempty"`
-	Resources   *ResourceUpdateManyWithoutWorkingOnInput `json:"resources,omitempty"`
-	State       *TaskState                               `json:"state,omitempty"`
-	Children    *TaskUpdateManyWithoutParentInput        `json:"children,omitempty"`
-	Project     *ProjectUpdateOneWithoutTasksInput       `json:"project,omitempty"`
-}
-
-type ProjectCreateWithoutLeaderInput struct {
-	ID       *string                              `json:"id,omitempty"`
-	Selector *string                              `json:"selector,omitempty"`
-	Name     string                               `json:"name"`
-	Client   CompanyCreateOneWithoutProjectsInput `json:"client"`
-	Tasks    *TaskCreateManyWithoutProjectInput   `json:"tasks,omitempty"`
-}
-
-type TaskUpdateManyWithoutParentInput struct {
-	Create     []TaskCreateWithoutParentInput                `json:"create,omitempty"`
-	Delete     []TaskWhereUniqueInput                        `json:"delete,omitempty"`
-	Connect    []TaskWhereUniqueInput                        `json:"connect,omitempty"`
-	Set        []TaskWhereUniqueInput                        `json:"set,omitempty"`
-	Disconnect []TaskWhereUniqueInput                        `json:"disconnect,omitempty"`
-	Update     []TaskUpdateWithWhereUniqueWithoutParentInput `json:"update,omitempty"`
-	Upsert     []TaskUpsertWithWhereUniqueWithoutParentInput `json:"upsert,omitempty"`
-	DeleteMany []TaskScalarWhereInput                        `json:"deleteMany,omitempty"`
-	UpdateMany []TaskUpdateManyWithWhereNestedInput          `json:"updateMany,omitempty"`
-}
-
-type TaskCreateWithoutProjectInput struct {
-	ID          *string                                    `json:"id,omitempty"`
-	Selector    *string                                    `json:"selector,omitempty"`
-	Title       string                                     `json:"title"`
-	Description string                                     `json:"description"`
-	Parent      *TaskCreateOneWithoutChildrenInput         `json:"parent,omitempty"`
-	Leader      *ResourceCreateOneWithoutTaskLeaderOfInput `json:"leader,omitempty"`
-	Resources   *ResourceCreateManyWithoutWorkingOnInput   `json:"resources,omitempty"`
-	State       *TaskState                                 `json:"state,omitempty"`
-	Children    *TaskCreateManyWithoutParentInput          `json:"children,omitempty"`
-}
-
-type TaskUpdateWithWhereUniqueWithoutParentInput struct {
-	Where TaskWhereUniqueInput             `json:"where"`
-	Data  TaskUpdateWithoutParentDataInput `json:"data"`
-}
-
-type ProjectSubscriptionWhereInput struct {
-	MutationIn                 []MutationType                  `json:"mutation_in,omitempty"`
-	UpdatedFieldsContains      *string                         `json:"updatedFields_contains,omitempty"`
-	UpdatedFieldsContainsEvery []string                        `json:"updatedFields_contains_every,omitempty"`
-	UpdatedFieldsContainsSome  []string                        `json:"updatedFields_contains_some,omitempty"`
-	Node                       *ProjectWhereInput              `json:"node,omitempty"`
-	And                        []ProjectSubscriptionWhereInput `json:"AND,omitempty"`
-	Or                         []ProjectSubscriptionWhereInput `json:"OR,omitempty"`
-	Not                        []ProjectSubscriptionWhereInput `json:"NOT,omitempty"`
-}
-
-type TaskUpdateWithoutParentDataInput struct {
-	Selector    *string                                    `json:"selector,omitempty"`
-	Title       *string                                    `json:"title,omitempty"`
-	Description *string                                    `json:"description,omitempty"`
-	Leader      *ResourceUpdateOneWithoutTaskLeaderOfInput `json:"leader,omitempty"`
-	Resources   *ResourceUpdateManyWithoutWorkingOnInput   `json:"resources,omitempty"`
-	State       *TaskState                                 `json:"state,omitempty"`
-	Children    *TaskUpdateManyWithoutParentInput          `json:"children,omitempty"`
-	Project     *ProjectUpdateOneWithoutTasksInput         `json:"project,omitempty"`
-}
-
-type ResourceUpdateManyMutationInput struct {
-	Selector   *string                   `json:"selector,omitempty"`
-	Name       *string                   `json:"name,omitempty"`
-	MainType   *ResourceType             `json:"mainType,omitempty"`
-	Types      *ResourceUpdatetypesInput `json:"types,omitempty"`
-	Alias      *string                   `json:"alias,omitempty"`
-	Experience *float64                  `json:"experience,omitempty"`
-}
-
-type ProjectUpdateOneWithoutTasksInput struct {
-	Create     *ProjectCreateWithoutTasksInput     `json:"create,omitempty"`
-	Update     *ProjectUpdateWithoutTasksDataInput `json:"update,omitempty"`
-	Upsert     *ProjectUpsertWithoutTasksInput     `json:"upsert,omitempty"`
-	Delete     *bool                               `json:"delete,omitempty"`
-	Disconnect *bool                               `json:"disconnect,omitempty"`
-	Connect    *ProjectWhereUniqueInput            `json:"connect,omitempty"`
-}
-
-type CostUpdateManyMutationInput struct {
-	Units *string  `json:"units,omitempty"`
-	Value *float64 `json:"value,omitempty"`
-}
-
-type ProjectUpdateWithoutTasksDataInput struct {
-	Selector *string                                       `json:"selector,omitempty"`
-	Name     *string                                       `json:"name,omitempty"`
-	Client   *CompanyUpdateOneRequiredWithoutProjectsInput `json:"client,omitempty"`
-	Leader   *ResourceUpdateOneWithoutLeaderOfInput        `json:"leader,omitempty"`
-}
-
-type ResourceWhereUniqueInput struct {
-	ID       *string `json:"id,omitempty"`
-	Selector *string `json:"selector,omitempty"`
-}
-
-type ProjectUpsertWithoutTasksInput struct {
-	Update ProjectUpdateWithoutTasksDataInput `json:"update"`
-	Create ProjectCreateWithoutTasksInput     `json:"create"`
-}
-
-type ResourceCreatetypesInput struct {
-	Set []ResourceType `json:"set,omitempty"`
-}
-
-type TaskUpsertWithWhereUniqueWithoutParentInput struct {
-	Where  TaskWhereUniqueInput             `json:"where"`
-	Update TaskUpdateWithoutParentDataInput `json:"update"`
-	Create TaskCreateWithoutParentInput     `json:"create"`
 }
 
 type ResourceCreateWithoutTaskLeaderOfInput struct {
@@ -2208,86 +2041,32 @@ type ResourceCreateWithoutTaskLeaderOfInput struct {
 	WorkingOn  *TaskCreateManyWithoutResourcesInput `json:"workingOn,omitempty"`
 }
 
-type TaskScalarWhereInput struct {
-	ID                       *string                `json:"id,omitempty"`
-	IDNot                    *string                `json:"id_not,omitempty"`
-	IDIn                     []string               `json:"id_in,omitempty"`
-	IDNotIn                  []string               `json:"id_not_in,omitempty"`
-	IDLt                     *string                `json:"id_lt,omitempty"`
-	IDLte                    *string                `json:"id_lte,omitempty"`
-	IDGt                     *string                `json:"id_gt,omitempty"`
-	IDGte                    *string                `json:"id_gte,omitempty"`
-	IDContains               *string                `json:"id_contains,omitempty"`
-	IDNotContains            *string                `json:"id_not_contains,omitempty"`
-	IDStartsWith             *string                `json:"id_starts_with,omitempty"`
-	IDNotStartsWith          *string                `json:"id_not_starts_with,omitempty"`
-	IDEndsWith               *string                `json:"id_ends_with,omitempty"`
-	IDNotEndsWith            *string                `json:"id_not_ends_with,omitempty"`
-	CreatedAt                *string                `json:"createdAt,omitempty"`
-	CreatedAtNot             *string                `json:"createdAt_not,omitempty"`
-	CreatedAtIn              []string               `json:"createdAt_in,omitempty"`
-	CreatedAtNotIn           []string               `json:"createdAt_not_in,omitempty"`
-	CreatedAtLt              *string                `json:"createdAt_lt,omitempty"`
-	CreatedAtLte             *string                `json:"createdAt_lte,omitempty"`
-	CreatedAtGt              *string                `json:"createdAt_gt,omitempty"`
-	CreatedAtGte             *string                `json:"createdAt_gte,omitempty"`
-	UpdatedAt                *string                `json:"updatedAt,omitempty"`
-	UpdatedAtNot             *string                `json:"updatedAt_not,omitempty"`
-	UpdatedAtIn              []string               `json:"updatedAt_in,omitempty"`
-	UpdatedAtNotIn           []string               `json:"updatedAt_not_in,omitempty"`
-	UpdatedAtLt              *string                `json:"updatedAt_lt,omitempty"`
-	UpdatedAtLte             *string                `json:"updatedAt_lte,omitempty"`
-	UpdatedAtGt              *string                `json:"updatedAt_gt,omitempty"`
-	UpdatedAtGte             *string                `json:"updatedAt_gte,omitempty"`
-	Selector                 *string                `json:"selector,omitempty"`
-	SelectorNot              *string                `json:"selector_not,omitempty"`
-	SelectorIn               []string               `json:"selector_in,omitempty"`
-	SelectorNotIn            []string               `json:"selector_not_in,omitempty"`
-	SelectorLt               *string                `json:"selector_lt,omitempty"`
-	SelectorLte              *string                `json:"selector_lte,omitempty"`
-	SelectorGt               *string                `json:"selector_gt,omitempty"`
-	SelectorGte              *string                `json:"selector_gte,omitempty"`
-	SelectorContains         *string                `json:"selector_contains,omitempty"`
-	SelectorNotContains      *string                `json:"selector_not_contains,omitempty"`
-	SelectorStartsWith       *string                `json:"selector_starts_with,omitempty"`
-	SelectorNotStartsWith    *string                `json:"selector_not_starts_with,omitempty"`
-	SelectorEndsWith         *string                `json:"selector_ends_with,omitempty"`
-	SelectorNotEndsWith      *string                `json:"selector_not_ends_with,omitempty"`
-	Title                    *string                `json:"title,omitempty"`
-	TitleNot                 *string                `json:"title_not,omitempty"`
-	TitleIn                  []string               `json:"title_in,omitempty"`
-	TitleNotIn               []string               `json:"title_not_in,omitempty"`
-	TitleLt                  *string                `json:"title_lt,omitempty"`
-	TitleLte                 *string                `json:"title_lte,omitempty"`
-	TitleGt                  *string                `json:"title_gt,omitempty"`
-	TitleGte                 *string                `json:"title_gte,omitempty"`
-	TitleContains            *string                `json:"title_contains,omitempty"`
-	TitleNotContains         *string                `json:"title_not_contains,omitempty"`
-	TitleStartsWith          *string                `json:"title_starts_with,omitempty"`
-	TitleNotStartsWith       *string                `json:"title_not_starts_with,omitempty"`
-	TitleEndsWith            *string                `json:"title_ends_with,omitempty"`
-	TitleNotEndsWith         *string                `json:"title_not_ends_with,omitempty"`
-	Description              *string                `json:"description,omitempty"`
-	DescriptionNot           *string                `json:"description_not,omitempty"`
-	DescriptionIn            []string               `json:"description_in,omitempty"`
-	DescriptionNotIn         []string               `json:"description_not_in,omitempty"`
-	DescriptionLt            *string                `json:"description_lt,omitempty"`
-	DescriptionLte           *string                `json:"description_lte,omitempty"`
-	DescriptionGt            *string                `json:"description_gt,omitempty"`
-	DescriptionGte           *string                `json:"description_gte,omitempty"`
-	DescriptionContains      *string                `json:"description_contains,omitempty"`
-	DescriptionNotContains   *string                `json:"description_not_contains,omitempty"`
-	DescriptionStartsWith    *string                `json:"description_starts_with,omitempty"`
-	DescriptionNotStartsWith *string                `json:"description_not_starts_with,omitempty"`
-	DescriptionEndsWith      *string                `json:"description_ends_with,omitempty"`
-	DescriptionNotEndsWith   *string                `json:"description_not_ends_with,omitempty"`
-	State                    *TaskState             `json:"state,omitempty"`
-	StateNot                 *TaskState             `json:"state_not,omitempty"`
-	StateIn                  []TaskState            `json:"state_in,omitempty"`
-	StateNotIn               []TaskState            `json:"state_not_in,omitempty"`
-	And                      []TaskScalarWhereInput `json:"AND,omitempty"`
-	Or                       []TaskScalarWhereInput `json:"OR,omitempty"`
-	Not                      []TaskScalarWhereInput `json:"NOT,omitempty"`
+type ResourceUpdateWithWhereUniqueWithoutWorkingOnInput struct {
+	Where ResourceWhereUniqueInput                `json:"where"`
+	Data  ResourceUpdateWithoutWorkingOnDataInput `json:"data"`
+}
+
+type ContactSubscriptionWhereInput struct {
+	MutationIn                 []MutationType                  `json:"mutation_in,omitempty"`
+	UpdatedFieldsContains      *string                         `json:"updatedFields_contains,omitempty"`
+	UpdatedFieldsContainsEvery []string                        `json:"updatedFields_contains_every,omitempty"`
+	UpdatedFieldsContainsSome  []string                        `json:"updatedFields_contains_some,omitempty"`
+	Node                       *ContactWhereInput              `json:"node,omitempty"`
+	And                        []ContactSubscriptionWhereInput `json:"AND,omitempty"`
+	Or                         []ContactSubscriptionWhereInput `json:"OR,omitempty"`
+	Not                        []ContactSubscriptionWhereInput `json:"NOT,omitempty"`
+}
+
+type ResourceUpdateWithoutWorkingOnDataInput struct {
+	Selector     *string                              `json:"selector,omitempty"`
+	Name         *string                              `json:"name,omitempty"`
+	MainType     *ResourceType                        `json:"mainType,omitempty"`
+	Types        *ResourceUpdatetypesInput            `json:"types,omitempty"`
+	Alias        *string                              `json:"alias,omitempty"`
+	Experience   *float64                             `json:"experience,omitempty"`
+	Cost         *CostUpdateOneRequiredInput          `json:"cost,omitempty"`
+	LeaderOf     *ProjectUpdateManyWithoutLeaderInput `json:"leaderOf,omitempty"`
+	TaskLeaderOf *TaskUpdateManyWithoutLeaderInput    `json:"taskLeaderOf,omitempty"`
 }
 
 type TaskWhereInput struct {
@@ -2381,9 +2160,122 @@ type TaskWhereInput struct {
 	Not                      []TaskWhereInput    `json:"NOT,omitempty"`
 }
 
-type TaskUpdateManyWithWhereNestedInput struct {
-	Where TaskScalarWhereInput    `json:"where"`
-	Data  TaskUpdateManyDataInput `json:"data"`
+type TaskUpdateManyWithoutLeaderInput struct {
+	Create     []TaskCreateWithoutLeaderInput                `json:"create,omitempty"`
+	Delete     []TaskWhereUniqueInput                        `json:"delete,omitempty"`
+	Connect    []TaskWhereUniqueInput                        `json:"connect,omitempty"`
+	Set        []TaskWhereUniqueInput                        `json:"set,omitempty"`
+	Disconnect []TaskWhereUniqueInput                        `json:"disconnect,omitempty"`
+	Update     []TaskUpdateWithWhereUniqueWithoutLeaderInput `json:"update,omitempty"`
+	Upsert     []TaskUpsertWithWhereUniqueWithoutLeaderInput `json:"upsert,omitempty"`
+	DeleteMany []TaskScalarWhereInput                        `json:"deleteMany,omitempty"`
+	UpdateMany []TaskUpdateManyWithWhereNestedInput          `json:"updateMany,omitempty"`
+}
+
+type PartnerUpdateManyMutationInput struct {
+	Selector    *string `json:"selector,omitempty"`
+	CompanyName *string `json:"companyName,omitempty"`
+}
+
+type TaskUpdateWithWhereUniqueWithoutLeaderInput struct {
+	Where TaskWhereUniqueInput             `json:"where"`
+	Data  TaskUpdateWithoutLeaderDataInput `json:"data"`
+}
+
+type ResourceWhereUniqueInput struct {
+	ID       *string `json:"id,omitempty"`
+	Selector *string `json:"selector,omitempty"`
+}
+
+type TaskUpdateWithoutLeaderDataInput struct {
+	Selector    *string                                  `json:"selector,omitempty"`
+	Title       *string                                  `json:"title,omitempty"`
+	Description *string                                  `json:"description,omitempty"`
+	Parent      *TaskUpdateOneWithoutChildrenInput       `json:"parent,omitempty"`
+	Resources   *ResourceUpdateManyWithoutWorkingOnInput `json:"resources,omitempty"`
+	State       *TaskState                               `json:"state,omitempty"`
+	Children    *TaskUpdateManyWithoutParentInput        `json:"children,omitempty"`
+	Project     *ProjectUpdateOneWithoutTasksInput       `json:"project,omitempty"`
+}
+
+type CostUpdateManyMutationInput struct {
+	Units *string  `json:"units,omitempty"`
+	Value *float64 `json:"value,omitempty"`
+}
+
+type TaskUpdateManyWithoutParentInput struct {
+	Create     []TaskCreateWithoutParentInput                `json:"create,omitempty"`
+	Delete     []TaskWhereUniqueInput                        `json:"delete,omitempty"`
+	Connect    []TaskWhereUniqueInput                        `json:"connect,omitempty"`
+	Set        []TaskWhereUniqueInput                        `json:"set,omitempty"`
+	Disconnect []TaskWhereUniqueInput                        `json:"disconnect,omitempty"`
+	Update     []TaskUpdateWithWhereUniqueWithoutParentInput `json:"update,omitempty"`
+	Upsert     []TaskUpsertWithWhereUniqueWithoutParentInput `json:"upsert,omitempty"`
+	DeleteMany []TaskScalarWhereInput                        `json:"deleteMany,omitempty"`
+	UpdateMany []TaskUpdateManyWithWhereNestedInput          `json:"updateMany,omitempty"`
+}
+
+type CostCreateOneInput struct {
+	Create  *CostCreateInput      `json:"create,omitempty"`
+	Connect *CostWhereUniqueInput `json:"connect,omitempty"`
+}
+
+type TaskUpdateWithWhereUniqueWithoutParentInput struct {
+	Where TaskWhereUniqueInput             `json:"where"`
+	Data  TaskUpdateWithoutParentDataInput `json:"data"`
+}
+
+type CostWhereInput struct {
+	ID                 *string          `json:"id,omitempty"`
+	IDNot              *string          `json:"id_not,omitempty"`
+	IDIn               []string         `json:"id_in,omitempty"`
+	IDNotIn            []string         `json:"id_not_in,omitempty"`
+	IDLt               *string          `json:"id_lt,omitempty"`
+	IDLte              *string          `json:"id_lte,omitempty"`
+	IDGt               *string          `json:"id_gt,omitempty"`
+	IDGte              *string          `json:"id_gte,omitempty"`
+	IDContains         *string          `json:"id_contains,omitempty"`
+	IDNotContains      *string          `json:"id_not_contains,omitempty"`
+	IDStartsWith       *string          `json:"id_starts_with,omitempty"`
+	IDNotStartsWith    *string          `json:"id_not_starts_with,omitempty"`
+	IDEndsWith         *string          `json:"id_ends_with,omitempty"`
+	IDNotEndsWith      *string          `json:"id_not_ends_with,omitempty"`
+	Units              *string          `json:"units,omitempty"`
+	UnitsNot           *string          `json:"units_not,omitempty"`
+	UnitsIn            []string         `json:"units_in,omitempty"`
+	UnitsNotIn         []string         `json:"units_not_in,omitempty"`
+	UnitsLt            *string          `json:"units_lt,omitempty"`
+	UnitsLte           *string          `json:"units_lte,omitempty"`
+	UnitsGt            *string          `json:"units_gt,omitempty"`
+	UnitsGte           *string          `json:"units_gte,omitempty"`
+	UnitsContains      *string          `json:"units_contains,omitempty"`
+	UnitsNotContains   *string          `json:"units_not_contains,omitempty"`
+	UnitsStartsWith    *string          `json:"units_starts_with,omitempty"`
+	UnitsNotStartsWith *string          `json:"units_not_starts_with,omitempty"`
+	UnitsEndsWith      *string          `json:"units_ends_with,omitempty"`
+	UnitsNotEndsWith   *string          `json:"units_not_ends_with,omitempty"`
+	Value              *float64         `json:"value,omitempty"`
+	ValueNot           *float64         `json:"value_not,omitempty"`
+	ValueIn            []float64        `json:"value_in,omitempty"`
+	ValueNotIn         []float64        `json:"value_not_in,omitempty"`
+	ValueLt            *float64         `json:"value_lt,omitempty"`
+	ValueLte           *float64         `json:"value_lte,omitempty"`
+	ValueGt            *float64         `json:"value_gt,omitempty"`
+	ValueGte           *float64         `json:"value_gte,omitempty"`
+	And                []CostWhereInput `json:"AND,omitempty"`
+	Or                 []CostWhereInput `json:"OR,omitempty"`
+	Not                []CostWhereInput `json:"NOT,omitempty"`
+}
+
+type TaskUpdateWithoutParentDataInput struct {
+	Selector    *string                                    `json:"selector,omitempty"`
+	Title       *string                                    `json:"title,omitempty"`
+	Description *string                                    `json:"description,omitempty"`
+	Leader      *ResourceUpdateOneWithoutTaskLeaderOfInput `json:"leader,omitempty"`
+	Resources   *ResourceUpdateManyWithoutWorkingOnInput   `json:"resources,omitempty"`
+	State       *TaskState                                 `json:"state,omitempty"`
+	Children    *TaskUpdateManyWithoutParentInput          `json:"children,omitempty"`
+	Project     *ProjectUpdateOneWithoutTasksInput         `json:"project,omitempty"`
 }
 
 type ProjectUpdateManyMutationInput struct {
@@ -2391,11 +2283,13 @@ type ProjectUpdateManyMutationInput struct {
 	Name     *string `json:"name,omitempty"`
 }
 
-type TaskUpdateManyDataInput struct {
-	Selector    *string    `json:"selector,omitempty"`
-	Title       *string    `json:"title,omitempty"`
-	Description *string    `json:"description,omitempty"`
-	State       *TaskState `json:"state,omitempty"`
+type ProjectUpdateOneWithoutTasksInput struct {
+	Create     *ProjectCreateWithoutTasksInput     `json:"create,omitempty"`
+	Update     *ProjectUpdateWithoutTasksDataInput `json:"update,omitempty"`
+	Upsert     *ProjectUpsertWithoutTasksInput     `json:"upsert,omitempty"`
+	Delete     *bool                               `json:"delete,omitempty"`
+	Disconnect *bool                               `json:"disconnect,omitempty"`
+	Connect    *ProjectWhereUniqueInput            `json:"connect,omitempty"`
 }
 
 type TaskWhereUniqueInput struct {
@@ -2403,36 +2297,129 @@ type TaskWhereUniqueInput struct {
 	Selector *string `json:"selector,omitempty"`
 }
 
-type TaskUpsertWithWhereUniqueWithoutLeaderInput struct {
-	Where  TaskWhereUniqueInput             `json:"where"`
-	Update TaskUpdateWithoutLeaderDataInput `json:"update"`
-	Create TaskCreateWithoutLeaderInput     `json:"create"`
+type ProjectUpdateWithoutTasksDataInput struct {
+	Selector *string                                       `json:"selector,omitempty"`
+	Name     *string                                       `json:"name,omitempty"`
+	Partner  *PartnerUpdateOneRequiredWithoutProjectsInput `json:"partner,omitempty"`
+	Leader   *ResourceUpdateOneWithoutLeaderOfInput        `json:"leader,omitempty"`
 }
 
-type TaskCreateWithoutResourcesInput struct {
+type ProjectCreateWithoutPartnerInput struct {
+	ID       *string                                `json:"id,omitempty"`
+	Selector *string                                `json:"selector,omitempty"`
+	Name     string                                 `json:"name"`
+	Leader   *ResourceCreateOneWithoutLeaderOfInput `json:"leader,omitempty"`
+	Tasks    *TaskCreateManyWithoutProjectInput     `json:"tasks,omitempty"`
+}
+
+type TaskUpdateManyWithWhereNestedInput struct {
+	Where TaskScalarWhereInput    `json:"where"`
+	Data  TaskUpdateManyDataInput `json:"data"`
+}
+
+type TaskScalarWhereInput struct {
+	ID                       *string                `json:"id,omitempty"`
+	IDNot                    *string                `json:"id_not,omitempty"`
+	IDIn                     []string               `json:"id_in,omitempty"`
+	IDNotIn                  []string               `json:"id_not_in,omitempty"`
+	IDLt                     *string                `json:"id_lt,omitempty"`
+	IDLte                    *string                `json:"id_lte,omitempty"`
+	IDGt                     *string                `json:"id_gt,omitempty"`
+	IDGte                    *string                `json:"id_gte,omitempty"`
+	IDContains               *string                `json:"id_contains,omitempty"`
+	IDNotContains            *string                `json:"id_not_contains,omitempty"`
+	IDStartsWith             *string                `json:"id_starts_with,omitempty"`
+	IDNotStartsWith          *string                `json:"id_not_starts_with,omitempty"`
+	IDEndsWith               *string                `json:"id_ends_with,omitempty"`
+	IDNotEndsWith            *string                `json:"id_not_ends_with,omitempty"`
+	CreatedAt                *string                `json:"createdAt,omitempty"`
+	CreatedAtNot             *string                `json:"createdAt_not,omitempty"`
+	CreatedAtIn              []string               `json:"createdAt_in,omitempty"`
+	CreatedAtNotIn           []string               `json:"createdAt_not_in,omitempty"`
+	CreatedAtLt              *string                `json:"createdAt_lt,omitempty"`
+	CreatedAtLte             *string                `json:"createdAt_lte,omitempty"`
+	CreatedAtGt              *string                `json:"createdAt_gt,omitempty"`
+	CreatedAtGte             *string                `json:"createdAt_gte,omitempty"`
+	UpdatedAt                *string                `json:"updatedAt,omitempty"`
+	UpdatedAtNot             *string                `json:"updatedAt_not,omitempty"`
+	UpdatedAtIn              []string               `json:"updatedAt_in,omitempty"`
+	UpdatedAtNotIn           []string               `json:"updatedAt_not_in,omitempty"`
+	UpdatedAtLt              *string                `json:"updatedAt_lt,omitempty"`
+	UpdatedAtLte             *string                `json:"updatedAt_lte,omitempty"`
+	UpdatedAtGt              *string                `json:"updatedAt_gt,omitempty"`
+	UpdatedAtGte             *string                `json:"updatedAt_gte,omitempty"`
+	Selector                 *string                `json:"selector,omitempty"`
+	SelectorNot              *string                `json:"selector_not,omitempty"`
+	SelectorIn               []string               `json:"selector_in,omitempty"`
+	SelectorNotIn            []string               `json:"selector_not_in,omitempty"`
+	SelectorLt               *string                `json:"selector_lt,omitempty"`
+	SelectorLte              *string                `json:"selector_lte,omitempty"`
+	SelectorGt               *string                `json:"selector_gt,omitempty"`
+	SelectorGte              *string                `json:"selector_gte,omitempty"`
+	SelectorContains         *string                `json:"selector_contains,omitempty"`
+	SelectorNotContains      *string                `json:"selector_not_contains,omitempty"`
+	SelectorStartsWith       *string                `json:"selector_starts_with,omitempty"`
+	SelectorNotStartsWith    *string                `json:"selector_not_starts_with,omitempty"`
+	SelectorEndsWith         *string                `json:"selector_ends_with,omitempty"`
+	SelectorNotEndsWith      *string                `json:"selector_not_ends_with,omitempty"`
+	Title                    *string                `json:"title,omitempty"`
+	TitleNot                 *string                `json:"title_not,omitempty"`
+	TitleIn                  []string               `json:"title_in,omitempty"`
+	TitleNotIn               []string               `json:"title_not_in,omitempty"`
+	TitleLt                  *string                `json:"title_lt,omitempty"`
+	TitleLte                 *string                `json:"title_lte,omitempty"`
+	TitleGt                  *string                `json:"title_gt,omitempty"`
+	TitleGte                 *string                `json:"title_gte,omitempty"`
+	TitleContains            *string                `json:"title_contains,omitempty"`
+	TitleNotContains         *string                `json:"title_not_contains,omitempty"`
+	TitleStartsWith          *string                `json:"title_starts_with,omitempty"`
+	TitleNotStartsWith       *string                `json:"title_not_starts_with,omitempty"`
+	TitleEndsWith            *string                `json:"title_ends_with,omitempty"`
+	TitleNotEndsWith         *string                `json:"title_not_ends_with,omitempty"`
+	Description              *string                `json:"description,omitempty"`
+	DescriptionNot           *string                `json:"description_not,omitempty"`
+	DescriptionIn            []string               `json:"description_in,omitempty"`
+	DescriptionNotIn         []string               `json:"description_not_in,omitempty"`
+	DescriptionLt            *string                `json:"description_lt,omitempty"`
+	DescriptionLte           *string                `json:"description_lte,omitempty"`
+	DescriptionGt            *string                `json:"description_gt,omitempty"`
+	DescriptionGte           *string                `json:"description_gte,omitempty"`
+	DescriptionContains      *string                `json:"description_contains,omitempty"`
+	DescriptionNotContains   *string                `json:"description_not_contains,omitempty"`
+	DescriptionStartsWith    *string                `json:"description_starts_with,omitempty"`
+	DescriptionNotStartsWith *string                `json:"description_not_starts_with,omitempty"`
+	DescriptionEndsWith      *string                `json:"description_ends_with,omitempty"`
+	DescriptionNotEndsWith   *string                `json:"description_not_ends_with,omitempty"`
+	State                    *TaskState             `json:"state,omitempty"`
+	StateNot                 *TaskState             `json:"state_not,omitempty"`
+	StateIn                  []TaskState            `json:"state_in,omitempty"`
+	StateNotIn               []TaskState            `json:"state_not_in,omitempty"`
+	And                      []TaskScalarWhereInput `json:"AND,omitempty"`
+	Or                       []TaskScalarWhereInput `json:"OR,omitempty"`
+	Not                      []TaskScalarWhereInput `json:"NOT,omitempty"`
+}
+
+type TaskUpsertWithWhereUniqueWithoutParentInput struct {
+	Where  TaskWhereUniqueInput             `json:"where"`
+	Update TaskUpdateWithoutParentDataInput `json:"update"`
+	Create TaskCreateWithoutParentInput     `json:"create"`
+}
+
+type ProjectUpsertWithoutTasksInput struct {
+	Update ProjectUpdateWithoutTasksDataInput `json:"update"`
+	Create ProjectCreateWithoutTasksInput     `json:"create"`
+}
+
+type TaskCreateWithoutChildrenInput struct {
 	ID          *string                                    `json:"id,omitempty"`
 	Selector    *string                                    `json:"selector,omitempty"`
 	Title       string                                     `json:"title"`
 	Description string                                     `json:"description"`
 	Parent      *TaskCreateOneWithoutChildrenInput         `json:"parent,omitempty"`
 	Leader      *ResourceCreateOneWithoutTaskLeaderOfInput `json:"leader,omitempty"`
+	Resources   *ResourceCreateManyWithoutWorkingOnInput   `json:"resources,omitempty"`
 	State       *TaskState                                 `json:"state,omitempty"`
-	Children    *TaskCreateManyWithoutParentInput          `json:"children,omitempty"`
 	Project     *ProjectCreateOneWithoutTasksInput         `json:"project,omitempty"`
-}
-
-type ResourceUpdateManyDataInput struct {
-	Selector   *string                   `json:"selector,omitempty"`
-	Name       *string                   `json:"name,omitempty"`
-	MainType   *ResourceType             `json:"mainType,omitempty"`
-	Types      *ResourceUpdatetypesInput `json:"types,omitempty"`
-	Alias      *string                   `json:"alias,omitempty"`
-	Experience *float64                  `json:"experience,omitempty"`
-}
-
-type ResourceUpdateManyWithWhereNestedInput struct {
-	Where ResourceScalarWhereInput    `json:"where"`
-	Data  ResourceUpdateManyDataInput `json:"data"`
 }
 
 type ResourceScalarWhereInput struct {
@@ -2525,65 +2512,78 @@ type ResourceScalarWhereInput struct {
 	Not                   []ResourceScalarWhereInput `json:"NOT,omitempty"`
 }
 
-type ResourceUpsertWithWhereUniqueWithoutWorkingOnInput struct {
-	Where  ResourceWhereUniqueInput                `json:"where"`
-	Update ResourceUpdateWithoutWorkingOnDataInput `json:"update"`
-	Create ResourceCreateWithoutWorkingOnInput     `json:"create"`
-}
-
-type CompanyCreateWithoutProjectsInput struct {
-	ID          *string                 `json:"id,omitempty"`
-	Selector    *string                 `json:"selector,omitempty"`
-	CompanyName *string                 `json:"companyName,omitempty"`
-	Contacts    *ContactCreateManyInput `json:"contacts,omitempty"`
-}
-
-type ProjectCreateManyWithoutClientInput struct {
-	Create  []ProjectCreateWithoutClientInput `json:"create,omitempty"`
-	Connect []ProjectWhereUniqueInput         `json:"connect,omitempty"`
-}
-
 type ProjectWhereUniqueInput struct {
 	ID       *string `json:"id,omitempty"`
 	Selector *string `json:"selector,omitempty"`
 }
 
-type ContactWhereInput struct {
-	ID                 *string             `json:"id,omitempty"`
-	IDNot              *string             `json:"id_not,omitempty"`
-	IDIn               []string            `json:"id_in,omitempty"`
-	IDNotIn            []string            `json:"id_not_in,omitempty"`
-	IDLt               *string             `json:"id_lt,omitempty"`
-	IDLte              *string             `json:"id_lte,omitempty"`
-	IDGt               *string             `json:"id_gt,omitempty"`
-	IDGte              *string             `json:"id_gte,omitempty"`
-	IDContains         *string             `json:"id_contains,omitempty"`
-	IDNotContains      *string             `json:"id_not_contains,omitempty"`
-	IDStartsWith       *string             `json:"id_starts_with,omitempty"`
-	IDNotStartsWith    *string             `json:"id_not_starts_with,omitempty"`
-	IDEndsWith         *string             `json:"id_ends_with,omitempty"`
-	IDNotEndsWith      *string             `json:"id_not_ends_with,omitempty"`
-	Type               *ContactType        `json:"type,omitempty"`
-	TypeNot            *ContactType        `json:"type_not,omitempty"`
-	TypeIn             []ContactType       `json:"type_in,omitempty"`
-	TypeNotIn          []ContactType       `json:"type_not_in,omitempty"`
-	Value              *string             `json:"value,omitempty"`
-	ValueNot           *string             `json:"value_not,omitempty"`
-	ValueIn            []string            `json:"value_in,omitempty"`
-	ValueNotIn         []string            `json:"value_not_in,omitempty"`
-	ValueLt            *string             `json:"value_lt,omitempty"`
-	ValueLte           *string             `json:"value_lte,omitempty"`
-	ValueGt            *string             `json:"value_gt,omitempty"`
-	ValueGte           *string             `json:"value_gte,omitempty"`
-	ValueContains      *string             `json:"value_contains,omitempty"`
-	ValueNotContains   *string             `json:"value_not_contains,omitempty"`
-	ValueStartsWith    *string             `json:"value_starts_with,omitempty"`
-	ValueNotStartsWith *string             `json:"value_not_starts_with,omitempty"`
-	ValueEndsWith      *string             `json:"value_ends_with,omitempty"`
-	ValueNotEndsWith   *string             `json:"value_not_ends_with,omitempty"`
-	And                []ContactWhereInput `json:"AND,omitempty"`
-	Or                 []ContactWhereInput `json:"OR,omitempty"`
-	Not                []ContactWhereInput `json:"NOT,omitempty"`
+type ProjectWhereInput struct {
+	ID                    *string             `json:"id,omitempty"`
+	IDNot                 *string             `json:"id_not,omitempty"`
+	IDIn                  []string            `json:"id_in,omitempty"`
+	IDNotIn               []string            `json:"id_not_in,omitempty"`
+	IDLt                  *string             `json:"id_lt,omitempty"`
+	IDLte                 *string             `json:"id_lte,omitempty"`
+	IDGt                  *string             `json:"id_gt,omitempty"`
+	IDGte                 *string             `json:"id_gte,omitempty"`
+	IDContains            *string             `json:"id_contains,omitempty"`
+	IDNotContains         *string             `json:"id_not_contains,omitempty"`
+	IDStartsWith          *string             `json:"id_starts_with,omitempty"`
+	IDNotStartsWith       *string             `json:"id_not_starts_with,omitempty"`
+	IDEndsWith            *string             `json:"id_ends_with,omitempty"`
+	IDNotEndsWith         *string             `json:"id_not_ends_with,omitempty"`
+	CreatedAt             *string             `json:"createdAt,omitempty"`
+	CreatedAtNot          *string             `json:"createdAt_not,omitempty"`
+	CreatedAtIn           []string            `json:"createdAt_in,omitempty"`
+	CreatedAtNotIn        []string            `json:"createdAt_not_in,omitempty"`
+	CreatedAtLt           *string             `json:"createdAt_lt,omitempty"`
+	CreatedAtLte          *string             `json:"createdAt_lte,omitempty"`
+	CreatedAtGt           *string             `json:"createdAt_gt,omitempty"`
+	CreatedAtGte          *string             `json:"createdAt_gte,omitempty"`
+	UpdatedAt             *string             `json:"updatedAt,omitempty"`
+	UpdatedAtNot          *string             `json:"updatedAt_not,omitempty"`
+	UpdatedAtIn           []string            `json:"updatedAt_in,omitempty"`
+	UpdatedAtNotIn        []string            `json:"updatedAt_not_in,omitempty"`
+	UpdatedAtLt           *string             `json:"updatedAt_lt,omitempty"`
+	UpdatedAtLte          *string             `json:"updatedAt_lte,omitempty"`
+	UpdatedAtGt           *string             `json:"updatedAt_gt,omitempty"`
+	UpdatedAtGte          *string             `json:"updatedAt_gte,omitempty"`
+	Selector              *string             `json:"selector,omitempty"`
+	SelectorNot           *string             `json:"selector_not,omitempty"`
+	SelectorIn            []string            `json:"selector_in,omitempty"`
+	SelectorNotIn         []string            `json:"selector_not_in,omitempty"`
+	SelectorLt            *string             `json:"selector_lt,omitempty"`
+	SelectorLte           *string             `json:"selector_lte,omitempty"`
+	SelectorGt            *string             `json:"selector_gt,omitempty"`
+	SelectorGte           *string             `json:"selector_gte,omitempty"`
+	SelectorContains      *string             `json:"selector_contains,omitempty"`
+	SelectorNotContains   *string             `json:"selector_not_contains,omitempty"`
+	SelectorStartsWith    *string             `json:"selector_starts_with,omitempty"`
+	SelectorNotStartsWith *string             `json:"selector_not_starts_with,omitempty"`
+	SelectorEndsWith      *string             `json:"selector_ends_with,omitempty"`
+	SelectorNotEndsWith   *string             `json:"selector_not_ends_with,omitempty"`
+	Name                  *string             `json:"name,omitempty"`
+	NameNot               *string             `json:"name_not,omitempty"`
+	NameIn                []string            `json:"name_in,omitempty"`
+	NameNotIn             []string            `json:"name_not_in,omitempty"`
+	NameLt                *string             `json:"name_lt,omitempty"`
+	NameLte               *string             `json:"name_lte,omitempty"`
+	NameGt                *string             `json:"name_gt,omitempty"`
+	NameGte               *string             `json:"name_gte,omitempty"`
+	NameContains          *string             `json:"name_contains,omitempty"`
+	NameNotContains       *string             `json:"name_not_contains,omitempty"`
+	NameStartsWith        *string             `json:"name_starts_with,omitempty"`
+	NameNotStartsWith     *string             `json:"name_not_starts_with,omitempty"`
+	NameEndsWith          *string             `json:"name_ends_with,omitempty"`
+	NameNotEndsWith       *string             `json:"name_not_ends_with,omitempty"`
+	Partner               *PartnerWhereInput  `json:"partner,omitempty"`
+	Leader                *ResourceWhereInput `json:"leader,omitempty"`
+	TasksEvery            *TaskWhereInput     `json:"tasks_every,omitempty"`
+	TasksSome             *TaskWhereInput     `json:"tasks_some,omitempty"`
+	TasksNone             *TaskWhereInput     `json:"tasks_none,omitempty"`
+	And                   []ProjectWhereInput `json:"AND,omitempty"`
+	Or                    []ProjectWhereInput `json:"OR,omitempty"`
+	Not                   []ProjectWhereInput `json:"NOT,omitempty"`
 }
 
 type TaskPreviousValuesExec struct {
@@ -2626,1012 +2626,19 @@ type TaskPreviousValues struct {
 	State       *TaskState `json:"state,omitempty"`
 }
 
-type ProjectPreviousValuesExec struct {
-	exec *prisma.Exec
-}
-
-func (instance ProjectPreviousValuesExec) Exec(ctx context.Context) (*ProjectPreviousValues, error) {
-	var v ProjectPreviousValues
-	ok, err := instance.exec.Exec(ctx, &v)
-	if err != nil {
-		return nil, err
-	}
-	if !ok {
-		return nil, ErrNoResult
-	}
-	return &v, nil
-}
-
-func (instance ProjectPreviousValuesExec) Exists(ctx context.Context) (bool, error) {
-	return instance.exec.Exists(ctx)
-}
-
-type ProjectPreviousValuesExecArray struct {
-	exec *prisma.Exec
-}
-
-func (instance ProjectPreviousValuesExecArray) Exec(ctx context.Context) ([]ProjectPreviousValues, error) {
-	var v []ProjectPreviousValues
-	err := instance.exec.ExecArray(ctx, &v)
-	return v, err
-}
-
-type ProjectPreviousValues struct {
-	ID        string  `json:"id"`
-	CreatedAt string  `json:"createdAt"`
-	UpdatedAt string  `json:"updatedAt"`
-	Selector  *string `json:"selector,omitempty"`
-	Name      string  `json:"name"`
-}
-
-type CompanyEdgeExec struct {
-	exec *prisma.Exec
-}
-
-func (instance *CompanyEdgeExec) Node() *CompanyExec {
-	ret := instance.exec.Client.GetOne(
-		instance.exec,
-		nil,
-		[2]string{"", "Company"},
-		"node",
-		[]string{"id", "createdAt", "updatedAt", "selector", "companyName"})
-
-	return &CompanyExec{ret}
-}
-
-func (instance CompanyEdgeExec) Exec(ctx context.Context) (*CompanyEdge, error) {
-	var v CompanyEdge
-	ok, err := instance.exec.Exec(ctx, &v)
-	if err != nil {
-		return nil, err
-	}
-	if !ok {
-		return nil, ErrNoResult
-	}
-	return &v, nil
-}
-
-func (instance CompanyEdgeExec) Exists(ctx context.Context) (bool, error) {
-	return instance.exec.Exists(ctx)
-}
-
-type CompanyEdgeExecArray struct {
-	exec *prisma.Exec
-}
-
-func (instance CompanyEdgeExecArray) Exec(ctx context.Context) ([]CompanyEdge, error) {
-	var v []CompanyEdge
-	err := instance.exec.ExecArray(ctx, &v)
-	return v, err
-}
-
-type CompanyEdge struct {
-	Cursor string `json:"cursor"`
-}
-
-type PageInfoExec struct {
-	exec *prisma.Exec
-}
-
-func (instance PageInfoExec) Exec(ctx context.Context) (*PageInfo, error) {
-	var v PageInfo
-	ok, err := instance.exec.Exec(ctx, &v)
-	if err != nil {
-		return nil, err
-	}
-	if !ok {
-		return nil, ErrNoResult
-	}
-	return &v, nil
-}
-
-func (instance PageInfoExec) Exists(ctx context.Context) (bool, error) {
-	return instance.exec.Exists(ctx)
-}
-
-type PageInfoExecArray struct {
-	exec *prisma.Exec
-}
-
-func (instance PageInfoExecArray) Exec(ctx context.Context) ([]PageInfo, error) {
-	var v []PageInfo
-	err := instance.exec.ExecArray(ctx, &v)
-	return v, err
-}
-
-type PageInfo struct {
-	HasNextPage     bool    `json:"hasNextPage"`
-	HasPreviousPage bool    `json:"hasPreviousPage"`
-	StartCursor     *string `json:"startCursor,omitempty"`
-	EndCursor       *string `json:"endCursor,omitempty"`
-}
-
-type ContactExec struct {
-	exec *prisma.Exec
-}
-
-func (instance ContactExec) Exec(ctx context.Context) (*Contact, error) {
-	var v Contact
-	ok, err := instance.exec.Exec(ctx, &v)
-	if err != nil {
-		return nil, err
-	}
-	if !ok {
-		return nil, ErrNoResult
-	}
-	return &v, nil
-}
-
-func (instance ContactExec) Exists(ctx context.Context) (bool, error) {
-	return instance.exec.Exists(ctx)
-}
-
-type ContactExecArray struct {
-	exec *prisma.Exec
-}
-
-func (instance ContactExecArray) Exec(ctx context.Context) ([]Contact, error) {
-	var v []Contact
-	err := instance.exec.ExecArray(ctx, &v)
-	return v, err
-}
-
-type Contact struct {
-	ID    string       `json:"id"`
-	Type  *ContactType `json:"type,omitempty"`
-	Value *string      `json:"value,omitempty"`
-}
-
-type TaskConnectionExec struct {
-	exec *prisma.Exec
-}
-
-func (instance *TaskConnectionExec) PageInfo() *PageInfoExec {
-	ret := instance.exec.Client.GetOne(
-		instance.exec,
-		nil,
-		[2]string{"", "PageInfo"},
-		"pageInfo",
-		[]string{"hasNextPage", "hasPreviousPage", "startCursor", "endCursor"})
-
-	return &PageInfoExec{ret}
-}
-
-func (instance *TaskConnectionExec) Edges() *TaskEdgeExec {
-	ret := instance.exec.Client.GetOne(
-		instance.exec,
-		nil,
-		[2]string{"", "TaskEdge"},
-		"edges",
-		[]string{"cursor"})
-
-	return &TaskEdgeExec{ret}
-}
-
-func (instance *TaskConnectionExec) Aggregate(ctx context.Context) (Aggregate, error) {
-	ret := instance.exec.Client.GetOne(
-		instance.exec,
-		nil,
-		[2]string{"", "AggregateTask"},
-		"aggregate",
-		[]string{"count"})
-
-	var v Aggregate
-	_, err := ret.Exec(ctx, &v)
-	return v, err
-}
-
-func (instance TaskConnectionExec) Exec(ctx context.Context) (*TaskConnection, error) {
-	var v TaskConnection
-	ok, err := instance.exec.Exec(ctx, &v)
-	if err != nil {
-		return nil, err
-	}
-	if !ok {
-		return nil, ErrNoResult
-	}
-	return &v, nil
-}
-
-func (instance TaskConnectionExec) Exists(ctx context.Context) (bool, error) {
-	return instance.exec.Exists(ctx)
-}
-
-type TaskConnectionExecArray struct {
-	exec *prisma.Exec
-}
-
-func (instance TaskConnectionExecArray) Exec(ctx context.Context) ([]TaskConnection, error) {
-	var v []TaskConnection
-	err := instance.exec.ExecArray(ctx, &v)
-	return v, err
-}
-
-type TaskConnection struct {
-}
-
-type ResourceEdgeExec struct {
-	exec *prisma.Exec
-}
-
-func (instance *ResourceEdgeExec) Node() *ResourceExec {
-	ret := instance.exec.Client.GetOne(
-		instance.exec,
-		nil,
-		[2]string{"", "Resource"},
-		"node",
-		[]string{"id", "createdAt", "updatedAt", "selector", "name", "mainType", "types", "alias", "experience"})
-
-	return &ResourceExec{ret}
-}
-
-func (instance ResourceEdgeExec) Exec(ctx context.Context) (*ResourceEdge, error) {
-	var v ResourceEdge
-	ok, err := instance.exec.Exec(ctx, &v)
-	if err != nil {
-		return nil, err
-	}
-	if !ok {
-		return nil, ErrNoResult
-	}
-	return &v, nil
-}
-
-func (instance ResourceEdgeExec) Exists(ctx context.Context) (bool, error) {
-	return instance.exec.Exists(ctx)
-}
-
-type ResourceEdgeExecArray struct {
-	exec *prisma.Exec
-}
-
-func (instance ResourceEdgeExecArray) Exec(ctx context.Context) ([]ResourceEdge, error) {
-	var v []ResourceEdge
-	err := instance.exec.ExecArray(ctx, &v)
-	return v, err
-}
-
-type ResourceEdge struct {
-	Cursor string `json:"cursor"`
-}
-
-type CompanyConnectionExec struct {
-	exec *prisma.Exec
-}
-
-func (instance *CompanyConnectionExec) PageInfo() *PageInfoExec {
-	ret := instance.exec.Client.GetOne(
-		instance.exec,
-		nil,
-		[2]string{"", "PageInfo"},
-		"pageInfo",
-		[]string{"hasNextPage", "hasPreviousPage", "startCursor", "endCursor"})
-
-	return &PageInfoExec{ret}
-}
-
-func (instance *CompanyConnectionExec) Edges() *CompanyEdgeExec {
-	ret := instance.exec.Client.GetOne(
-		instance.exec,
-		nil,
-		[2]string{"", "CompanyEdge"},
-		"edges",
-		[]string{"cursor"})
-
-	return &CompanyEdgeExec{ret}
-}
-
-func (instance *CompanyConnectionExec) Aggregate(ctx context.Context) (Aggregate, error) {
-	ret := instance.exec.Client.GetOne(
-		instance.exec,
-		nil,
-		[2]string{"", "AggregateCompany"},
-		"aggregate",
-		[]string{"count"})
-
-	var v Aggregate
-	_, err := ret.Exec(ctx, &v)
-	return v, err
-}
-
-func (instance CompanyConnectionExec) Exec(ctx context.Context) (*CompanyConnection, error) {
-	var v CompanyConnection
-	ok, err := instance.exec.Exec(ctx, &v)
-	if err != nil {
-		return nil, err
-	}
-	if !ok {
-		return nil, ErrNoResult
-	}
-	return &v, nil
-}
-
-func (instance CompanyConnectionExec) Exists(ctx context.Context) (bool, error) {
-	return instance.exec.Exists(ctx)
-}
-
-type CompanyConnectionExecArray struct {
-	exec *prisma.Exec
-}
-
-func (instance CompanyConnectionExecArray) Exec(ctx context.Context) ([]CompanyConnection, error) {
-	var v []CompanyConnection
-	err := instance.exec.ExecArray(ctx, &v)
-	return v, err
-}
-
-type CompanyConnection struct {
-}
-
-type ResourcePreviousValuesExec struct {
-	exec *prisma.Exec
-}
-
-func (instance ResourcePreviousValuesExec) Exec(ctx context.Context) (*ResourcePreviousValues, error) {
-	var v ResourcePreviousValues
-	ok, err := instance.exec.Exec(ctx, &v)
-	if err != nil {
-		return nil, err
-	}
-	if !ok {
-		return nil, ErrNoResult
-	}
-	return &v, nil
-}
-
-func (instance ResourcePreviousValuesExec) Exists(ctx context.Context) (bool, error) {
-	return instance.exec.Exists(ctx)
-}
-
-type ResourcePreviousValuesExecArray struct {
-	exec *prisma.Exec
-}
-
-func (instance ResourcePreviousValuesExecArray) Exec(ctx context.Context) ([]ResourcePreviousValues, error) {
-	var v []ResourcePreviousValues
-	err := instance.exec.ExecArray(ctx, &v)
-	return v, err
-}
-
-type ResourcePreviousValues struct {
-	ID         string         `json:"id"`
-	CreatedAt  string         `json:"createdAt"`
-	UpdatedAt  string         `json:"updatedAt"`
-	Selector   *string        `json:"selector,omitempty"`
-	Name       string         `json:"name"`
-	MainType   ResourceType   `json:"mainType"`
-	Types      []ResourceType `json:"types,omitempty"`
-	Alias      *string        `json:"alias,omitempty"`
-	Experience float64        `json:"experience"`
-}
-
-type ProjectConnectionExec struct {
-	exec *prisma.Exec
-}
-
-func (instance *ProjectConnectionExec) PageInfo() *PageInfoExec {
-	ret := instance.exec.Client.GetOne(
-		instance.exec,
-		nil,
-		[2]string{"", "PageInfo"},
-		"pageInfo",
-		[]string{"hasNextPage", "hasPreviousPage", "startCursor", "endCursor"})
-
-	return &PageInfoExec{ret}
-}
-
-func (instance *ProjectConnectionExec) Edges() *ProjectEdgeExec {
-	ret := instance.exec.Client.GetOne(
-		instance.exec,
-		nil,
-		[2]string{"", "ProjectEdge"},
-		"edges",
-		[]string{"cursor"})
-
-	return &ProjectEdgeExec{ret}
-}
-
-func (instance *ProjectConnectionExec) Aggregate(ctx context.Context) (Aggregate, error) {
-	ret := instance.exec.Client.GetOne(
-		instance.exec,
-		nil,
-		[2]string{"", "AggregateProject"},
-		"aggregate",
-		[]string{"count"})
-
-	var v Aggregate
-	_, err := ret.Exec(ctx, &v)
-	return v, err
-}
-
-func (instance ProjectConnectionExec) Exec(ctx context.Context) (*ProjectConnection, error) {
-	var v ProjectConnection
-	ok, err := instance.exec.Exec(ctx, &v)
-	if err != nil {
-		return nil, err
-	}
-	if !ok {
-		return nil, ErrNoResult
-	}
-	return &v, nil
-}
-
-func (instance ProjectConnectionExec) Exists(ctx context.Context) (bool, error) {
-	return instance.exec.Exists(ctx)
-}
-
-type ProjectConnectionExecArray struct {
-	exec *prisma.Exec
-}
-
-func (instance ProjectConnectionExecArray) Exec(ctx context.Context) ([]ProjectConnection, error) {
-	var v []ProjectConnection
-	err := instance.exec.ExecArray(ctx, &v)
-	return v, err
-}
-
-type ProjectConnection struct {
-}
-
-type TaskExec struct {
-	exec *prisma.Exec
-}
-
-func (instance *TaskExec) Parent() *TaskExec {
-	ret := instance.exec.Client.GetOne(
-		instance.exec,
-		nil,
-		[2]string{"", "Task"},
-		"parent",
-		[]string{"id", "createdAt", "updatedAt", "selector", "title", "description", "state"})
-
-	return &TaskExec{ret}
-}
-
-func (instance *TaskExec) Leader() *ResourceExec {
-	ret := instance.exec.Client.GetOne(
-		instance.exec,
-		nil,
-		[2]string{"", "Resource"},
-		"leader",
-		[]string{"id", "createdAt", "updatedAt", "selector", "name", "mainType", "types", "alias", "experience"})
-
-	return &ResourceExec{ret}
-}
-
-type ResourcesParamsExec struct {
-	Where   *ResourceWhereInput
-	OrderBy *ResourceOrderByInput
-	Skip    *int32
-	After   *string
-	Before  *string
-	First   *int32
-	Last    *int32
-}
-
-func (instance *TaskExec) Resources(params *ResourcesParamsExec) *ResourceExecArray {
-	var wparams *prisma.WhereParams
-	if params != nil {
-		wparams = &prisma.WhereParams{
-			Where:   params.Where,
-			OrderBy: (*string)(params.OrderBy),
-			Skip:    params.Skip,
-			After:   params.After,
-			Before:  params.Before,
-			First:   params.First,
-			Last:    params.Last,
-		}
-	}
-
-	ret := instance.exec.Client.GetMany(
-		instance.exec,
-		wparams,
-		[3]string{"ResourceWhereInput", "ResourceOrderByInput", "Resource"},
-		"resources",
-		[]string{"id", "createdAt", "updatedAt", "selector", "name", "mainType", "types", "alias", "experience"})
-
-	return &ResourceExecArray{ret}
-}
-
-type ChildrenParamsExec struct {
-	Where   *TaskWhereInput
-	OrderBy *TaskOrderByInput
-	Skip    *int32
-	After   *string
-	Before  *string
-	First   *int32
-	Last    *int32
-}
-
-func (instance *TaskExec) Children(params *ChildrenParamsExec) *TaskExecArray {
-	var wparams *prisma.WhereParams
-	if params != nil {
-		wparams = &prisma.WhereParams{
-			Where:   params.Where,
-			OrderBy: (*string)(params.OrderBy),
-			Skip:    params.Skip,
-			After:   params.After,
-			Before:  params.Before,
-			First:   params.First,
-			Last:    params.Last,
-		}
-	}
-
-	ret := instance.exec.Client.GetMany(
-		instance.exec,
-		wparams,
-		[3]string{"TaskWhereInput", "TaskOrderByInput", "Task"},
-		"children",
-		[]string{"id", "createdAt", "updatedAt", "selector", "title", "description", "state"})
-
-	return &TaskExecArray{ret}
-}
-
-func (instance *TaskExec) Project() *ProjectExec {
-	ret := instance.exec.Client.GetOne(
-		instance.exec,
-		nil,
-		[2]string{"", "Project"},
-		"project",
-		[]string{"id", "createdAt", "updatedAt", "selector", "name"})
-
-	return &ProjectExec{ret}
-}
-
-func (instance TaskExec) Exec(ctx context.Context) (*Task, error) {
-	var v Task
-	ok, err := instance.exec.Exec(ctx, &v)
-	if err != nil {
-		return nil, err
-	}
-	if !ok {
-		return nil, ErrNoResult
-	}
-	return &v, nil
-}
-
-func (instance TaskExec) Exists(ctx context.Context) (bool, error) {
-	return instance.exec.Exists(ctx)
-}
-
-type TaskExecArray struct {
-	exec *prisma.Exec
-}
-
-func (instance TaskExecArray) Exec(ctx context.Context) ([]Task, error) {
-	var v []Task
-	err := instance.exec.ExecArray(ctx, &v)
-	return v, err
-}
-
-type Task struct {
-	ID          string     `json:"id"`
-	CreatedAt   string     `json:"createdAt"`
-	UpdatedAt   string     `json:"updatedAt"`
-	Selector    *string    `json:"selector,omitempty"`
-	Title       string     `json:"title"`
-	Description string     `json:"description"`
-	State       *TaskState `json:"state,omitempty"`
-}
-
-type TaskSubscriptionPayloadExec struct {
-	exec *prisma.Exec
-}
-
-func (instance *TaskSubscriptionPayloadExec) Node() *TaskExec {
-	ret := instance.exec.Client.GetOne(
-		instance.exec,
-		nil,
-		[2]string{"", "Task"},
-		"node",
-		[]string{"id", "createdAt", "updatedAt", "selector", "title", "description", "state"})
-
-	return &TaskExec{ret}
-}
-
-func (instance *TaskSubscriptionPayloadExec) PreviousValues() *TaskPreviousValuesExec {
-	ret := instance.exec.Client.GetOne(
-		instance.exec,
-		nil,
-		[2]string{"", "TaskPreviousValues"},
-		"previousValues",
-		[]string{"id", "createdAt", "updatedAt", "selector", "title", "description", "state"})
-
-	return &TaskPreviousValuesExec{ret}
-}
-
-func (instance TaskSubscriptionPayloadExec) Exec(ctx context.Context) (*TaskSubscriptionPayload, error) {
-	var v TaskSubscriptionPayload
-	ok, err := instance.exec.Exec(ctx, &v)
-	if err != nil {
-		return nil, err
-	}
-	if !ok {
-		return nil, ErrNoResult
-	}
-	return &v, nil
-}
-
-func (instance TaskSubscriptionPayloadExec) Exists(ctx context.Context) (bool, error) {
-	return instance.exec.Exists(ctx)
-}
-
-type TaskSubscriptionPayloadExecArray struct {
-	exec *prisma.Exec
-}
-
-func (instance TaskSubscriptionPayloadExecArray) Exec(ctx context.Context) ([]TaskSubscriptionPayload, error) {
-	var v []TaskSubscriptionPayload
-	err := instance.exec.ExecArray(ctx, &v)
-	return v, err
-}
-
-type TaskSubscriptionPayload struct {
-	Mutation      MutationType `json:"mutation"`
-	UpdatedFields []string     `json:"updatedFields,omitempty"`
-}
-
-type ResourceSubscriptionPayloadExec struct {
-	exec *prisma.Exec
-}
-
-func (instance *ResourceSubscriptionPayloadExec) Node() *ResourceExec {
-	ret := instance.exec.Client.GetOne(
-		instance.exec,
-		nil,
-		[2]string{"", "Resource"},
-		"node",
-		[]string{"id", "createdAt", "updatedAt", "selector", "name", "mainType", "types", "alias", "experience"})
-
-	return &ResourceExec{ret}
-}
-
-func (instance *ResourceSubscriptionPayloadExec) PreviousValues() *ResourcePreviousValuesExec {
-	ret := instance.exec.Client.GetOne(
-		instance.exec,
-		nil,
-		[2]string{"", "ResourcePreviousValues"},
-		"previousValues",
-		[]string{"id", "createdAt", "updatedAt", "selector", "name", "mainType", "types", "alias", "experience"})
-
-	return &ResourcePreviousValuesExec{ret}
-}
-
-func (instance ResourceSubscriptionPayloadExec) Exec(ctx context.Context) (*ResourceSubscriptionPayload, error) {
-	var v ResourceSubscriptionPayload
-	ok, err := instance.exec.Exec(ctx, &v)
-	if err != nil {
-		return nil, err
-	}
-	if !ok {
-		return nil, ErrNoResult
-	}
-	return &v, nil
-}
-
-func (instance ResourceSubscriptionPayloadExec) Exists(ctx context.Context) (bool, error) {
-	return instance.exec.Exists(ctx)
-}
-
-type ResourceSubscriptionPayloadExecArray struct {
-	exec *prisma.Exec
-}
-
-func (instance ResourceSubscriptionPayloadExecArray) Exec(ctx context.Context) ([]ResourceSubscriptionPayload, error) {
-	var v []ResourceSubscriptionPayload
-	err := instance.exec.ExecArray(ctx, &v)
-	return v, err
-}
-
-type ResourceSubscriptionPayload struct {
-	Mutation      MutationType `json:"mutation"`
-	UpdatedFields []string     `json:"updatedFields,omitempty"`
-}
-
-type CostEdgeExec struct {
-	exec *prisma.Exec
-}
-
-func (instance *CostEdgeExec) Node() *CostExec {
-	ret := instance.exec.Client.GetOne(
-		instance.exec,
-		nil,
-		[2]string{"", "Cost"},
-		"node",
-		[]string{"id", "units", "value"})
-
-	return &CostExec{ret}
-}
-
-func (instance CostEdgeExec) Exec(ctx context.Context) (*CostEdge, error) {
-	var v CostEdge
-	ok, err := instance.exec.Exec(ctx, &v)
-	if err != nil {
-		return nil, err
-	}
-	if !ok {
-		return nil, ErrNoResult
-	}
-	return &v, nil
-}
-
-func (instance CostEdgeExec) Exists(ctx context.Context) (bool, error) {
-	return instance.exec.Exists(ctx)
-}
-
-type CostEdgeExecArray struct {
-	exec *prisma.Exec
-}
-
-func (instance CostEdgeExecArray) Exec(ctx context.Context) ([]CostEdge, error) {
-	var v []CostEdge
-	err := instance.exec.ExecArray(ctx, &v)
-	return v, err
-}
-
-type CostEdge struct {
-	Cursor string `json:"cursor"`
-}
-
-type CompanySubscriptionPayloadExec struct {
-	exec *prisma.Exec
-}
-
-func (instance *CompanySubscriptionPayloadExec) Node() *CompanyExec {
-	ret := instance.exec.Client.GetOne(
-		instance.exec,
-		nil,
-		[2]string{"", "Company"},
-		"node",
-		[]string{"id", "createdAt", "updatedAt", "selector", "companyName"})
-
-	return &CompanyExec{ret}
-}
-
-func (instance *CompanySubscriptionPayloadExec) PreviousValues() *CompanyPreviousValuesExec {
-	ret := instance.exec.Client.GetOne(
-		instance.exec,
-		nil,
-		[2]string{"", "CompanyPreviousValues"},
-		"previousValues",
-		[]string{"id", "createdAt", "updatedAt", "selector", "companyName"})
-
-	return &CompanyPreviousValuesExec{ret}
-}
-
-func (instance CompanySubscriptionPayloadExec) Exec(ctx context.Context) (*CompanySubscriptionPayload, error) {
-	var v CompanySubscriptionPayload
-	ok, err := instance.exec.Exec(ctx, &v)
-	if err != nil {
-		return nil, err
-	}
-	if !ok {
-		return nil, ErrNoResult
-	}
-	return &v, nil
-}
-
-func (instance CompanySubscriptionPayloadExec) Exists(ctx context.Context) (bool, error) {
-	return instance.exec.Exists(ctx)
-}
-
-type CompanySubscriptionPayloadExecArray struct {
-	exec *prisma.Exec
-}
-
-func (instance CompanySubscriptionPayloadExecArray) Exec(ctx context.Context) ([]CompanySubscriptionPayload, error) {
-	var v []CompanySubscriptionPayload
-	err := instance.exec.ExecArray(ctx, &v)
-	return v, err
-}
-
-type CompanySubscriptionPayload struct {
-	Mutation      MutationType `json:"mutation"`
-	UpdatedFields []string     `json:"updatedFields,omitempty"`
-}
-
-type CompanyExec struct {
-	exec *prisma.Exec
-}
-
-type ContactsParamsExec struct {
-	Where   *ContactWhereInput
-	OrderBy *ContactOrderByInput
-	Skip    *int32
-	After   *string
-	Before  *string
-	First   *int32
-	Last    *int32
-}
-
-func (instance *CompanyExec) Contacts(params *ContactsParamsExec) *ContactExecArray {
-	var wparams *prisma.WhereParams
-	if params != nil {
-		wparams = &prisma.WhereParams{
-			Where:   params.Where,
-			OrderBy: (*string)(params.OrderBy),
-			Skip:    params.Skip,
-			After:   params.After,
-			Before:  params.Before,
-			First:   params.First,
-			Last:    params.Last,
-		}
-	}
-
-	ret := instance.exec.Client.GetMany(
-		instance.exec,
-		wparams,
-		[3]string{"ContactWhereInput", "ContactOrderByInput", "Contact"},
-		"contacts",
-		[]string{"id", "type", "value"})
-
-	return &ContactExecArray{ret}
-}
-
-type ProjectsParamsExec struct {
-	Where   *ProjectWhereInput
-	OrderBy *ProjectOrderByInput
-	Skip    *int32
-	After   *string
-	Before  *string
-	First   *int32
-	Last    *int32
-}
-
-func (instance *CompanyExec) Projects(params *ProjectsParamsExec) *ProjectExecArray {
-	var wparams *prisma.WhereParams
-	if params != nil {
-		wparams = &prisma.WhereParams{
-			Where:   params.Where,
-			OrderBy: (*string)(params.OrderBy),
-			Skip:    params.Skip,
-			After:   params.After,
-			Before:  params.Before,
-			First:   params.First,
-			Last:    params.Last,
-		}
-	}
-
-	ret := instance.exec.Client.GetMany(
-		instance.exec,
-		wparams,
-		[3]string{"ProjectWhereInput", "ProjectOrderByInput", "Project"},
-		"projects",
-		[]string{"id", "createdAt", "updatedAt", "selector", "name"})
-
-	return &ProjectExecArray{ret}
-}
-
-func (instance CompanyExec) Exec(ctx context.Context) (*Company, error) {
-	var v Company
-	ok, err := instance.exec.Exec(ctx, &v)
-	if err != nil {
-		return nil, err
-	}
-	if !ok {
-		return nil, ErrNoResult
-	}
-	return &v, nil
-}
-
-func (instance CompanyExec) Exists(ctx context.Context) (bool, error) {
-	return instance.exec.Exists(ctx)
-}
-
-type CompanyExecArray struct {
-	exec *prisma.Exec
-}
-
-func (instance CompanyExecArray) Exec(ctx context.Context) ([]Company, error) {
-	var v []Company
-	err := instance.exec.ExecArray(ctx, &v)
-	return v, err
-}
-
-type Company struct {
-	ID          string  `json:"id"`
-	CreatedAt   string  `json:"createdAt"`
-	UpdatedAt   string  `json:"updatedAt"`
-	Selector    *string `json:"selector,omitempty"`
-	CompanyName *string `json:"companyName,omitempty"`
-}
-
-type CompanyPreviousValuesExec struct {
-	exec *prisma.Exec
-}
-
-func (instance CompanyPreviousValuesExec) Exec(ctx context.Context) (*CompanyPreviousValues, error) {
-	var v CompanyPreviousValues
-	ok, err := instance.exec.Exec(ctx, &v)
-	if err != nil {
-		return nil, err
-	}
-	if !ok {
-		return nil, ErrNoResult
-	}
-	return &v, nil
-}
-
-func (instance CompanyPreviousValuesExec) Exists(ctx context.Context) (bool, error) {
-	return instance.exec.Exists(ctx)
-}
-
-type CompanyPreviousValuesExecArray struct {
-	exec *prisma.Exec
-}
-
-func (instance CompanyPreviousValuesExecArray) Exec(ctx context.Context) ([]CompanyPreviousValues, error) {
-	var v []CompanyPreviousValues
-	err := instance.exec.ExecArray(ctx, &v)
-	return v, err
-}
-
-type CompanyPreviousValues struct {
-	ID          string  `json:"id"`
-	CreatedAt   string  `json:"createdAt"`
-	UpdatedAt   string  `json:"updatedAt"`
-	Selector    *string `json:"selector,omitempty"`
-	CompanyName *string `json:"companyName,omitempty"`
-}
-
-type ContactEdgeExec struct {
-	exec *prisma.Exec
-}
-
-func (instance *ContactEdgeExec) Node() *ContactExec {
-	ret := instance.exec.Client.GetOne(
-		instance.exec,
-		nil,
-		[2]string{"", "Contact"},
-		"node",
-		[]string{"id", "type", "value"})
-
-	return &ContactExec{ret}
-}
-
-func (instance ContactEdgeExec) Exec(ctx context.Context) (*ContactEdge, error) {
-	var v ContactEdge
-	ok, err := instance.exec.Exec(ctx, &v)
-	if err != nil {
-		return nil, err
-	}
-	if !ok {
-		return nil, ErrNoResult
-	}
-	return &v, nil
-}
-
-func (instance ContactEdgeExec) Exists(ctx context.Context) (bool, error) {
-	return instance.exec.Exists(ctx)
-}
-
-type ContactEdgeExecArray struct {
-	exec *prisma.Exec
-}
-
-func (instance ContactEdgeExecArray) Exec(ctx context.Context) ([]ContactEdge, error) {
-	var v []ContactEdge
-	err := instance.exec.ExecArray(ctx, &v)
-	return v, err
-}
-
-type ContactEdge struct {
-	Cursor string `json:"cursor"`
-}
-
 type ProjectExec struct {
 	exec *prisma.Exec
 }
 
-func (instance *ProjectExec) Client() *CompanyExec {
+func (instance *ProjectExec) Partner() *PartnerExec {
 	ret := instance.exec.Client.GetOne(
 		instance.exec,
 		nil,
-		[2]string{"", "Company"},
-		"client",
+		[2]string{"", "Partner"},
+		"partner",
 		[]string{"id", "createdAt", "updatedAt", "selector", "companyName"})
 
-	return &CompanyExec{ret}
+	return &PartnerExec{ret}
 }
 
 func (instance *ProjectExec) Leader() *ResourceExec {
@@ -3713,23 +2720,12 @@ type Project struct {
 	Name      string  `json:"name"`
 }
 
-type TaskEdgeExec struct {
+type ProjectPreviousValuesExec struct {
 	exec *prisma.Exec
 }
 
-func (instance *TaskEdgeExec) Node() *TaskExec {
-	ret := instance.exec.Client.GetOne(
-		instance.exec,
-		nil,
-		[2]string{"", "Task"},
-		"node",
-		[]string{"id", "createdAt", "updatedAt", "selector", "title", "description", "state"})
-
-	return &TaskExec{ret}
-}
-
-func (instance TaskEdgeExec) Exec(ctx context.Context) (*TaskEdge, error) {
-	var v TaskEdge
+func (instance ProjectPreviousValuesExec) Exec(ctx context.Context) (*ProjectPreviousValues, error) {
+	var v ProjectPreviousValues
 	ok, err := instance.exec.Exec(ctx, &v)
 	if err != nil {
 		return nil, err
@@ -3740,287 +2736,26 @@ func (instance TaskEdgeExec) Exec(ctx context.Context) (*TaskEdge, error) {
 	return &v, nil
 }
 
-func (instance TaskEdgeExec) Exists(ctx context.Context) (bool, error) {
+func (instance ProjectPreviousValuesExec) Exists(ctx context.Context) (bool, error) {
 	return instance.exec.Exists(ctx)
 }
 
-type TaskEdgeExecArray struct {
+type ProjectPreviousValuesExecArray struct {
 	exec *prisma.Exec
 }
 
-func (instance TaskEdgeExecArray) Exec(ctx context.Context) ([]TaskEdge, error) {
-	var v []TaskEdge
+func (instance ProjectPreviousValuesExecArray) Exec(ctx context.Context) ([]ProjectPreviousValues, error) {
+	var v []ProjectPreviousValues
 	err := instance.exec.ExecArray(ctx, &v)
 	return v, err
 }
 
-type TaskEdge struct {
-	Cursor string `json:"cursor"`
-}
-
-type ContactSubscriptionPayloadExec struct {
-	exec *prisma.Exec
-}
-
-func (instance *ContactSubscriptionPayloadExec) Node() *ContactExec {
-	ret := instance.exec.Client.GetOne(
-		instance.exec,
-		nil,
-		[2]string{"", "Contact"},
-		"node",
-		[]string{"id", "type", "value"})
-
-	return &ContactExec{ret}
-}
-
-func (instance *ContactSubscriptionPayloadExec) PreviousValues() *ContactPreviousValuesExec {
-	ret := instance.exec.Client.GetOne(
-		instance.exec,
-		nil,
-		[2]string{"", "ContactPreviousValues"},
-		"previousValues",
-		[]string{"id", "type", "value"})
-
-	return &ContactPreviousValuesExec{ret}
-}
-
-func (instance ContactSubscriptionPayloadExec) Exec(ctx context.Context) (*ContactSubscriptionPayload, error) {
-	var v ContactSubscriptionPayload
-	ok, err := instance.exec.Exec(ctx, &v)
-	if err != nil {
-		return nil, err
-	}
-	if !ok {
-		return nil, ErrNoResult
-	}
-	return &v, nil
-}
-
-func (instance ContactSubscriptionPayloadExec) Exists(ctx context.Context) (bool, error) {
-	return instance.exec.Exists(ctx)
-}
-
-type ContactSubscriptionPayloadExecArray struct {
-	exec *prisma.Exec
-}
-
-func (instance ContactSubscriptionPayloadExecArray) Exec(ctx context.Context) ([]ContactSubscriptionPayload, error) {
-	var v []ContactSubscriptionPayload
-	err := instance.exec.ExecArray(ctx, &v)
-	return v, err
-}
-
-type ContactSubscriptionPayload struct {
-	Mutation      MutationType `json:"mutation"`
-	UpdatedFields []string     `json:"updatedFields,omitempty"`
-}
-
-type ResourceConnectionExec struct {
-	exec *prisma.Exec
-}
-
-func (instance *ResourceConnectionExec) PageInfo() *PageInfoExec {
-	ret := instance.exec.Client.GetOne(
-		instance.exec,
-		nil,
-		[2]string{"", "PageInfo"},
-		"pageInfo",
-		[]string{"hasNextPage", "hasPreviousPage", "startCursor", "endCursor"})
-
-	return &PageInfoExec{ret}
-}
-
-func (instance *ResourceConnectionExec) Edges() *ResourceEdgeExec {
-	ret := instance.exec.Client.GetOne(
-		instance.exec,
-		nil,
-		[2]string{"", "ResourceEdge"},
-		"edges",
-		[]string{"cursor"})
-
-	return &ResourceEdgeExec{ret}
-}
-
-func (instance *ResourceConnectionExec) Aggregate(ctx context.Context) (Aggregate, error) {
-	ret := instance.exec.Client.GetOne(
-		instance.exec,
-		nil,
-		[2]string{"", "AggregateResource"},
-		"aggregate",
-		[]string{"count"})
-
-	var v Aggregate
-	_, err := ret.Exec(ctx, &v)
-	return v, err
-}
-
-func (instance ResourceConnectionExec) Exec(ctx context.Context) (*ResourceConnection, error) {
-	var v ResourceConnection
-	ok, err := instance.exec.Exec(ctx, &v)
-	if err != nil {
-		return nil, err
-	}
-	if !ok {
-		return nil, ErrNoResult
-	}
-	return &v, nil
-}
-
-func (instance ResourceConnectionExec) Exists(ctx context.Context) (bool, error) {
-	return instance.exec.Exists(ctx)
-}
-
-type ResourceConnectionExecArray struct {
-	exec *prisma.Exec
-}
-
-func (instance ResourceConnectionExecArray) Exec(ctx context.Context) ([]ResourceConnection, error) {
-	var v []ResourceConnection
-	err := instance.exec.ExecArray(ctx, &v)
-	return v, err
-}
-
-type ResourceConnection struct {
-}
-
-type ContactPreviousValuesExec struct {
-	exec *prisma.Exec
-}
-
-func (instance ContactPreviousValuesExec) Exec(ctx context.Context) (*ContactPreviousValues, error) {
-	var v ContactPreviousValues
-	ok, err := instance.exec.Exec(ctx, &v)
-	if err != nil {
-		return nil, err
-	}
-	if !ok {
-		return nil, ErrNoResult
-	}
-	return &v, nil
-}
-
-func (instance ContactPreviousValuesExec) Exists(ctx context.Context) (bool, error) {
-	return instance.exec.Exists(ctx)
-}
-
-type ContactPreviousValuesExecArray struct {
-	exec *prisma.Exec
-}
-
-func (instance ContactPreviousValuesExecArray) Exec(ctx context.Context) ([]ContactPreviousValues, error) {
-	var v []ContactPreviousValues
-	err := instance.exec.ExecArray(ctx, &v)
-	return v, err
-}
-
-type ContactPreviousValues struct {
-	ID    string       `json:"id"`
-	Type  *ContactType `json:"type,omitempty"`
-	Value *string      `json:"value,omitempty"`
-}
-
-type CostExec struct {
-	exec *prisma.Exec
-}
-
-func (instance CostExec) Exec(ctx context.Context) (*Cost, error) {
-	var v Cost
-	ok, err := instance.exec.Exec(ctx, &v)
-	if err != nil {
-		return nil, err
-	}
-	if !ok {
-		return nil, ErrNoResult
-	}
-	return &v, nil
-}
-
-func (instance CostExec) Exists(ctx context.Context) (bool, error) {
-	return instance.exec.Exists(ctx)
-}
-
-type CostExecArray struct {
-	exec *prisma.Exec
-}
-
-func (instance CostExecArray) Exec(ctx context.Context) ([]Cost, error) {
-	var v []Cost
-	err := instance.exec.ExecArray(ctx, &v)
-	return v, err
-}
-
-type Cost struct {
-	ID    string  `json:"id"`
-	Units string  `json:"units"`
-	Value float64 `json:"value"`
-}
-
-type CostConnectionExec struct {
-	exec *prisma.Exec
-}
-
-func (instance *CostConnectionExec) PageInfo() *PageInfoExec {
-	ret := instance.exec.Client.GetOne(
-		instance.exec,
-		nil,
-		[2]string{"", "PageInfo"},
-		"pageInfo",
-		[]string{"hasNextPage", "hasPreviousPage", "startCursor", "endCursor"})
-
-	return &PageInfoExec{ret}
-}
-
-func (instance *CostConnectionExec) Edges() *CostEdgeExec {
-	ret := instance.exec.Client.GetOne(
-		instance.exec,
-		nil,
-		[2]string{"", "CostEdge"},
-		"edges",
-		[]string{"cursor"})
-
-	return &CostEdgeExec{ret}
-}
-
-func (instance *CostConnectionExec) Aggregate(ctx context.Context) (Aggregate, error) {
-	ret := instance.exec.Client.GetOne(
-		instance.exec,
-		nil,
-		[2]string{"", "AggregateCost"},
-		"aggregate",
-		[]string{"count"})
-
-	var v Aggregate
-	_, err := ret.Exec(ctx, &v)
-	return v, err
-}
-
-func (instance CostConnectionExec) Exec(ctx context.Context) (*CostConnection, error) {
-	var v CostConnection
-	ok, err := instance.exec.Exec(ctx, &v)
-	if err != nil {
-		return nil, err
-	}
-	if !ok {
-		return nil, ErrNoResult
-	}
-	return &v, nil
-}
-
-func (instance CostConnectionExec) Exists(ctx context.Context) (bool, error) {
-	return instance.exec.Exists(ctx)
-}
-
-type CostConnectionExecArray struct {
-	exec *prisma.Exec
-}
-
-func (instance CostConnectionExecArray) Exec(ctx context.Context) ([]CostConnection, error) {
-	var v []CostConnection
-	err := instance.exec.ExecArray(ctx, &v)
-	return v, err
-}
-
-type CostConnection struct {
+type ProjectPreviousValues struct {
+	ID        string  `json:"id"`
+	CreatedAt string  `json:"createdAt"`
+	UpdatedAt string  `json:"updatedAt"`
+	Selector  *string `json:"selector,omitempty"`
+	Name      string  `json:"name"`
 }
 
 type ContactConnectionExec struct {
@@ -4091,34 +2826,12 @@ func (instance ContactConnectionExecArray) Exec(ctx context.Context) ([]ContactC
 type ContactConnection struct {
 }
 
-type ProjectSubscriptionPayloadExec struct {
+type PageInfoExec struct {
 	exec *prisma.Exec
 }
 
-func (instance *ProjectSubscriptionPayloadExec) Node() *ProjectExec {
-	ret := instance.exec.Client.GetOne(
-		instance.exec,
-		nil,
-		[2]string{"", "Project"},
-		"node",
-		[]string{"id", "createdAt", "updatedAt", "selector", "name"})
-
-	return &ProjectExec{ret}
-}
-
-func (instance *ProjectSubscriptionPayloadExec) PreviousValues() *ProjectPreviousValuesExec {
-	ret := instance.exec.Client.GetOne(
-		instance.exec,
-		nil,
-		[2]string{"", "ProjectPreviousValues"},
-		"previousValues",
-		[]string{"id", "createdAt", "updatedAt", "selector", "name"})
-
-	return &ProjectPreviousValuesExec{ret}
-}
-
-func (instance ProjectSubscriptionPayloadExec) Exec(ctx context.Context) (*ProjectSubscriptionPayload, error) {
-	var v ProjectSubscriptionPayload
+func (instance PageInfoExec) Exec(ctx context.Context) (*PageInfo, error) {
+	var v PageInfo
 	ok, err := instance.exec.Exec(ctx, &v)
 	if err != nil {
 		return nil, err
@@ -4129,23 +2842,997 @@ func (instance ProjectSubscriptionPayloadExec) Exec(ctx context.Context) (*Proje
 	return &v, nil
 }
 
-func (instance ProjectSubscriptionPayloadExec) Exists(ctx context.Context) (bool, error) {
+func (instance PageInfoExec) Exists(ctx context.Context) (bool, error) {
 	return instance.exec.Exists(ctx)
 }
 
-type ProjectSubscriptionPayloadExecArray struct {
+type PageInfoExecArray struct {
 	exec *prisma.Exec
 }
 
-func (instance ProjectSubscriptionPayloadExecArray) Exec(ctx context.Context) ([]ProjectSubscriptionPayload, error) {
-	var v []ProjectSubscriptionPayload
+func (instance PageInfoExecArray) Exec(ctx context.Context) ([]PageInfo, error) {
+	var v []PageInfo
 	err := instance.exec.ExecArray(ctx, &v)
 	return v, err
 }
 
-type ProjectSubscriptionPayload struct {
+type PageInfo struct {
+	HasNextPage     bool    `json:"hasNextPage"`
+	HasPreviousPage bool    `json:"hasPreviousPage"`
+	StartCursor     *string `json:"startCursor,omitempty"`
+	EndCursor       *string `json:"endCursor,omitempty"`
+}
+
+type ResourcePreviousValuesExec struct {
+	exec *prisma.Exec
+}
+
+func (instance ResourcePreviousValuesExec) Exec(ctx context.Context) (*ResourcePreviousValues, error) {
+	var v ResourcePreviousValues
+	ok, err := instance.exec.Exec(ctx, &v)
+	if err != nil {
+		return nil, err
+	}
+	if !ok {
+		return nil, ErrNoResult
+	}
+	return &v, nil
+}
+
+func (instance ResourcePreviousValuesExec) Exists(ctx context.Context) (bool, error) {
+	return instance.exec.Exists(ctx)
+}
+
+type ResourcePreviousValuesExecArray struct {
+	exec *prisma.Exec
+}
+
+func (instance ResourcePreviousValuesExecArray) Exec(ctx context.Context) ([]ResourcePreviousValues, error) {
+	var v []ResourcePreviousValues
+	err := instance.exec.ExecArray(ctx, &v)
+	return v, err
+}
+
+type ResourcePreviousValues struct {
+	ID         string         `json:"id"`
+	CreatedAt  string         `json:"createdAt"`
+	UpdatedAt  string         `json:"updatedAt"`
+	Selector   *string        `json:"selector,omitempty"`
+	Name       string         `json:"name"`
+	MainType   ResourceType   `json:"mainType"`
+	Types      []ResourceType `json:"types,omitempty"`
+	Alias      *string        `json:"alias,omitempty"`
+	Experience float64        `json:"experience"`
+}
+
+type TaskConnectionExec struct {
+	exec *prisma.Exec
+}
+
+func (instance *TaskConnectionExec) PageInfo() *PageInfoExec {
+	ret := instance.exec.Client.GetOne(
+		instance.exec,
+		nil,
+		[2]string{"", "PageInfo"},
+		"pageInfo",
+		[]string{"hasNextPage", "hasPreviousPage", "startCursor", "endCursor"})
+
+	return &PageInfoExec{ret}
+}
+
+func (instance *TaskConnectionExec) Edges() *TaskEdgeExec {
+	ret := instance.exec.Client.GetOne(
+		instance.exec,
+		nil,
+		[2]string{"", "TaskEdge"},
+		"edges",
+		[]string{"cursor"})
+
+	return &TaskEdgeExec{ret}
+}
+
+func (instance *TaskConnectionExec) Aggregate(ctx context.Context) (Aggregate, error) {
+	ret := instance.exec.Client.GetOne(
+		instance.exec,
+		nil,
+		[2]string{"", "AggregateTask"},
+		"aggregate",
+		[]string{"count"})
+
+	var v Aggregate
+	_, err := ret.Exec(ctx, &v)
+	return v, err
+}
+
+func (instance TaskConnectionExec) Exec(ctx context.Context) (*TaskConnection, error) {
+	var v TaskConnection
+	ok, err := instance.exec.Exec(ctx, &v)
+	if err != nil {
+		return nil, err
+	}
+	if !ok {
+		return nil, ErrNoResult
+	}
+	return &v, nil
+}
+
+func (instance TaskConnectionExec) Exists(ctx context.Context) (bool, error) {
+	return instance.exec.Exists(ctx)
+}
+
+type TaskConnectionExecArray struct {
+	exec *prisma.Exec
+}
+
+func (instance TaskConnectionExecArray) Exec(ctx context.Context) ([]TaskConnection, error) {
+	var v []TaskConnection
+	err := instance.exec.ExecArray(ctx, &v)
+	return v, err
+}
+
+type TaskConnection struct {
+}
+
+type ResourceSubscriptionPayloadExec struct {
+	exec *prisma.Exec
+}
+
+func (instance *ResourceSubscriptionPayloadExec) Node() *ResourceExec {
+	ret := instance.exec.Client.GetOne(
+		instance.exec,
+		nil,
+		[2]string{"", "Resource"},
+		"node",
+		[]string{"id", "createdAt", "updatedAt", "selector", "name", "mainType", "types", "alias", "experience"})
+
+	return &ResourceExec{ret}
+}
+
+func (instance *ResourceSubscriptionPayloadExec) PreviousValues() *ResourcePreviousValuesExec {
+	ret := instance.exec.Client.GetOne(
+		instance.exec,
+		nil,
+		[2]string{"", "ResourcePreviousValues"},
+		"previousValues",
+		[]string{"id", "createdAt", "updatedAt", "selector", "name", "mainType", "types", "alias", "experience"})
+
+	return &ResourcePreviousValuesExec{ret}
+}
+
+func (instance ResourceSubscriptionPayloadExec) Exec(ctx context.Context) (*ResourceSubscriptionPayload, error) {
+	var v ResourceSubscriptionPayload
+	ok, err := instance.exec.Exec(ctx, &v)
+	if err != nil {
+		return nil, err
+	}
+	if !ok {
+		return nil, ErrNoResult
+	}
+	return &v, nil
+}
+
+func (instance ResourceSubscriptionPayloadExec) Exists(ctx context.Context) (bool, error) {
+	return instance.exec.Exists(ctx)
+}
+
+type ResourceSubscriptionPayloadExecArray struct {
+	exec *prisma.Exec
+}
+
+func (instance ResourceSubscriptionPayloadExecArray) Exec(ctx context.Context) ([]ResourceSubscriptionPayload, error) {
+	var v []ResourceSubscriptionPayload
+	err := instance.exec.ExecArray(ctx, &v)
+	return v, err
+}
+
+type ResourceSubscriptionPayload struct {
 	Mutation      MutationType `json:"mutation"`
 	UpdatedFields []string     `json:"updatedFields,omitempty"`
+}
+
+type ResourceEdgeExec struct {
+	exec *prisma.Exec
+}
+
+func (instance *ResourceEdgeExec) Node() *ResourceExec {
+	ret := instance.exec.Client.GetOne(
+		instance.exec,
+		nil,
+		[2]string{"", "Resource"},
+		"node",
+		[]string{"id", "createdAt", "updatedAt", "selector", "name", "mainType", "types", "alias", "experience"})
+
+	return &ResourceExec{ret}
+}
+
+func (instance ResourceEdgeExec) Exec(ctx context.Context) (*ResourceEdge, error) {
+	var v ResourceEdge
+	ok, err := instance.exec.Exec(ctx, &v)
+	if err != nil {
+		return nil, err
+	}
+	if !ok {
+		return nil, ErrNoResult
+	}
+	return &v, nil
+}
+
+func (instance ResourceEdgeExec) Exists(ctx context.Context) (bool, error) {
+	return instance.exec.Exists(ctx)
+}
+
+type ResourceEdgeExecArray struct {
+	exec *prisma.Exec
+}
+
+func (instance ResourceEdgeExecArray) Exec(ctx context.Context) ([]ResourceEdge, error) {
+	var v []ResourceEdge
+	err := instance.exec.ExecArray(ctx, &v)
+	return v, err
+}
+
+type ResourceEdge struct {
+	Cursor string `json:"cursor"`
+}
+
+type PartnerExec struct {
+	exec *prisma.Exec
+}
+
+type ContactsParamsExec struct {
+	Where   *ContactWhereInput
+	OrderBy *ContactOrderByInput
+	Skip    *int32
+	After   *string
+	Before  *string
+	First   *int32
+	Last    *int32
+}
+
+func (instance *PartnerExec) Contacts(params *ContactsParamsExec) *ContactExecArray {
+	var wparams *prisma.WhereParams
+	if params != nil {
+		wparams = &prisma.WhereParams{
+			Where:   params.Where,
+			OrderBy: (*string)(params.OrderBy),
+			Skip:    params.Skip,
+			After:   params.After,
+			Before:  params.Before,
+			First:   params.First,
+			Last:    params.Last,
+		}
+	}
+
+	ret := instance.exec.Client.GetMany(
+		instance.exec,
+		wparams,
+		[3]string{"ContactWhereInput", "ContactOrderByInput", "Contact"},
+		"contacts",
+		[]string{"id", "type", "value"})
+
+	return &ContactExecArray{ret}
+}
+
+type ProjectsParamsExec struct {
+	Where   *ProjectWhereInput
+	OrderBy *ProjectOrderByInput
+	Skip    *int32
+	After   *string
+	Before  *string
+	First   *int32
+	Last    *int32
+}
+
+func (instance *PartnerExec) Projects(params *ProjectsParamsExec) *ProjectExecArray {
+	var wparams *prisma.WhereParams
+	if params != nil {
+		wparams = &prisma.WhereParams{
+			Where:   params.Where,
+			OrderBy: (*string)(params.OrderBy),
+			Skip:    params.Skip,
+			After:   params.After,
+			Before:  params.Before,
+			First:   params.First,
+			Last:    params.Last,
+		}
+	}
+
+	ret := instance.exec.Client.GetMany(
+		instance.exec,
+		wparams,
+		[3]string{"ProjectWhereInput", "ProjectOrderByInput", "Project"},
+		"projects",
+		[]string{"id", "createdAt", "updatedAt", "selector", "name"})
+
+	return &ProjectExecArray{ret}
+}
+
+func (instance PartnerExec) Exec(ctx context.Context) (*Partner, error) {
+	var v Partner
+	ok, err := instance.exec.Exec(ctx, &v)
+	if err != nil {
+		return nil, err
+	}
+	if !ok {
+		return nil, ErrNoResult
+	}
+	return &v, nil
+}
+
+func (instance PartnerExec) Exists(ctx context.Context) (bool, error) {
+	return instance.exec.Exists(ctx)
+}
+
+type PartnerExecArray struct {
+	exec *prisma.Exec
+}
+
+func (instance PartnerExecArray) Exec(ctx context.Context) ([]Partner, error) {
+	var v []Partner
+	err := instance.exec.ExecArray(ctx, &v)
+	return v, err
+}
+
+type Partner struct {
+	ID          string  `json:"id"`
+	CreatedAt   string  `json:"createdAt"`
+	UpdatedAt   string  `json:"updatedAt"`
+	Selector    *string `json:"selector,omitempty"`
+	CompanyName string  `json:"companyName"`
+}
+
+type ProjectConnectionExec struct {
+	exec *prisma.Exec
+}
+
+func (instance *ProjectConnectionExec) PageInfo() *PageInfoExec {
+	ret := instance.exec.Client.GetOne(
+		instance.exec,
+		nil,
+		[2]string{"", "PageInfo"},
+		"pageInfo",
+		[]string{"hasNextPage", "hasPreviousPage", "startCursor", "endCursor"})
+
+	return &PageInfoExec{ret}
+}
+
+func (instance *ProjectConnectionExec) Edges() *ProjectEdgeExec {
+	ret := instance.exec.Client.GetOne(
+		instance.exec,
+		nil,
+		[2]string{"", "ProjectEdge"},
+		"edges",
+		[]string{"cursor"})
+
+	return &ProjectEdgeExec{ret}
+}
+
+func (instance *ProjectConnectionExec) Aggregate(ctx context.Context) (Aggregate, error) {
+	ret := instance.exec.Client.GetOne(
+		instance.exec,
+		nil,
+		[2]string{"", "AggregateProject"},
+		"aggregate",
+		[]string{"count"})
+
+	var v Aggregate
+	_, err := ret.Exec(ctx, &v)
+	return v, err
+}
+
+func (instance ProjectConnectionExec) Exec(ctx context.Context) (*ProjectConnection, error) {
+	var v ProjectConnection
+	ok, err := instance.exec.Exec(ctx, &v)
+	if err != nil {
+		return nil, err
+	}
+	if !ok {
+		return nil, ErrNoResult
+	}
+	return &v, nil
+}
+
+func (instance ProjectConnectionExec) Exists(ctx context.Context) (bool, error) {
+	return instance.exec.Exists(ctx)
+}
+
+type ProjectConnectionExecArray struct {
+	exec *prisma.Exec
+}
+
+func (instance ProjectConnectionExecArray) Exec(ctx context.Context) ([]ProjectConnection, error) {
+	var v []ProjectConnection
+	err := instance.exec.ExecArray(ctx, &v)
+	return v, err
+}
+
+type ProjectConnection struct {
+}
+
+type ContactExec struct {
+	exec *prisma.Exec
+}
+
+func (instance ContactExec) Exec(ctx context.Context) (*Contact, error) {
+	var v Contact
+	ok, err := instance.exec.Exec(ctx, &v)
+	if err != nil {
+		return nil, err
+	}
+	if !ok {
+		return nil, ErrNoResult
+	}
+	return &v, nil
+}
+
+func (instance ContactExec) Exists(ctx context.Context) (bool, error) {
+	return instance.exec.Exists(ctx)
+}
+
+type ContactExecArray struct {
+	exec *prisma.Exec
+}
+
+func (instance ContactExecArray) Exec(ctx context.Context) ([]Contact, error) {
+	var v []Contact
+	err := instance.exec.ExecArray(ctx, &v)
+	return v, err
+}
+
+type Contact struct {
+	ID    string      `json:"id"`
+	Type  ContactType `json:"type"`
+	Value string      `json:"value"`
+}
+
+type PartnerEdgeExec struct {
+	exec *prisma.Exec
+}
+
+func (instance *PartnerEdgeExec) Node() *PartnerExec {
+	ret := instance.exec.Client.GetOne(
+		instance.exec,
+		nil,
+		[2]string{"", "Partner"},
+		"node",
+		[]string{"id", "createdAt", "updatedAt", "selector", "companyName"})
+
+	return &PartnerExec{ret}
+}
+
+func (instance PartnerEdgeExec) Exec(ctx context.Context) (*PartnerEdge, error) {
+	var v PartnerEdge
+	ok, err := instance.exec.Exec(ctx, &v)
+	if err != nil {
+		return nil, err
+	}
+	if !ok {
+		return nil, ErrNoResult
+	}
+	return &v, nil
+}
+
+func (instance PartnerEdgeExec) Exists(ctx context.Context) (bool, error) {
+	return instance.exec.Exists(ctx)
+}
+
+type PartnerEdgeExecArray struct {
+	exec *prisma.Exec
+}
+
+func (instance PartnerEdgeExecArray) Exec(ctx context.Context) ([]PartnerEdge, error) {
+	var v []PartnerEdge
+	err := instance.exec.ExecArray(ctx, &v)
+	return v, err
+}
+
+type PartnerEdge struct {
+	Cursor string `json:"cursor"`
+}
+
+type ContactSubscriptionPayloadExec struct {
+	exec *prisma.Exec
+}
+
+func (instance *ContactSubscriptionPayloadExec) Node() *ContactExec {
+	ret := instance.exec.Client.GetOne(
+		instance.exec,
+		nil,
+		[2]string{"", "Contact"},
+		"node",
+		[]string{"id", "type", "value"})
+
+	return &ContactExec{ret}
+}
+
+func (instance *ContactSubscriptionPayloadExec) PreviousValues() *ContactPreviousValuesExec {
+	ret := instance.exec.Client.GetOne(
+		instance.exec,
+		nil,
+		[2]string{"", "ContactPreviousValues"},
+		"previousValues",
+		[]string{"id", "type", "value"})
+
+	return &ContactPreviousValuesExec{ret}
+}
+
+func (instance ContactSubscriptionPayloadExec) Exec(ctx context.Context) (*ContactSubscriptionPayload, error) {
+	var v ContactSubscriptionPayload
+	ok, err := instance.exec.Exec(ctx, &v)
+	if err != nil {
+		return nil, err
+	}
+	if !ok {
+		return nil, ErrNoResult
+	}
+	return &v, nil
+}
+
+func (instance ContactSubscriptionPayloadExec) Exists(ctx context.Context) (bool, error) {
+	return instance.exec.Exists(ctx)
+}
+
+type ContactSubscriptionPayloadExecArray struct {
+	exec *prisma.Exec
+}
+
+func (instance ContactSubscriptionPayloadExecArray) Exec(ctx context.Context) ([]ContactSubscriptionPayload, error) {
+	var v []ContactSubscriptionPayload
+	err := instance.exec.ExecArray(ctx, &v)
+	return v, err
+}
+
+type ContactSubscriptionPayload struct {
+	Mutation      MutationType `json:"mutation"`
+	UpdatedFields []string     `json:"updatedFields,omitempty"`
+}
+
+type TaskSubscriptionPayloadExec struct {
+	exec *prisma.Exec
+}
+
+func (instance *TaskSubscriptionPayloadExec) Node() *TaskExec {
+	ret := instance.exec.Client.GetOne(
+		instance.exec,
+		nil,
+		[2]string{"", "Task"},
+		"node",
+		[]string{"id", "createdAt", "updatedAt", "selector", "title", "description", "state"})
+
+	return &TaskExec{ret}
+}
+
+func (instance *TaskSubscriptionPayloadExec) PreviousValues() *TaskPreviousValuesExec {
+	ret := instance.exec.Client.GetOne(
+		instance.exec,
+		nil,
+		[2]string{"", "TaskPreviousValues"},
+		"previousValues",
+		[]string{"id", "createdAt", "updatedAt", "selector", "title", "description", "state"})
+
+	return &TaskPreviousValuesExec{ret}
+}
+
+func (instance TaskSubscriptionPayloadExec) Exec(ctx context.Context) (*TaskSubscriptionPayload, error) {
+	var v TaskSubscriptionPayload
+	ok, err := instance.exec.Exec(ctx, &v)
+	if err != nil {
+		return nil, err
+	}
+	if !ok {
+		return nil, ErrNoResult
+	}
+	return &v, nil
+}
+
+func (instance TaskSubscriptionPayloadExec) Exists(ctx context.Context) (bool, error) {
+	return instance.exec.Exists(ctx)
+}
+
+type TaskSubscriptionPayloadExecArray struct {
+	exec *prisma.Exec
+}
+
+func (instance TaskSubscriptionPayloadExecArray) Exec(ctx context.Context) ([]TaskSubscriptionPayload, error) {
+	var v []TaskSubscriptionPayload
+	err := instance.exec.ExecArray(ctx, &v)
+	return v, err
+}
+
+type TaskSubscriptionPayload struct {
+	Mutation      MutationType `json:"mutation"`
+	UpdatedFields []string     `json:"updatedFields,omitempty"`
+}
+
+type ContactPreviousValuesExec struct {
+	exec *prisma.Exec
+}
+
+func (instance ContactPreviousValuesExec) Exec(ctx context.Context) (*ContactPreviousValues, error) {
+	var v ContactPreviousValues
+	ok, err := instance.exec.Exec(ctx, &v)
+	if err != nil {
+		return nil, err
+	}
+	if !ok {
+		return nil, ErrNoResult
+	}
+	return &v, nil
+}
+
+func (instance ContactPreviousValuesExec) Exists(ctx context.Context) (bool, error) {
+	return instance.exec.Exists(ctx)
+}
+
+type ContactPreviousValuesExecArray struct {
+	exec *prisma.Exec
+}
+
+func (instance ContactPreviousValuesExecArray) Exec(ctx context.Context) ([]ContactPreviousValues, error) {
+	var v []ContactPreviousValues
+	err := instance.exec.ExecArray(ctx, &v)
+	return v, err
+}
+
+type ContactPreviousValues struct {
+	ID    string      `json:"id"`
+	Type  ContactType `json:"type"`
+	Value string      `json:"value"`
+}
+
+type CostExec struct {
+	exec *prisma.Exec
+}
+
+func (instance CostExec) Exec(ctx context.Context) (*Cost, error) {
+	var v Cost
+	ok, err := instance.exec.Exec(ctx, &v)
+	if err != nil {
+		return nil, err
+	}
+	if !ok {
+		return nil, ErrNoResult
+	}
+	return &v, nil
+}
+
+func (instance CostExec) Exists(ctx context.Context) (bool, error) {
+	return instance.exec.Exists(ctx)
+}
+
+type CostExecArray struct {
+	exec *prisma.Exec
+}
+
+func (instance CostExecArray) Exec(ctx context.Context) ([]Cost, error) {
+	var v []Cost
+	err := instance.exec.ExecArray(ctx, &v)
+	return v, err
+}
+
+type Cost struct {
+	ID    string  `json:"id"`
+	Units string  `json:"units"`
+	Value float64 `json:"value"`
+}
+
+type CostEdgeExec struct {
+	exec *prisma.Exec
+}
+
+func (instance *CostEdgeExec) Node() *CostExec {
+	ret := instance.exec.Client.GetOne(
+		instance.exec,
+		nil,
+		[2]string{"", "Cost"},
+		"node",
+		[]string{"id", "units", "value"})
+
+	return &CostExec{ret}
+}
+
+func (instance CostEdgeExec) Exec(ctx context.Context) (*CostEdge, error) {
+	var v CostEdge
+	ok, err := instance.exec.Exec(ctx, &v)
+	if err != nil {
+		return nil, err
+	}
+	if !ok {
+		return nil, ErrNoResult
+	}
+	return &v, nil
+}
+
+func (instance CostEdgeExec) Exists(ctx context.Context) (bool, error) {
+	return instance.exec.Exists(ctx)
+}
+
+type CostEdgeExecArray struct {
+	exec *prisma.Exec
+}
+
+func (instance CostEdgeExecArray) Exec(ctx context.Context) ([]CostEdge, error) {
+	var v []CostEdge
+	err := instance.exec.ExecArray(ctx, &v)
+	return v, err
+}
+
+type CostEdge struct {
+	Cursor string `json:"cursor"`
+}
+
+type CostSubscriptionPayloadExec struct {
+	exec *prisma.Exec
+}
+
+func (instance *CostSubscriptionPayloadExec) Node() *CostExec {
+	ret := instance.exec.Client.GetOne(
+		instance.exec,
+		nil,
+		[2]string{"", "Cost"},
+		"node",
+		[]string{"id", "units", "value"})
+
+	return &CostExec{ret}
+}
+
+func (instance *CostSubscriptionPayloadExec) PreviousValues() *CostPreviousValuesExec {
+	ret := instance.exec.Client.GetOne(
+		instance.exec,
+		nil,
+		[2]string{"", "CostPreviousValues"},
+		"previousValues",
+		[]string{"id", "units", "value"})
+
+	return &CostPreviousValuesExec{ret}
+}
+
+func (instance CostSubscriptionPayloadExec) Exec(ctx context.Context) (*CostSubscriptionPayload, error) {
+	var v CostSubscriptionPayload
+	ok, err := instance.exec.Exec(ctx, &v)
+	if err != nil {
+		return nil, err
+	}
+	if !ok {
+		return nil, ErrNoResult
+	}
+	return &v, nil
+}
+
+func (instance CostSubscriptionPayloadExec) Exists(ctx context.Context) (bool, error) {
+	return instance.exec.Exists(ctx)
+}
+
+type CostSubscriptionPayloadExecArray struct {
+	exec *prisma.Exec
+}
+
+func (instance CostSubscriptionPayloadExecArray) Exec(ctx context.Context) ([]CostSubscriptionPayload, error) {
+	var v []CostSubscriptionPayload
+	err := instance.exec.ExecArray(ctx, &v)
+	return v, err
+}
+
+type CostSubscriptionPayload struct {
+	Mutation      MutationType `json:"mutation"`
+	UpdatedFields []string     `json:"updatedFields,omitempty"`
+}
+
+type CostPreviousValuesExec struct {
+	exec *prisma.Exec
+}
+
+func (instance CostPreviousValuesExec) Exec(ctx context.Context) (*CostPreviousValues, error) {
+	var v CostPreviousValues
+	ok, err := instance.exec.Exec(ctx, &v)
+	if err != nil {
+		return nil, err
+	}
+	if !ok {
+		return nil, ErrNoResult
+	}
+	return &v, nil
+}
+
+func (instance CostPreviousValuesExec) Exists(ctx context.Context) (bool, error) {
+	return instance.exec.Exists(ctx)
+}
+
+type CostPreviousValuesExecArray struct {
+	exec *prisma.Exec
+}
+
+func (instance CostPreviousValuesExecArray) Exec(ctx context.Context) ([]CostPreviousValues, error) {
+	var v []CostPreviousValues
+	err := instance.exec.ExecArray(ctx, &v)
+	return v, err
+}
+
+type CostPreviousValues struct {
+	ID    string  `json:"id"`
+	Units string  `json:"units"`
+	Value float64 `json:"value"`
+}
+
+type ProjectEdgeExec struct {
+	exec *prisma.Exec
+}
+
+func (instance *ProjectEdgeExec) Node() *ProjectExec {
+	ret := instance.exec.Client.GetOne(
+		instance.exec,
+		nil,
+		[2]string{"", "Project"},
+		"node",
+		[]string{"id", "createdAt", "updatedAt", "selector", "name"})
+
+	return &ProjectExec{ret}
+}
+
+func (instance ProjectEdgeExec) Exec(ctx context.Context) (*ProjectEdge, error) {
+	var v ProjectEdge
+	ok, err := instance.exec.Exec(ctx, &v)
+	if err != nil {
+		return nil, err
+	}
+	if !ok {
+		return nil, ErrNoResult
+	}
+	return &v, nil
+}
+
+func (instance ProjectEdgeExec) Exists(ctx context.Context) (bool, error) {
+	return instance.exec.Exists(ctx)
+}
+
+type ProjectEdgeExecArray struct {
+	exec *prisma.Exec
+}
+
+func (instance ProjectEdgeExecArray) Exec(ctx context.Context) ([]ProjectEdge, error) {
+	var v []ProjectEdge
+	err := instance.exec.ExecArray(ctx, &v)
+	return v, err
+}
+
+type ProjectEdge struct {
+	Cursor string `json:"cursor"`
+}
+
+type CostConnectionExec struct {
+	exec *prisma.Exec
+}
+
+func (instance *CostConnectionExec) PageInfo() *PageInfoExec {
+	ret := instance.exec.Client.GetOne(
+		instance.exec,
+		nil,
+		[2]string{"", "PageInfo"},
+		"pageInfo",
+		[]string{"hasNextPage", "hasPreviousPage", "startCursor", "endCursor"})
+
+	return &PageInfoExec{ret}
+}
+
+func (instance *CostConnectionExec) Edges() *CostEdgeExec {
+	ret := instance.exec.Client.GetOne(
+		instance.exec,
+		nil,
+		[2]string{"", "CostEdge"},
+		"edges",
+		[]string{"cursor"})
+
+	return &CostEdgeExec{ret}
+}
+
+func (instance *CostConnectionExec) Aggregate(ctx context.Context) (Aggregate, error) {
+	ret := instance.exec.Client.GetOne(
+		instance.exec,
+		nil,
+		[2]string{"", "AggregateCost"},
+		"aggregate",
+		[]string{"count"})
+
+	var v Aggregate
+	_, err := ret.Exec(ctx, &v)
+	return v, err
+}
+
+func (instance CostConnectionExec) Exec(ctx context.Context) (*CostConnection, error) {
+	var v CostConnection
+	ok, err := instance.exec.Exec(ctx, &v)
+	if err != nil {
+		return nil, err
+	}
+	if !ok {
+		return nil, ErrNoResult
+	}
+	return &v, nil
+}
+
+func (instance CostConnectionExec) Exists(ctx context.Context) (bool, error) {
+	return instance.exec.Exists(ctx)
+}
+
+type CostConnectionExecArray struct {
+	exec *prisma.Exec
+}
+
+func (instance CostConnectionExecArray) Exec(ctx context.Context) ([]CostConnection, error) {
+	var v []CostConnection
+	err := instance.exec.ExecArray(ctx, &v)
+	return v, err
+}
+
+type CostConnection struct {
+}
+
+type PartnerConnectionExec struct {
+	exec *prisma.Exec
+}
+
+func (instance *PartnerConnectionExec) PageInfo() *PageInfoExec {
+	ret := instance.exec.Client.GetOne(
+		instance.exec,
+		nil,
+		[2]string{"", "PageInfo"},
+		"pageInfo",
+		[]string{"hasNextPage", "hasPreviousPage", "startCursor", "endCursor"})
+
+	return &PageInfoExec{ret}
+}
+
+func (instance *PartnerConnectionExec) Edges() *PartnerEdgeExec {
+	ret := instance.exec.Client.GetOne(
+		instance.exec,
+		nil,
+		[2]string{"", "PartnerEdge"},
+		"edges",
+		[]string{"cursor"})
+
+	return &PartnerEdgeExec{ret}
+}
+
+func (instance *PartnerConnectionExec) Aggregate(ctx context.Context) (Aggregate, error) {
+	ret := instance.exec.Client.GetOne(
+		instance.exec,
+		nil,
+		[2]string{"", "AggregatePartner"},
+		"aggregate",
+		[]string{"count"})
+
+	var v Aggregate
+	_, err := ret.Exec(ctx, &v)
+	return v, err
+}
+
+func (instance PartnerConnectionExec) Exec(ctx context.Context) (*PartnerConnection, error) {
+	var v PartnerConnection
+	ok, err := instance.exec.Exec(ctx, &v)
+	if err != nil {
+		return nil, err
+	}
+	if !ok {
+		return nil, ErrNoResult
+	}
+	return &v, nil
+}
+
+func (instance PartnerConnectionExec) Exists(ctx context.Context) (bool, error) {
+	return instance.exec.Exists(ctx)
+}
+
+type PartnerConnectionExecArray struct {
+	exec *prisma.Exec
+}
+
+func (instance PartnerConnectionExecArray) Exec(ctx context.Context) ([]PartnerConnection, error) {
+	var v []PartnerConnection
+	err := instance.exec.ExecArray(ctx, &v)
+	return v, err
+}
+
+type PartnerConnection struct {
 }
 
 type ResourceExec struct {
@@ -4303,104 +3990,11 @@ type Resource struct {
 	Experience float64        `json:"experience"`
 }
 
-type CostPreviousValuesExec struct {
+type ProjectSubscriptionPayloadExec struct {
 	exec *prisma.Exec
 }
 
-func (instance CostPreviousValuesExec) Exec(ctx context.Context) (*CostPreviousValues, error) {
-	var v CostPreviousValues
-	ok, err := instance.exec.Exec(ctx, &v)
-	if err != nil {
-		return nil, err
-	}
-	if !ok {
-		return nil, ErrNoResult
-	}
-	return &v, nil
-}
-
-func (instance CostPreviousValuesExec) Exists(ctx context.Context) (bool, error) {
-	return instance.exec.Exists(ctx)
-}
-
-type CostPreviousValuesExecArray struct {
-	exec *prisma.Exec
-}
-
-func (instance CostPreviousValuesExecArray) Exec(ctx context.Context) ([]CostPreviousValues, error) {
-	var v []CostPreviousValues
-	err := instance.exec.ExecArray(ctx, &v)
-	return v, err
-}
-
-type CostPreviousValues struct {
-	ID    string  `json:"id"`
-	Units string  `json:"units"`
-	Value float64 `json:"value"`
-}
-
-type CostSubscriptionPayloadExec struct {
-	exec *prisma.Exec
-}
-
-func (instance *CostSubscriptionPayloadExec) Node() *CostExec {
-	ret := instance.exec.Client.GetOne(
-		instance.exec,
-		nil,
-		[2]string{"", "Cost"},
-		"node",
-		[]string{"id", "units", "value"})
-
-	return &CostExec{ret}
-}
-
-func (instance *CostSubscriptionPayloadExec) PreviousValues() *CostPreviousValuesExec {
-	ret := instance.exec.Client.GetOne(
-		instance.exec,
-		nil,
-		[2]string{"", "CostPreviousValues"},
-		"previousValues",
-		[]string{"id", "units", "value"})
-
-	return &CostPreviousValuesExec{ret}
-}
-
-func (instance CostSubscriptionPayloadExec) Exec(ctx context.Context) (*CostSubscriptionPayload, error) {
-	var v CostSubscriptionPayload
-	ok, err := instance.exec.Exec(ctx, &v)
-	if err != nil {
-		return nil, err
-	}
-	if !ok {
-		return nil, ErrNoResult
-	}
-	return &v, nil
-}
-
-func (instance CostSubscriptionPayloadExec) Exists(ctx context.Context) (bool, error) {
-	return instance.exec.Exists(ctx)
-}
-
-type CostSubscriptionPayloadExecArray struct {
-	exec *prisma.Exec
-}
-
-func (instance CostSubscriptionPayloadExecArray) Exec(ctx context.Context) ([]CostSubscriptionPayload, error) {
-	var v []CostSubscriptionPayload
-	err := instance.exec.ExecArray(ctx, &v)
-	return v, err
-}
-
-type CostSubscriptionPayload struct {
-	Mutation      MutationType `json:"mutation"`
-	UpdatedFields []string     `json:"updatedFields,omitempty"`
-}
-
-type ProjectEdgeExec struct {
-	exec *prisma.Exec
-}
-
-func (instance *ProjectEdgeExec) Node() *ProjectExec {
+func (instance *ProjectSubscriptionPayloadExec) Node() *ProjectExec {
 	ret := instance.exec.Client.GetOne(
 		instance.exec,
 		nil,
@@ -4411,8 +4005,19 @@ func (instance *ProjectEdgeExec) Node() *ProjectExec {
 	return &ProjectExec{ret}
 }
 
-func (instance ProjectEdgeExec) Exec(ctx context.Context) (*ProjectEdge, error) {
-	var v ProjectEdge
+func (instance *ProjectSubscriptionPayloadExec) PreviousValues() *ProjectPreviousValuesExec {
+	ret := instance.exec.Client.GetOne(
+		instance.exec,
+		nil,
+		[2]string{"", "ProjectPreviousValues"},
+		"previousValues",
+		[]string{"id", "createdAt", "updatedAt", "selector", "name"})
+
+	return &ProjectPreviousValuesExec{ret}
+}
+
+func (instance ProjectSubscriptionPayloadExec) Exec(ctx context.Context) (*ProjectSubscriptionPayload, error) {
+	var v ProjectSubscriptionPayload
 	ok, err := instance.exec.Exec(ctx, &v)
 	if err != nil {
 		return nil, err
@@ -4423,20 +4028,415 @@ func (instance ProjectEdgeExec) Exec(ctx context.Context) (*ProjectEdge, error) 
 	return &v, nil
 }
 
-func (instance ProjectEdgeExec) Exists(ctx context.Context) (bool, error) {
+func (instance ProjectSubscriptionPayloadExec) Exists(ctx context.Context) (bool, error) {
 	return instance.exec.Exists(ctx)
 }
 
-type ProjectEdgeExecArray struct {
+type ProjectSubscriptionPayloadExecArray struct {
 	exec *prisma.Exec
 }
 
-func (instance ProjectEdgeExecArray) Exec(ctx context.Context) ([]ProjectEdge, error) {
-	var v []ProjectEdge
+func (instance ProjectSubscriptionPayloadExecArray) Exec(ctx context.Context) ([]ProjectSubscriptionPayload, error) {
+	var v []ProjectSubscriptionPayload
 	err := instance.exec.ExecArray(ctx, &v)
 	return v, err
 }
 
-type ProjectEdge struct {
+type ProjectSubscriptionPayload struct {
+	Mutation      MutationType `json:"mutation"`
+	UpdatedFields []string     `json:"updatedFields,omitempty"`
+}
+
+type ContactEdgeExec struct {
+	exec *prisma.Exec
+}
+
+func (instance *ContactEdgeExec) Node() *ContactExec {
+	ret := instance.exec.Client.GetOne(
+		instance.exec,
+		nil,
+		[2]string{"", "Contact"},
+		"node",
+		[]string{"id", "type", "value"})
+
+	return &ContactExec{ret}
+}
+
+func (instance ContactEdgeExec) Exec(ctx context.Context) (*ContactEdge, error) {
+	var v ContactEdge
+	ok, err := instance.exec.Exec(ctx, &v)
+	if err != nil {
+		return nil, err
+	}
+	if !ok {
+		return nil, ErrNoResult
+	}
+	return &v, nil
+}
+
+func (instance ContactEdgeExec) Exists(ctx context.Context) (bool, error) {
+	return instance.exec.Exists(ctx)
+}
+
+type ContactEdgeExecArray struct {
+	exec *prisma.Exec
+}
+
+func (instance ContactEdgeExecArray) Exec(ctx context.Context) ([]ContactEdge, error) {
+	var v []ContactEdge
+	err := instance.exec.ExecArray(ctx, &v)
+	return v, err
+}
+
+type ContactEdge struct {
 	Cursor string `json:"cursor"`
+}
+
+type PartnerPreviousValuesExec struct {
+	exec *prisma.Exec
+}
+
+func (instance PartnerPreviousValuesExec) Exec(ctx context.Context) (*PartnerPreviousValues, error) {
+	var v PartnerPreviousValues
+	ok, err := instance.exec.Exec(ctx, &v)
+	if err != nil {
+		return nil, err
+	}
+	if !ok {
+		return nil, ErrNoResult
+	}
+	return &v, nil
+}
+
+func (instance PartnerPreviousValuesExec) Exists(ctx context.Context) (bool, error) {
+	return instance.exec.Exists(ctx)
+}
+
+type PartnerPreviousValuesExecArray struct {
+	exec *prisma.Exec
+}
+
+func (instance PartnerPreviousValuesExecArray) Exec(ctx context.Context) ([]PartnerPreviousValues, error) {
+	var v []PartnerPreviousValues
+	err := instance.exec.ExecArray(ctx, &v)
+	return v, err
+}
+
+type PartnerPreviousValues struct {
+	ID          string  `json:"id"`
+	CreatedAt   string  `json:"createdAt"`
+	UpdatedAt   string  `json:"updatedAt"`
+	Selector    *string `json:"selector,omitempty"`
+	CompanyName string  `json:"companyName"`
+}
+
+type PartnerSubscriptionPayloadExec struct {
+	exec *prisma.Exec
+}
+
+func (instance *PartnerSubscriptionPayloadExec) Node() *PartnerExec {
+	ret := instance.exec.Client.GetOne(
+		instance.exec,
+		nil,
+		[2]string{"", "Partner"},
+		"node",
+		[]string{"id", "createdAt", "updatedAt", "selector", "companyName"})
+
+	return &PartnerExec{ret}
+}
+
+func (instance *PartnerSubscriptionPayloadExec) PreviousValues() *PartnerPreviousValuesExec {
+	ret := instance.exec.Client.GetOne(
+		instance.exec,
+		nil,
+		[2]string{"", "PartnerPreviousValues"},
+		"previousValues",
+		[]string{"id", "createdAt", "updatedAt", "selector", "companyName"})
+
+	return &PartnerPreviousValuesExec{ret}
+}
+
+func (instance PartnerSubscriptionPayloadExec) Exec(ctx context.Context) (*PartnerSubscriptionPayload, error) {
+	var v PartnerSubscriptionPayload
+	ok, err := instance.exec.Exec(ctx, &v)
+	if err != nil {
+		return nil, err
+	}
+	if !ok {
+		return nil, ErrNoResult
+	}
+	return &v, nil
+}
+
+func (instance PartnerSubscriptionPayloadExec) Exists(ctx context.Context) (bool, error) {
+	return instance.exec.Exists(ctx)
+}
+
+type PartnerSubscriptionPayloadExecArray struct {
+	exec *prisma.Exec
+}
+
+func (instance PartnerSubscriptionPayloadExecArray) Exec(ctx context.Context) ([]PartnerSubscriptionPayload, error) {
+	var v []PartnerSubscriptionPayload
+	err := instance.exec.ExecArray(ctx, &v)
+	return v, err
+}
+
+type PartnerSubscriptionPayload struct {
+	Mutation      MutationType `json:"mutation"`
+	UpdatedFields []string     `json:"updatedFields,omitempty"`
+}
+
+type TaskEdgeExec struct {
+	exec *prisma.Exec
+}
+
+func (instance *TaskEdgeExec) Node() *TaskExec {
+	ret := instance.exec.Client.GetOne(
+		instance.exec,
+		nil,
+		[2]string{"", "Task"},
+		"node",
+		[]string{"id", "createdAt", "updatedAt", "selector", "title", "description", "state"})
+
+	return &TaskExec{ret}
+}
+
+func (instance TaskEdgeExec) Exec(ctx context.Context) (*TaskEdge, error) {
+	var v TaskEdge
+	ok, err := instance.exec.Exec(ctx, &v)
+	if err != nil {
+		return nil, err
+	}
+	if !ok {
+		return nil, ErrNoResult
+	}
+	return &v, nil
+}
+
+func (instance TaskEdgeExec) Exists(ctx context.Context) (bool, error) {
+	return instance.exec.Exists(ctx)
+}
+
+type TaskEdgeExecArray struct {
+	exec *prisma.Exec
+}
+
+func (instance TaskEdgeExecArray) Exec(ctx context.Context) ([]TaskEdge, error) {
+	var v []TaskEdge
+	err := instance.exec.ExecArray(ctx, &v)
+	return v, err
+}
+
+type TaskEdge struct {
+	Cursor string `json:"cursor"`
+}
+
+type TaskExec struct {
+	exec *prisma.Exec
+}
+
+func (instance *TaskExec) Parent() *TaskExec {
+	ret := instance.exec.Client.GetOne(
+		instance.exec,
+		nil,
+		[2]string{"", "Task"},
+		"parent",
+		[]string{"id", "createdAt", "updatedAt", "selector", "title", "description", "state"})
+
+	return &TaskExec{ret}
+}
+
+func (instance *TaskExec) Leader() *ResourceExec {
+	ret := instance.exec.Client.GetOne(
+		instance.exec,
+		nil,
+		[2]string{"", "Resource"},
+		"leader",
+		[]string{"id", "createdAt", "updatedAt", "selector", "name", "mainType", "types", "alias", "experience"})
+
+	return &ResourceExec{ret}
+}
+
+type ResourcesParamsExec struct {
+	Where   *ResourceWhereInput
+	OrderBy *ResourceOrderByInput
+	Skip    *int32
+	After   *string
+	Before  *string
+	First   *int32
+	Last    *int32
+}
+
+func (instance *TaskExec) Resources(params *ResourcesParamsExec) *ResourceExecArray {
+	var wparams *prisma.WhereParams
+	if params != nil {
+		wparams = &prisma.WhereParams{
+			Where:   params.Where,
+			OrderBy: (*string)(params.OrderBy),
+			Skip:    params.Skip,
+			After:   params.After,
+			Before:  params.Before,
+			First:   params.First,
+			Last:    params.Last,
+		}
+	}
+
+	ret := instance.exec.Client.GetMany(
+		instance.exec,
+		wparams,
+		[3]string{"ResourceWhereInput", "ResourceOrderByInput", "Resource"},
+		"resources",
+		[]string{"id", "createdAt", "updatedAt", "selector", "name", "mainType", "types", "alias", "experience"})
+
+	return &ResourceExecArray{ret}
+}
+
+type ChildrenParamsExec struct {
+	Where   *TaskWhereInput
+	OrderBy *TaskOrderByInput
+	Skip    *int32
+	After   *string
+	Before  *string
+	First   *int32
+	Last    *int32
+}
+
+func (instance *TaskExec) Children(params *ChildrenParamsExec) *TaskExecArray {
+	var wparams *prisma.WhereParams
+	if params != nil {
+		wparams = &prisma.WhereParams{
+			Where:   params.Where,
+			OrderBy: (*string)(params.OrderBy),
+			Skip:    params.Skip,
+			After:   params.After,
+			Before:  params.Before,
+			First:   params.First,
+			Last:    params.Last,
+		}
+	}
+
+	ret := instance.exec.Client.GetMany(
+		instance.exec,
+		wparams,
+		[3]string{"TaskWhereInput", "TaskOrderByInput", "Task"},
+		"children",
+		[]string{"id", "createdAt", "updatedAt", "selector", "title", "description", "state"})
+
+	return &TaskExecArray{ret}
+}
+
+func (instance *TaskExec) Project() *ProjectExec {
+	ret := instance.exec.Client.GetOne(
+		instance.exec,
+		nil,
+		[2]string{"", "Project"},
+		"project",
+		[]string{"id", "createdAt", "updatedAt", "selector", "name"})
+
+	return &ProjectExec{ret}
+}
+
+func (instance TaskExec) Exec(ctx context.Context) (*Task, error) {
+	var v Task
+	ok, err := instance.exec.Exec(ctx, &v)
+	if err != nil {
+		return nil, err
+	}
+	if !ok {
+		return nil, ErrNoResult
+	}
+	return &v, nil
+}
+
+func (instance TaskExec) Exists(ctx context.Context) (bool, error) {
+	return instance.exec.Exists(ctx)
+}
+
+type TaskExecArray struct {
+	exec *prisma.Exec
+}
+
+func (instance TaskExecArray) Exec(ctx context.Context) ([]Task, error) {
+	var v []Task
+	err := instance.exec.ExecArray(ctx, &v)
+	return v, err
+}
+
+type Task struct {
+	ID          string     `json:"id"`
+	CreatedAt   string     `json:"createdAt"`
+	UpdatedAt   string     `json:"updatedAt"`
+	Selector    *string    `json:"selector,omitempty"`
+	Title       string     `json:"title"`
+	Description string     `json:"description"`
+	State       *TaskState `json:"state,omitempty"`
+}
+
+type ResourceConnectionExec struct {
+	exec *prisma.Exec
+}
+
+func (instance *ResourceConnectionExec) PageInfo() *PageInfoExec {
+	ret := instance.exec.Client.GetOne(
+		instance.exec,
+		nil,
+		[2]string{"", "PageInfo"},
+		"pageInfo",
+		[]string{"hasNextPage", "hasPreviousPage", "startCursor", "endCursor"})
+
+	return &PageInfoExec{ret}
+}
+
+func (instance *ResourceConnectionExec) Edges() *ResourceEdgeExec {
+	ret := instance.exec.Client.GetOne(
+		instance.exec,
+		nil,
+		[2]string{"", "ResourceEdge"},
+		"edges",
+		[]string{"cursor"})
+
+	return &ResourceEdgeExec{ret}
+}
+
+func (instance *ResourceConnectionExec) Aggregate(ctx context.Context) (Aggregate, error) {
+	ret := instance.exec.Client.GetOne(
+		instance.exec,
+		nil,
+		[2]string{"", "AggregateResource"},
+		"aggregate",
+		[]string{"count"})
+
+	var v Aggregate
+	_, err := ret.Exec(ctx, &v)
+	return v, err
+}
+
+func (instance ResourceConnectionExec) Exec(ctx context.Context) (*ResourceConnection, error) {
+	var v ResourceConnection
+	ok, err := instance.exec.Exec(ctx, &v)
+	if err != nil {
+		return nil, err
+	}
+	if !ok {
+		return nil, ErrNoResult
+	}
+	return &v, nil
+}
+
+func (instance ResourceConnectionExec) Exists(ctx context.Context) (bool, error) {
+	return instance.exec.Exists(ctx)
+}
+
+type ResourceConnectionExecArray struct {
+	exec *prisma.Exec
+}
+
+func (instance ResourceConnectionExecArray) Exec(ctx context.Context) ([]ResourceConnection, error) {
+	var v []ResourceConnection
+	err := instance.exec.ExecArray(ctx, &v)
+	return v, err
+}
+
+type ResourceConnection struct {
 }

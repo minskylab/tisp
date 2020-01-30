@@ -5,17 +5,17 @@ enum ContactType {
 
 type Contact {
   id: ID! @id
-  type: ContactType
-  value: String
+  type: ContactType!
+  value: String!
 }
 
-type Company {
+type Partner {
   id: ID! @id
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
 
   selector: String @unique
-  companyName: String
+  companyName: String!
   contacts: [Contact!]! @relation(link: INLINE)
   projects: [Project!]! @relation(link: INLINE)
 }

@@ -1,6 +1,6 @@
 endpoint: http://localhost:4466
 datamodel:
-  - clients.graphql
+  - partners.graphql
   - costs.graphql
   - datamodel.graphql
   - projects.graphql
