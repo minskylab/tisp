@@ -9,5 +9,5 @@ type Project {
     partner: Partner!
     leader: Resource @relation(name: "ProjectLeaders")
     tasks: [Task!]! @relation(link: INLINE)
-    stages: [Stage!]! @relation(link: INLINE)
+    stages: [Stage!]! @relation(link: INLINE, name: "ProjectStages")
 }

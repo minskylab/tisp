@@ -1,8 +1,13 @@
 type Stage {
-    id: ID!
+    id: ID! @id
 
     name: String!
     selector: String @unique
 
-    tasks: [Task!]!
+    parentProject: Project @relation(name: "ProjectStages")
+
+    tasks: [Task!]! @relation(link: INLINE)
+
+    parentStage: Stage @relation(name: "SubStages")
+    stages: [Stage!]! @relation(link: INLINE, name: "SubStages")
 }

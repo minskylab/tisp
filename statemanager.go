@@ -1,6 +1,6 @@
 package tisp
 
-import p "github.com/minskylab/tisp/dbclient"
+import p "github.com/minskylab/tisp/repository"
 
 type StateManager interface {
 	RegisterNewProject(info NewProjectInformation) (*p.Project, error)
@@ -10,6 +10,10 @@ type StateManager interface {
 	AddTaskToProject(projectID string, task NewTaskInformation) (*p.Project, error)
 	AddSubTaskToTask(taskID string, task NewTaskInformation) (*p.Task, error)
 	AddResourceToTask(taskID string, res NewResourceInformation) (*p.Task, error)
+	// ++
+	AddStageToProject(projectID string, newStage NewStage) (*p.Project, error)
+	AddTaskToStage(projectID, stageID string, task NewTaskInformation) (*p.Project, error)
+	AddStageToStage(projectID, stageID string, newStage NewStage) (*p.Project, error)
 
 	GetProjects(p ...Pagination) ([]p.Project, error)
 	GetProject(projectID string) (*p.Project, error)

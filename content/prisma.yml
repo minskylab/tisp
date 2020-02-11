@@ -12,4 +12,4 @@ secret: mysecret42
 
 generate:
   - generator: go-client
-    output: ../dbclient/
+    output: ../repository/

@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/minskylab/tisp"
-	p "github.com/minskylab/tisp/dbclient"
+	p "github.com/minskylab/tisp/repository"
 
 )
 

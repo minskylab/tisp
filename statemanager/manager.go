@@ -1,7 +1,7 @@
 package statemanager
 
 import (
-	p "github.com/minskylab/tisp/dbclient"
+	p "github.com/minskylab/tisp/repository"
 )
 
 type StateManager struct {

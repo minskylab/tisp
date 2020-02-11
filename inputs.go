@@ -1,6 +1,6 @@
 package tisp
 
-import p "github.com/minskylab/tisp/dbclient"
+import p "github.com/minskylab/tisp/repository"
 
 type NewProjectInformation struct {
 	Name      string
@@ -34,4 +34,10 @@ type NewPartnerInformation struct {
 
 	Email *string
 	Phone *string
+}
+
+type NewStage struct {
+	Name string
+	Selector *string
+	Tasks *[]NewTaskInformation
 }

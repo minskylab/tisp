@@ -6,7 +6,7 @@ import (
 	"github.com/minskylab/tisp"
 	// "github.com/minskylab/tisp"
 	sm "github.com/minskylab/tisp/statemanager"
-	// p "github.com/minskylab/tisp/dbclient"
+	// p "github.com/minskylab/tisp/repository"
 )
 
 func main() {
