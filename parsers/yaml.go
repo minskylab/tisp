@@ -1,6 +1,10 @@
 package parsers
 
-import "gopkg.in/yaml.v2"
+import (
+	"errors"
+
+	"gopkg.in/yaml.v2"
+)
 
 type yamlBase struct {
 	APIVersion string `yaml:"apiVersion"`
@@ -12,15 +16,26 @@ type yamlBase struct {
 type Kind string
 
 const Project Kind = "project"
-const Resource Kind = "project"
-const Resource Kind = "project"
+const Stage Kind = "stage"
+const Task Kind = "task"
+const Resource Kind = "resource"
 
+const UndefinedKind Kind = "undefined"
 
 func indentifyAndVerifyYAML(data []byte) (Kind, error) {
 	base := new(yamlBase)
 	if err := yaml.Unmarshal(data, base); err != nil {
-		return err
+		return UndefinedKind, err
 	}
 
+	switch base.Kind {
+	case Project:
+
+	case Stage:
+	case Task:
+	case Resource:
+	default:
+		return UndefinedKind, errors.New("invalid kind")
+	}
 
 }
