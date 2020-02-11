@@ -1,5 +1,5 @@
 type Cost {
-  id: ID! @id
-  units: String!
-  value: Float!
+    id: ID! @id
+    units: String!
+    value: Float!
 }

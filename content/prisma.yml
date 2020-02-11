@@ -6,6 +6,7 @@ datamodel:
   - projects.graphql
   - resources.graphql
   - tasks.graphql
+  - stages.graphql
 
 secret: mysecret42
 

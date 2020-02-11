@@ -1,12 +1,13 @@
 type Project {
-  id: ID! @id
-  createdAt: DateTime! @createdAt
-  updatedAt: DateTime! @updatedAt
+    id: ID! @id
+    createdAt: DateTime! @createdAt
+    updatedAt: DateTime! @updatedAt
 
-  selector: String @unique
+    selector: String @unique
 
-  name: String!
-  partner: Partner!
-  leader: Resource @relation(name: "ProjectLeaders")
-  tasks: [Task!]! @relation(link: INLINE)
+    name: String!
+    partner: Partner!
+    leader: Resource @relation(name: "ProjectLeaders")
+    tasks: [Task!]! @relation(link: INLINE)
+    stages: [Stage!]! @relation(link: INLINE)
 }
