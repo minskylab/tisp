@@ -1,7 +1,7 @@
 package tisp
 
 
-type Pagination struct {
+type Selector struct {
 	BySelectors *[]string
 	ByIDs *[]string
 
@@ -10,7 +10,7 @@ type Pagination struct {
 }
 
 
-var DefaultPagination = Pagination{
+var DefaultSelector = Selector{
 	BySelectors: nil,
 	ByIDs:       nil,
 	First:       20,

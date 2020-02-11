@@ -363,7 +363,7 @@ func (client *Client) Stage(params StageWhereUniqueInput) *StageExec {
 		params,
 		[2]string{"StageWhereUniqueInput!", "Stage"},
 		"stage",
-		[]string{"id", "name", "selector"})
+		[]string{"id", "name", "selector", "fixedCost", "fixedDuration"})
 
 	return &StageExec{ret}
 }
@@ -397,7 +397,7 @@ func (client *Client) Stages(params *StagesParams) *StageExecArray {
 		wparams,
 		[3]string{"StageWhereInput", "StageOrderByInput", "Stage"},
 		"stages",
-		[]string{"id", "name", "selector"})
+		[]string{"id", "name", "selector", "fixedCost", "fixedDuration"})
 
 	return &StageExecArray{ret}
 }
@@ -880,7 +880,7 @@ func (client *Client) CreateStage(params StageCreateInput) *StageExec {
 		params,
 		[2]string{"StageCreateInput!", "Stage"},
 		"createStage",
-		[]string{"id", "name", "selector"})
+		[]string{"id", "name", "selector", "fixedCost", "fixedDuration"})
 
 	return &StageExec{ret}
 }
@@ -898,7 +898,7 @@ func (client *Client) UpdateStage(params StageUpdateParams) *StageExec {
 		},
 		[3]string{"StageUpdateInput!", "StageWhereUniqueInput!", "Stage"},
 		"updateStage",
-		[]string{"id", "name", "selector"})
+		[]string{"id", "name", "selector", "fixedCost", "fixedDuration"})
 
 	return &StageExec{ret}
 }
@@ -935,7 +935,7 @@ func (client *Client) UpsertStage(params StageUpsertParams) *StageExec {
 		uparams,
 		[4]string{"StageWhereUniqueInput!", "StageCreateInput!", "StageUpdateInput!", "Stage"},
 		"upsertStage",
-		[]string{"id", "name", "selector"})
+		[]string{"id", "name", "selector", "fixedCost", "fixedDuration"})
 
 	return &StageExec{ret}
 }
@@ -945,7 +945,7 @@ func (client *Client) DeleteStage(params StageWhereUniqueInput) *StageExec {
 		params,
 		[2]string{"StageWhereUniqueInput!", "Stage"},
 		"deleteStage",
-		[]string{"id", "name", "selector"})
+		[]string{"id", "name", "selector", "fixedCost", "fixedDuration"})
 
 	return &StageExec{ret}
 }
@@ -1140,12 +1140,16 @@ const (
 type StageOrderByInput string
 
 const (
-	StageOrderByInputIDAsc        StageOrderByInput = "id_ASC"
-	StageOrderByInputIDDesc       StageOrderByInput = "id_DESC"
-	StageOrderByInputNameAsc      StageOrderByInput = "name_ASC"
-	StageOrderByInputNameDesc     StageOrderByInput = "name_DESC"
-	StageOrderByInputSelectorAsc  StageOrderByInput = "selector_ASC"
-	StageOrderByInputSelectorDesc StageOrderByInput = "selector_DESC"
+	StageOrderByInputIDAsc             StageOrderByInput = "id_ASC"
+	StageOrderByInputIDDesc            StageOrderByInput = "id_DESC"
+	StageOrderByInputNameAsc           StageOrderByInput = "name_ASC"
+	StageOrderByInputNameDesc          StageOrderByInput = "name_DESC"
+	StageOrderByInputSelectorAsc       StageOrderByInput = "selector_ASC"
+	StageOrderByInputSelectorDesc      StageOrderByInput = "selector_DESC"
+	StageOrderByInputFixedCostAsc      StageOrderByInput = "fixedCost_ASC"
+	StageOrderByInputFixedCostDesc     StageOrderByInput = "fixedCost_DESC"
+	StageOrderByInputFixedDurationAsc  StageOrderByInput = "fixedDuration_ASC"
+	StageOrderByInputFixedDurationDesc StageOrderByInput = "fixedDuration_DESC"
 )
 
 type PartnerOrderByInput string
@@ -1205,6 +1209,8 @@ type StageCreateWithoutStagesInput struct {
 	ID            *string                             `json:"id,omitempty"`
 	Name          string                              `json:"name"`
 	Selector      *string                             `json:"selector,omitempty"`
+	FixedCost     *float64                            `json:"fixedCost,omitempty"`
+	FixedDuration *int32                              `json:"fixedDuration,omitempty"`
 	ParentProject *ProjectCreateOneWithoutStagesInput `json:"parentProject,omitempty"`
 	ParentStage   *StageCreateOneWithoutStagesInput   `json:"parentStage,omitempty"`
 	Tasks         *TaskCreateManyWithoutStageInput    `json:"tasks,omitempty"`
@@ -1461,6 +1467,8 @@ type StageCreateWithoutParentStageInput struct {
 	ID            *string                                 `json:"id,omitempty"`
 	Name          string                                  `json:"name"`
 	Selector      *string                                 `json:"selector,omitempty"`
+	FixedCost     *float64                                `json:"fixedCost,omitempty"`
+	FixedDuration *int32                                  `json:"fixedDuration,omitempty"`
 	ParentProject *ProjectCreateOneWithoutStagesInput     `json:"parentProject,omitempty"`
 	Stages        *StageCreateManyWithoutParentStageInput `json:"stages,omitempty"`
 	Tasks         *TaskCreateManyWithoutStageInput        `json:"tasks,omitempty"`
@@ -1606,6 +1614,22 @@ type StageWhereInput struct {
 	SelectorNotStartsWith *string            `json:"selector_not_starts_with,omitempty"`
 	SelectorEndsWith      *string            `json:"selector_ends_with,omitempty"`
 	SelectorNotEndsWith   *string            `json:"selector_not_ends_with,omitempty"`
+	FixedCost             *float64           `json:"fixedCost,omitempty"`
+	FixedCostNot          *float64           `json:"fixedCost_not,omitempty"`
+	FixedCostIn           []float64          `json:"fixedCost_in,omitempty"`
+	FixedCostNotIn        []float64          `json:"fixedCost_not_in,omitempty"`
+	FixedCostLt           *float64           `json:"fixedCost_lt,omitempty"`
+	FixedCostLte          *float64           `json:"fixedCost_lte,omitempty"`
+	FixedCostGt           *float64           `json:"fixedCost_gt,omitempty"`
+	FixedCostGte          *float64           `json:"fixedCost_gte,omitempty"`
+	FixedDuration         *int32             `json:"fixedDuration,omitempty"`
+	FixedDurationNot      *int32             `json:"fixedDuration_not,omitempty"`
+	FixedDurationIn       []int32            `json:"fixedDuration_in,omitempty"`
+	FixedDurationNotIn    []int32            `json:"fixedDuration_not_in,omitempty"`
+	FixedDurationLt       *int32             `json:"fixedDuration_lt,omitempty"`
+	FixedDurationLte      *int32             `json:"fixedDuration_lte,omitempty"`
+	FixedDurationGt       *int32             `json:"fixedDuration_gt,omitempty"`
+	FixedDurationGte      *int32             `json:"fixedDuration_gte,omitempty"`
 	ParentProject         *ProjectWhereInput `json:"parentProject,omitempty"`
 	ParentStage           *StageWhereInput   `json:"parentStage,omitempty"`
 	StagesEvery           *StageWhereInput   `json:"stages_every,omitempty"`
@@ -1623,6 +1647,8 @@ type StageCreateWithoutTasksInput struct {
 	ID            *string                                 `json:"id,omitempty"`
 	Name          string                                  `json:"name"`
 	Selector      *string                                 `json:"selector,omitempty"`
+	FixedCost     *float64                                `json:"fixedCost,omitempty"`
+	FixedDuration *int32                                  `json:"fixedDuration,omitempty"`
 	ParentProject *ProjectCreateOneWithoutStagesInput     `json:"parentProject,omitempty"`
 	ParentStage   *StageCreateOneWithoutStagesInput       `json:"parentStage,omitempty"`
 	Stages        *StageCreateManyWithoutParentStageInput `json:"stages,omitempty"`
@@ -1652,6 +1678,8 @@ type PartnerUpdateInput struct {
 type StageUpdateInput struct {
 	Name          *string                                 `json:"name,omitempty"`
 	Selector      *string                                 `json:"selector,omitempty"`
+	FixedCost     *float64                                `json:"fixedCost,omitempty"`
+	FixedDuration *int32                                  `json:"fixedDuration,omitempty"`
 	ParentProject *ProjectUpdateOneWithoutStagesInput     `json:"parentProject,omitempty"`
 	ParentStage   *StageUpdateOneWithoutStagesInput       `json:"parentStage,omitempty"`
 	Stages        *StageUpdateManyWithoutParentStageInput `json:"stages,omitempty"`
@@ -2466,8 +2494,10 @@ type TaskUpdateManyWithoutLeaderInput struct {
 }
 
 type StageUpdateManyMutationInput struct {
-	Name     *string `json:"name,omitempty"`
-	Selector *string `json:"selector,omitempty"`
+	Name          *string  `json:"name,omitempty"`
+	Selector      *string  `json:"selector,omitempty"`
+	FixedCost     *float64 `json:"fixedCost,omitempty"`
+	FixedDuration *int32   `json:"fixedDuration,omitempty"`
 }
 
 type TaskUpdateWithWhereUniqueWithoutLeaderInput struct {
@@ -2611,11 +2641,13 @@ type ContactCreateManyInput struct {
 }
 
 type StageUpdateWithoutParentProjectDataInput struct {
-	Name        *string                                 `json:"name,omitempty"`
-	Selector    *string                                 `json:"selector,omitempty"`
-	ParentStage *StageUpdateOneWithoutStagesInput       `json:"parentStage,omitempty"`
-	Stages      *StageUpdateManyWithoutParentStageInput `json:"stages,omitempty"`
-	Tasks       *TaskUpdateManyWithoutStageInput        `json:"tasks,omitempty"`
+	Name          *string                                 `json:"name,omitempty"`
+	Selector      *string                                 `json:"selector,omitempty"`
+	FixedCost     *float64                                `json:"fixedCost,omitempty"`
+	FixedDuration *int32                                  `json:"fixedDuration,omitempty"`
+	ParentStage   *StageUpdateOneWithoutStagesInput       `json:"parentStage,omitempty"`
+	Stages        *StageUpdateManyWithoutParentStageInput `json:"stages,omitempty"`
+	Tasks         *TaskUpdateManyWithoutStageInput        `json:"tasks,omitempty"`
 }
 
 type ResourceCreateWithoutLeaderOfInput struct {
@@ -2656,6 +2688,8 @@ type TaskCreateWithoutResourcesInput struct {
 type StageUpdateWithoutStagesDataInput struct {
 	Name          *string                             `json:"name,omitempty"`
 	Selector      *string                             `json:"selector,omitempty"`
+	FixedCost     *float64                            `json:"fixedCost,omitempty"`
+	FixedDuration *int32                              `json:"fixedDuration,omitempty"`
 	ParentProject *ProjectUpdateOneWithoutStagesInput `json:"parentProject,omitempty"`
 	ParentStage   *StageUpdateOneWithoutStagesInput   `json:"parentStage,omitempty"`
 	Tasks         *TaskUpdateManyWithoutStageInput    `json:"tasks,omitempty"`
@@ -2742,12 +2776,14 @@ type TaskUpdateManyWithoutStageInput struct {
 }
 
 type StageCreateWithoutParentProjectInput struct {
-	ID          *string                                 `json:"id,omitempty"`
-	Name        string                                  `json:"name"`
-	Selector    *string                                 `json:"selector,omitempty"`
-	ParentStage *StageCreateOneWithoutStagesInput       `json:"parentStage,omitempty"`
-	Stages      *StageCreateManyWithoutParentStageInput `json:"stages,omitempty"`
-	Tasks       *TaskCreateManyWithoutStageInput        `json:"tasks,omitempty"`
+	ID            *string                                 `json:"id,omitempty"`
+	Name          string                                  `json:"name"`
+	Selector      *string                                 `json:"selector,omitempty"`
+	FixedCost     *float64                                `json:"fixedCost,omitempty"`
+	FixedDuration *int32                                  `json:"fixedDuration,omitempty"`
+	ParentStage   *StageCreateOneWithoutStagesInput       `json:"parentStage,omitempty"`
+	Stages        *StageCreateManyWithoutParentStageInput `json:"stages,omitempty"`
+	Tasks         *TaskCreateManyWithoutStageInput        `json:"tasks,omitempty"`
 }
 
 type TaskUpdateWithWhereUniqueWithoutStageInput struct {
@@ -2980,6 +3016,8 @@ type TaskCreateWithoutProjectInput struct {
 type StageUpdateWithoutParentStageDataInput struct {
 	Name          *string                                 `json:"name,omitempty"`
 	Selector      *string                                 `json:"selector,omitempty"`
+	FixedCost     *float64                                `json:"fixedCost,omitempty"`
+	FixedDuration *int32                                  `json:"fixedDuration,omitempty"`
 	ParentProject *ProjectUpdateOneWithoutStagesInput     `json:"parentProject,omitempty"`
 	Stages        *StageUpdateManyWithoutParentStageInput `json:"stages,omitempty"`
 	Tasks         *TaskUpdateManyWithoutStageInput        `json:"tasks,omitempty"`
@@ -3054,6 +3092,22 @@ type StageScalarWhereInput struct {
 	SelectorNotStartsWith *string                 `json:"selector_not_starts_with,omitempty"`
 	SelectorEndsWith      *string                 `json:"selector_ends_with,omitempty"`
 	SelectorNotEndsWith   *string                 `json:"selector_not_ends_with,omitempty"`
+	FixedCost             *float64                `json:"fixedCost,omitempty"`
+	FixedCostNot          *float64                `json:"fixedCost_not,omitempty"`
+	FixedCostIn           []float64               `json:"fixedCost_in,omitempty"`
+	FixedCostNotIn        []float64               `json:"fixedCost_not_in,omitempty"`
+	FixedCostLt           *float64                `json:"fixedCost_lt,omitempty"`
+	FixedCostLte          *float64                `json:"fixedCost_lte,omitempty"`
+	FixedCostGt           *float64                `json:"fixedCost_gt,omitempty"`
+	FixedCostGte          *float64                `json:"fixedCost_gte,omitempty"`
+	FixedDuration         *int32                  `json:"fixedDuration,omitempty"`
+	FixedDurationNot      *int32                  `json:"fixedDuration_not,omitempty"`
+	FixedDurationIn       []int32                 `json:"fixedDuration_in,omitempty"`
+	FixedDurationNotIn    []int32                 `json:"fixedDuration_not_in,omitempty"`
+	FixedDurationLt       *int32                  `json:"fixedDuration_lt,omitempty"`
+	FixedDurationLte      *int32                  `json:"fixedDuration_lte,omitempty"`
+	FixedDurationGt       *int32                  `json:"fixedDuration_gt,omitempty"`
+	FixedDurationGte      *int32                  `json:"fixedDuration_gte,omitempty"`
 	And                   []StageScalarWhereInput `json:"AND,omitempty"`
 	Or                    []StageScalarWhereInput `json:"OR,omitempty"`
 	Not                   []StageScalarWhereInput `json:"NOT,omitempty"`
@@ -3075,8 +3129,10 @@ type CostCreateOneInput struct {
 }
 
 type StageUpdateManyDataInput struct {
-	Name     *string `json:"name,omitempty"`
-	Selector *string `json:"selector,omitempty"`
+	Name          *string  `json:"name,omitempty"`
+	Selector      *string  `json:"selector,omitempty"`
+	FixedCost     *float64 `json:"fixedCost,omitempty"`
+	FixedDuration *int32   `json:"fixedDuration,omitempty"`
 }
 
 type TaskCreateWithoutLeaderInput struct {
@@ -3102,6 +3158,8 @@ type StageCreateInput struct {
 	ID            *string                                 `json:"id,omitempty"`
 	Name          string                                  `json:"name"`
 	Selector      *string                                 `json:"selector,omitempty"`
+	FixedCost     *float64                                `json:"fixedCost,omitempty"`
+	FixedDuration *int32                                  `json:"fixedDuration,omitempty"`
 	ParentProject *ProjectCreateOneWithoutStagesInput     `json:"parentProject,omitempty"`
 	ParentStage   *StageCreateOneWithoutStagesInput       `json:"parentStage,omitempty"`
 	Stages        *StageCreateManyWithoutParentStageInput `json:"stages,omitempty"`
@@ -3116,6 +3174,8 @@ type StageUpsertWithoutTasksInput struct {
 type StageUpdateWithoutTasksDataInput struct {
 	Name          *string                                 `json:"name,omitempty"`
 	Selector      *string                                 `json:"selector,omitempty"`
+	FixedCost     *float64                                `json:"fixedCost,omitempty"`
+	FixedDuration *int32                                  `json:"fixedDuration,omitempty"`
 	ParentProject *ProjectUpdateOneWithoutStagesInput     `json:"parentProject,omitempty"`
 	ParentStage   *StageUpdateOneWithoutStagesInput       `json:"parentStage,omitempty"`
 	Stages        *StageUpdateManyWithoutParentStageInput `json:"stages,omitempty"`
@@ -3294,7 +3354,7 @@ func (instance *ProjectExec) Stages(params *StagesParamsExec) *StageExecArray {
 		wparams,
 		[3]string{"StageWhereInput", "StageOrderByInput", "Stage"},
 		"stages",
-		[]string{"id", "name", "selector"})
+		[]string{"id", "name", "selector", "fixedCost", "fixedDuration"})
 
 	return &StageExecArray{ret}
 }
@@ -3702,9 +3762,11 @@ func (instance StagePreviousValuesExecArray) Exec(ctx context.Context) ([]StageP
 }
 
 type StagePreviousValues struct {
-	ID       string  `json:"id"`
-	Name     string  `json:"name"`
-	Selector *string `json:"selector,omitempty"`
+	ID            string   `json:"id"`
+	Name          string   `json:"name"`
+	Selector      *string  `json:"selector,omitempty"`
+	FixedCost     *float64 `json:"fixedCost,omitempty"`
+	FixedDuration *int32   `json:"fixedDuration,omitempty"`
 }
 
 type TaskEdgeExec struct {
@@ -3762,7 +3824,7 @@ func (instance *StageSubscriptionPayloadExec) Node() *StageExec {
 		nil,
 		[2]string{"", "Stage"},
 		"node",
-		[]string{"id", "name", "selector"})
+		[]string{"id", "name", "selector", "fixedCost", "fixedDuration"})
 
 	return &StageExec{ret}
 }
@@ -3773,7 +3835,7 @@ func (instance *StageSubscriptionPayloadExec) PreviousValues() *StagePreviousVal
 		nil,
 		[2]string{"", "StagePreviousValues"},
 		"previousValues",
-		[]string{"id", "name", "selector"})
+		[]string{"id", "name", "selector", "fixedCost", "fixedDuration"})
 
 	return &StagePreviousValuesExec{ret}
 }
@@ -4543,7 +4605,7 @@ func (instance *StageEdgeExec) Node() *StageExec {
 		nil,
 		[2]string{"", "Stage"},
 		"node",
-		[]string{"id", "name", "selector"})
+		[]string{"id", "name", "selector", "fixedCost", "fixedDuration"})
 
 	return &StageExec{ret}
 }
@@ -4762,7 +4824,7 @@ func (instance *StageExec) ParentStage() *StageExec {
 		nil,
 		[2]string{"", "Stage"},
 		"parentStage",
-		[]string{"id", "name", "selector"})
+		[]string{"id", "name", "selector", "fixedCost", "fixedDuration"})
 
 	return &StageExec{ret}
 }
@@ -4786,7 +4848,7 @@ func (instance *StageExec) Stages(params *StagesParamsExec) *StageExecArray {
 		wparams,
 		[3]string{"StageWhereInput", "StageOrderByInput", "Stage"},
 		"stages",
-		[]string{"id", "name", "selector"})
+		[]string{"id", "name", "selector", "fixedCost", "fixedDuration"})
 
 	return &StageExecArray{ret}
 }
@@ -4842,9 +4904,11 @@ func (instance StageExecArray) Exec(ctx context.Context) ([]Stage, error) {
 }
 
 type Stage struct {
-	ID       string  `json:"id"`
-	Name     string  `json:"name"`
-	Selector *string `json:"selector,omitempty"`
+	ID            string   `json:"id"`
+	Name          string   `json:"name"`
+	Selector      *string  `json:"selector,omitempty"`
+	FixedCost     *float64 `json:"fixedCost,omitempty"`
+	FixedDuration *int32   `json:"fixedDuration,omitempty"`
 }
 
 type TaskConnectionExec struct {
@@ -5223,7 +5287,7 @@ func (instance *TaskExec) Stage() *StageExec {
 		nil,
 		[2]string{"", "Stage"},
 		"stage",
-		[]string{"id", "name", "selector"})
+		[]string{"id", "name", "selector", "fixedCost", "fixedDuration"})
 
 	return &StageExec{ret}
 }

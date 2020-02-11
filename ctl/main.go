@@ -1,16 +1,13 @@
 package main
 
 import (
-
 	"github.com/k0kubun/pp"
 	"github.com/minskylab/tisp"
-	// "github.com/minskylab/tisp"
 	sm "github.com/minskylab/tisp/statemanager"
-	// p "github.com/minskylab/tisp/repository"
 )
 
 func main() {
-	state, err := sm.NewStateManager()
+	state, err := sm.NewStateManager(sm.DefaultPrismaEndpoint, sm.DeafaultPrismaSecret)
 	if err != nil {
 		panic(err)
 	}
@@ -25,7 +22,8 @@ func main() {
 	// 	MainType: p.ResourceTypeDeveloper,
 	// 	Selector: tisp.StrPoint("bregy"),
 	// })
-	res, err := state.GetResources(tisp.Pagination{
+
+	res, err := state.GetResources(tisp.Selector{
 		ByIDs: &[]string{"5e2ab19de03dd800075f8e48"},
 	})
 	if err != nil {

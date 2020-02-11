@@ -56,8 +56,8 @@ func (db *StateManager) GetPartnerBySelector(selector string) (*p.Partner, error
 	}).Exec(context.Background())
 }
 
-func (db *StateManager) GetProjects(pag ...tisp.Pagination) ([]p.Project, error) {
-	var pagination = tisp.DefaultPagination
+func (db *StateManager) GetProjects(pag ...tisp.Selector) ([]p.Project, error) {
+	var pagination = tisp.DefaultSelector
 
 	if len(pag) != 0 {
 		pagination = pag[0] // TODO
@@ -85,8 +85,8 @@ func (db *StateManager) GetProjects(pag ...tisp.Pagination) ([]p.Project, error)
 	}).Exec(context.Background())
 }
 
-func (db *StateManager) GetResources(pag ...tisp.Pagination) ([]p.Resource, error) {
-	var pagination = tisp.DefaultPagination
+func (db *StateManager) GetResources(pag ...tisp.Selector) ([]p.Resource, error) {
+	var pagination = tisp.DefaultSelector
 
 	if len(pag) != 0 {
 		pagination = pag[0] // TODO
@@ -108,11 +108,11 @@ func (db *StateManager) GetResources(pag ...tisp.Pagination) ([]p.Resource, erro
 	}
 
 	if pagination.First == 0 {
-		pagination.First = tisp.DefaultPagination.First
+		pagination.First = tisp.DefaultSelector.First
 	}
 
 	if pagination.Skip == 0 {
-		pagination.Skip = tisp.DefaultPagination.Skip
+		pagination.Skip = tisp.DefaultSelector.Skip
 	}
 
 	return db.client.Resources(&p.ResourcesParams{
@@ -122,8 +122,8 @@ func (db *StateManager) GetResources(pag ...tisp.Pagination) ([]p.Resource, erro
 	}).Exec(context.Background())
 }
 
-func (db *StateManager) GetTasks(pag ...tisp.Pagination) ([]p.Task, error) {
-	var pagination = tisp.DefaultPagination
+func (db *StateManager) GetTasks(pag ...tisp.Selector) ([]p.Task, error) {
+	var pagination = tisp.DefaultSelector
 
 	if len(pag) != 0 {
 		pagination = pag[0] // TODO
@@ -152,8 +152,8 @@ func (db *StateManager) GetTasks(pag ...tisp.Pagination) ([]p.Task, error) {
 }
 
 
-func (db *StateManager) GetPartners(pag ...tisp.Pagination) ([]p.Partner, error) {
-	var pagination = tisp.DefaultPagination
+func (db *StateManager) GetPartners(pag ...tisp.Selector) ([]p.Partner, error) {
+	var pagination = tisp.DefaultSelector
 
 	if len(pag) != 0 {
 		pagination = pag[0] // TODO

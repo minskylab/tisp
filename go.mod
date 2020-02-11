@@ -13,6 +13,6 @@ require (
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/prisma/prisma-client-lib-go v0.0.0-20181017161110-68a1f9908416
 	github.com/rs/xid v1.2.1
-	github.com/tomnomnom/assetfinder v0.1.0 // indirect
+	github.com/urfave/cli/v2 v2.1.1
 	golang.org/x/sys v0.0.0-20190412213103-97732733099d // indirect
 )

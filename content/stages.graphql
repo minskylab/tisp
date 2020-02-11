@@ -4,10 +4,13 @@ type Stage {
     name: String!
     selector: String @unique
 
-    parentProject: Project @relation(name: "ProjectStages")
+    fixedCost: Float
+    fixedDuration: Int
 
-    tasks: [Task!]! @relation(link: INLINE)
+    parentProject: Project @relation(name: "ProjectStages")
 
     parentStage: Stage @relation(name: "SubStages")
     stages: [Stage!]! @relation(link: INLINE, name: "SubStages")
+
+    tasks: [Task!]! @relation(link: INLINE)
 }

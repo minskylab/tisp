@@ -15,19 +15,19 @@ type StateManager interface {
 	AddTaskToStage(projectID, stageID string, task NewTaskInformation) (*p.Project, error)
 	AddStageToStage(projectID, stageID string, newStage NewStage) (*p.Project, error)
 
-	GetProjects(p ...Pagination) ([]p.Project, error)
+	GetProjects(p ...Selector) ([]p.Project, error)
 	GetProject(projectID string) (*p.Project, error)
 	GetProjectBySelector(selector string) (*p.Project, error)
 
-	GetResources(p ...Pagination) ([]p.Resource, error)
+	GetResources(p ...Selector) ([]p.Resource, error)
 	GetResource(resID string) (*p.Resource, error)
 	GetResourceBySelector(selector string) (*p.Resource, error)
 
-	GetTasks(p ...Pagination) ([]p.Task, error)
+	GetTasks(p ...Selector) ([]p.Task, error)
 	GetTask(taskID string) (*p.Task, error)
 	GetTaskBySelector(selector string) (*p.Task, error)
 
-	GetPartners(p ...Pagination) ([]p.Partner, error)
+	GetPartners(p ...Selector) ([]p.Partner, error)
 	GetPartner(partnerID string) (*p.Partner, error)
 	GetPartnerBySelector(selector string) (*p.Partner, error)
 
