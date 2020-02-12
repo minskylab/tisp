@@ -3,41 +3,40 @@ package tisp
 import p "github.com/minskylab/tisp/repository"
 
 type NewProjectInformation struct {
-	Name      string
-	Selector  *string
-	PartnerID string
+	Name      string  `json:"name" yaml:"name"`
+	Selector  *string `json:"selector" yaml:"selector"`
+	PartnerID string  `json:"partner" yaml:"partner"`
 }
 
 type NewResourceInformation struct {
-	Name       string
-	Cost       Cost
-	MainType   p.ResourceType
-	Experience float64
-	Selector   *string
-	Alias      *string
-	Types      *[]p.ResourceType
+	Name       string            `json:"name" yaml:"name"`
+	Cost       Cost              `json:"cost" yaml:"cost"`
+	MainType   p.ResourceType    `json:"mainType" yaml:"mainType"`
+	Experience float64           `json:"experience" yaml:"experience"`
+	Selector   *string           `json:"selector" yaml:"selector"`
+	Alias      *string           `json:"alias" yaml:"alias"`
+	Types      *[]p.ResourceType `json:"types" yaml:"types"`
 }
 
 type NewTaskInformation struct {
-	Title       string
-	Description string
-	Selector    *string
-	Resources   *[]string
-	Leader      *string
-	Children    *[]NewTaskInformation
+	Title       string                `json:"title" yaml:"title"`
+	Description string                `json:"description" yaml:"description"`
+	Selector    *string               `json:"selector" yaml:"selector"`
+	Resources   *[]string             `json:"resources" yaml:"resources"`
+	Leader      *string               `json:"leader" yaml:"leader"`
+	Children    *[]NewTaskInformation `json:"tasks" yaml:"tasks"`
 }
 
-
 type NewPartnerInformation struct {
-	CompanyName string
-	Selector *string
+	CompanyName string  `json:"name" yaml:"name"`
+	Selector    *string `json:"selector" yaml:"selector"`
 
-	Email *string
-	Phone *string
+	Email *string `json:"email" yaml:"email"`
+	Phone *string `json:"phone" yaml:"phone"`
 }
 
 type NewStage struct {
-	Name string
-	Selector *string
-	Tasks *[]NewTaskInformation
+	Name     string                `json:"name" yaml:"name"`
+	Selector *string               `json:"selector" yaml:"selector"`
+	Tasks    *[]NewTaskInformation `json:"tasks" yaml:"tasks"`
 }
