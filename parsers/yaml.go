@@ -18,12 +18,12 @@ type yamlBase struct {
 
 type Kind string
 
-const Project Kind = "project"
-const Stage Kind = "stage"
-const Task Kind = "task"
-const Resource Kind = "resource"
+const Project Kind = "Project"
+const Stage Kind = "Stage"
+const Task Kind = "Task"
+const Resource Kind = "Resource"
 
-const UndefinedKind Kind = "undefined"
+const UndefinedKind Kind = "Undefined"
 
 
 type Bar struct {}

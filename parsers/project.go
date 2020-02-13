@@ -7,8 +7,9 @@ import (
 )
 
 func parseYAMLInterfaceToProject(data interface{}) (*tisp.NewProjectInformation, error) {
+	// log.Info(reflect.TypeOf(data))
 	switch data.(type) {
-	case map[string]interface{}:
+	case map[interface{}]interface{}:
 		project := data.(map[string]interface{})
 
 		switch {

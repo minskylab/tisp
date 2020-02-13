@@ -4,6 +4,7 @@ import (
 	"errors"
 	"regexp"
 	"strings"
+	log "github.com/sirupsen/logrus"
 )
 
 // const CurrentVersion = "v1.0.0"
@@ -34,16 +35,20 @@ func verifyVersion(v string) error {
 		return err
 	}
 
+	log.WithField("v", v).WithField("current", CurrentVersion()).Info("verifying version")
+
 	if !versionPatterIsOk {
 		return errors.New("your version not match with the version of this build")
 	}
 	v = strings.ReplaceAll(v, "v", "")
 	parts := strings.Split(v, ".")
 
+	log.WithField("parts", parts).Info("partition of version")
+
 	for i, part := range parts {
-		if i != 0 || !isCurrentMajor(part) { return errors.New("invalid major version") }
-		if i != 1 || !isCurrentMinor(part) { return errors.New("invalid minor version") }
-		if i != 2 || !isCurrentPatch(part) { return errors.New("invalid patch version") }
+		if i == 0 && !isCurrentMajor(part) { return errors.New("invalid major version") }
+		if i == 1 && !isCurrentMinor(part) { return errors.New("invalid minor version") }
+		if i == 2 && !isCurrentPatch(part) { return errors.New("invalid patch version") }
 	}
 
 	return nil

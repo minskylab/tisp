@@ -24,5 +24,7 @@ func main() {
 
 	ctl.Machine.State = state
 
-	panic(ctl.createCLI().Run(os.Args))
+	if err := ctl.createCLI().Run(os.Args); err != nil {
+		panic(err)
+	}
 }

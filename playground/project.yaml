@@ -1,0 +1,7 @@
+apiVersion: "v1"
+kind: Project
+
+spec:
+  name: "Sentido Project"
+  selector: "sentidoproject"
+  partner: "1"
