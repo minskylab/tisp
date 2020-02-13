@@ -7,10 +7,12 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
+type Metadata map[string]interface{}
+
 type yamlBase struct {
 	APIVersion string `yaml:"apiVersion"`
 	Kind Kind `yaml:"kind"`
-	Metadata interface{} `yaml:"metadata"`
+	Metadata Metadata `yaml:"metadata"`
 	Spec interface{} `yaml:"spec"`
 }
 
